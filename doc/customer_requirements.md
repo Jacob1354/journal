@@ -14,4 +14,15 @@ of various users.
     - Energy rating from 1 to 10 
     - Extra notes section
  4. Flexible user experience. That is, all the mood related fields must be customizable. 
-    The user must be able to delete them, add some new ones, modify their name, content style or signification 
+    The user must be able to delete them, add some new ones, modify their name, content style or signification
+
+
+## Platform requirements
+ 1. The most important platform would be a responsive website, since it's most flexible.
+    Any one's of the followings would just be a plus
+ 2. Cellphone app
+ 3. Desktop app
+
+## Scheduling requrements
+ 1. Precision : To begin, an hourly precision is acceptable. For the finished product, a 5 mins precision is required. Should'nt be more precise than by the minute.
+ 2. Visual : It needs to be as simple as possible. Customizabilty would be a plus, but not essential. The format should be in the form of a time ascending list. For desktop screens, the schedule should on the left (refer to the design image reference) and the mood recordings on the right and under. For smaller devices, the schedule should be on the top of the page and the mood recordings under.

@@ -23,7 +23,7 @@ flexible to easily fit the needs of various users.
  3. Desktop app
 
  ## Components/Pages
-There will be 5 different components :
+There will be 6 different components :
  1. Login page: asks for email and password
  2. Calendar: All the days of a month, able to switch months through arrows, by clicking the month or the year
  3. Specific day: With visuals explained in the previous segment

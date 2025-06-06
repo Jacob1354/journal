@@ -1,0 +1,48 @@
+body {
+    display: grid;
+    justify-items: center;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    grid-template-rows: 5%;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+}
+nav a {
+    margin: 5px 15px;
+    color: black;
+    text-decoration: none;
+}
+.calendar {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 70%;
+}
+
+.calendar td,
+.calendar td {
+    border: 1px solid black;
+}
+
+.calendar thead td {
+    border: 1px solid black;
+    width: 13%;
+    height: 5%;
+    text-align: center;
+    font-size: 110%;
+    text-decoration: underline;
+    font-weight: bold;
+}
+#calendar_month_year {
+    font-size: 200%;
+    text-decoration: none;
+}
+
+.calendar tbody td {
+    border: 1px solid black;
+    width: 13%;
+    height: 10%;
+}

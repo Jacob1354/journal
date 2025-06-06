@@ -22,7 +22,7 @@ nav a {
     flex-direction: row;
     flex-wrap: wrap;
 }
-.scheduled_activity .btn_removal {
+.scheduled_activity .activity_remove {
     width: 30px;
     height: 30px;
     margin: auto 5% auto auto;

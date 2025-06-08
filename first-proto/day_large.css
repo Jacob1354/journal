@@ -35,13 +35,6 @@
     height: 50%;
 }
 
-
-#schedule {
-    grid-column: 1 / 2;
-    grid-row: 2;
-    background-color: rgb(118, 236, 236);
-}
-
 #mood_fields_1 {
     grid-column: 2 / 3;
     grid-row: 2;

@@ -1,0 +1,54 @@
+.schedule {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    grid-column: 1 / 2;
+    grid-row: 2;
+    background-color: rgb(118, 236, 236);   
+}
+
+.scheduled_activity  {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.scheduled_activity .activity_remove {
+    width: 30px;
+    height: 30px;
+    margin: auto 5% auto auto;
+    justify-self: flex-end;
+}
+
+.scheduled_activity .time_lapse {
+    display: flex;
+    margin: .5em 3% .5em 3%;
+    background-color: rgb(202, 255, 255);
+    border-radius: 1em;
+}
+
+.scheduled_activity .time_lapse input {
+    height: 1.5em;
+    margin: auto;
+    border: none;
+    background-color: inherit;
+    border-radius: inherit;
+}
+.scheduled_activity .time_lapse p {
+    margin: auto 5px auto 5px;
+}
+
+.scheduled_activity .wrapper {
+    width: 100%;
+    margin: .5em 3% .5em 3%;
+}
+
+.scheduled_activity .wrapper .activity_content {
+    width: 90%;
+    border: none;
+    background-color: rgb(202, 255, 255);
+    border-radius: 1em;
+}
+
+.activity_adder {
+    margin-top: auto;
+}

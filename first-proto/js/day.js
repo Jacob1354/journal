@@ -12,3 +12,13 @@ class Schedule {
     }
 }
 
+class MoodData {
+    constructor() {
+        this.mood_fields = [];
+        this.mood_fields.push(new NumberField("Hours of sleep"));
+        this.mood_fields.push(new RatingField("Energy rating", 10));
+        this.mood_fields.push(new RatingField("Hapiness rating", 10));
+        this.mood_fields.push(new TextField("Comments", "Add any additional info here"));
+    }
+}
+

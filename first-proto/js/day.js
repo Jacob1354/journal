@@ -22,3 +22,11 @@ class MoodData {
     }
 }
 
+class AbstractMoodField {
+    constructor(field_name) {
+        if(new.target === MoodField) {
+            throw new Error("Cannot initiate AbstactMoodField since it's an abstract class");
+        }
+        this.field_name = field_name;
+    }
+}

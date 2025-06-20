@@ -26,6 +26,22 @@ export class AbstractMoodField {
     }
 }
 
+export class TextField extends AbstractMoodField {
+}
+
+export class NumberField extends AbstractMoodField {
+}
+
+export class SliderField extends AbstractMoodField {
+}
+
+export class FractionField extends AbstractMoodField {
+    constructor(field_name, denominator = 10) {
+        super(field_name);
+        denominator = denominator;
+    }
+}
+
 
 export class AbstractFunctionNotOverriden extends Error {
     constructor(msg) {

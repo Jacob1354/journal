@@ -1,10 +1,13 @@
+import * as CCEnforcement from "./clean_code_enforcement";
+
+
 export class AbstractMoodField {
     #field_name;
     _data;
 
     constructor(field_name) {
         if(new.target instanceof AbstractMoodField) {
-            throw new AbstractClassInstanciated(
+            throw new CCEnforcement.AbstractClassInstanciated(
                 "Cannot initiate AbstactMoodField since it's an abstract class"
             );
         }
@@ -44,20 +47,6 @@ export class FractionField extends AbstractMoodField {
     }
 }
 
-
-export class AbstractFunctionNotOverriden extends Error {
-    constructor(msg) {
-        super(msg);
-        this.name = "AbstractFunctionNotOverriden"
-    }
-}
-
-export class AbstractClassInstanciated extends Error {
-    constructor(msg) {
-        super(msg);
-        this.name = "AbstractClassInstanciated"
-    }
-}
 
 
 

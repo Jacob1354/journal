@@ -44,6 +44,15 @@ export class TextField extends AbstractMoodField {
 }
 
 export class NumberField extends AbstractMoodField {
+        constructor(field_name, data=0) {
+        super(field_name);
+        this.set_data(data);
+    }
+
+    set_data(new_data) {
+        CCEnforcement.validate_integer(new_data);
+        this._data = new_data;
+    }
 }
 
 export class SliderField extends AbstractMoodField {

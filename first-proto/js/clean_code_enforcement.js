@@ -8,6 +8,14 @@ export function validate_type(value, type) {
     return true;
 }
 
+export function validate_integer(value) {
+    validate_type(value, "number");
+    if(!Number.isInteger(value)) {
+        throw new InvalidDataType("This value isn't an integer");
+    }
+    return true;
+}
+
 export class InvalidDataType extends Error {
     constructor(msg) {
         super(msg);

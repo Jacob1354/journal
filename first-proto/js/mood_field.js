@@ -32,6 +32,15 @@ export class AbstractMoodField {
 }
 
 export class TextField extends AbstractMoodField {
+    constructor(field_name, data="Write here") {
+        super(field_name);
+        this.set_data(data);
+    }
+
+    set_data(new_data) {
+        CCEnforcement.validate_type(new_data, "string");
+        this._data = new_data;
+    }
 }
 
 export class NumberField extends AbstractMoodField {

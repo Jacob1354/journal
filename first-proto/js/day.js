@@ -1,3 +1,5 @@
+
+
 export class Day {
     constructor() {
         this.date = new Date();
@@ -38,4 +40,5 @@ class AbstractMoodField {
 
     get_data() {}
 }
+
 

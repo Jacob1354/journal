@@ -1,4 +1,4 @@
-class AbstractMoodField {
+export class AbstractMoodField {
     #field_name;
     _data;
 

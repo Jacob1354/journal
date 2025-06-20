@@ -4,7 +4,9 @@ export class AbstractMoodField {
 
     constructor(field_name) {
         if(new.target instanceof AbstractMoodField) {
-            throw new Error("Cannot initiate AbstactMoodField since it's an abstract class");
+            throw new AbstractClassInstanciated(
+                "Cannot initiate AbstactMoodField since it's an abstract class"
+            );
         }
         this.#field_name = field_name;
     }
@@ -47,6 +49,13 @@ export class AbstractFunctionNotOverriden extends Error {
     constructor(msg) {
         super(msg);
         this.name = "AbstractFunctionNotOverriden"
+    }
+}
+
+export class AbstractClassInstanciated extends Error {
+    constructor(msg) {
+        super(msg);
+        this.name = "AbstractClassInstanciated"
     }
 }
 

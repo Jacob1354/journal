@@ -19,6 +19,21 @@ export class AbstractMoodField {
     get_data() {
         return this._data;
     }
-    set_data(new_data) {}
+    set_data(new_data) {
+        throw new AbstractFunctionNotOverriden(
+            "No set_data method defined for this " + String(this.constructor)
+        );
+    }
 }
+
+
+export class AbstractFunctionNotOverriden extends Error {
+    constructor(msg) {
+        super(msg);
+        this.name = "AbstractFunctionNotOverriden"
+    }
+}
+
+
+
 

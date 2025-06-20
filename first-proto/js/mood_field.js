@@ -25,7 +25,7 @@ export class AbstractMoodField {
         return this._data;
     }
     set_data(new_data) {
-        throw new AbstractFunctionNotOverriden(
+        throw new CCEnforcement.AbstractFunctionNotOverriden(
             "No set_data method defined for this " + String(this.constructor)
         );
     }

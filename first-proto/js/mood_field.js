@@ -3,7 +3,7 @@ export class AbstractMoodField {
     _data;
 
     constructor(field_name) {
-        if(new.target === MoodField) {
+        if(new.target instanceof AbstractMoodField) {
             throw new Error("Cannot initiate AbstactMoodField since it's an abstract class");
         }
         this.#field_name = field_name;

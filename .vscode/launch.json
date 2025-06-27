@@ -1,0 +1,19 @@
+{ 
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Jest Tests",
+      "type": "node",
+      "request": "launch",
+      "cwd" : "${workspaceFolder}/first-proto",
+      "runtimeArgs": [
+        "--inspect-brk",
+        "--experimental-vm-modules",
+        "${workspaceRoot}/first-proto/node_modules/jest/bin/jest.js",
+        "--runInBand"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
+  ]
+}

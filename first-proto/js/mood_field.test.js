@@ -18,7 +18,7 @@ test("AbstractMoodFieldChild without set_data overriding", () => {
 
 
 /*
- * Child class tests
+ * Children classes tests
 */
 test("TestField get_data and set_data", () => {
     const data = "this is a test";

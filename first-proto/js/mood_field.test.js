@@ -16,6 +16,7 @@ test("AbstractMoodFieldChild without set_data overriding", () => {
     expect(() => test_field.set_data("").toThrow(CCEnforcement.AbstractFunctionNotOverriden));
 });
 
+
 /*
  * Child class tests
 */

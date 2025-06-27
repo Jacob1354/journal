@@ -56,6 +56,20 @@ export class NumberField extends AbstractMoodField {
 }
 
 export class SliderField extends AbstractMoodField {
+    constructor(field_name, data=0) {
+        super(field_name);
+        this.set_data(data);
+    }
+
+    set_data(new_data) {
+        CCEnforcement.validate_type(new_data, "number");
+        if(new_data < 0)
+            this._data = 0;
+        else if (new_data > 1)
+            this._data = 1;
+        else
+            this._data = new_data; 
+    }
 }
 
 export class FractionField extends AbstractMoodField {

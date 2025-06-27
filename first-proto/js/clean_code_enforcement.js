@@ -16,6 +16,7 @@ export function validate_integer(value) {
     return true;
 }
 
+
 export class InvalidDataType extends Error {
     constructor(msg) {
         super(msg);

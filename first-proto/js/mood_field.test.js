@@ -54,3 +54,37 @@ test("SliderField get_data and set_data", () => {
 
     expect(() => new MoodField.SliderField("hello", "string").toThrow(CCEnforcement.InvalidDataType));
 })
+
+test("SliderField get_denominator and set_denominator", () => {
+    const valid_denom = 1;
+    const invalid_denom_1 = -10;
+    const invalid_denom_2 = 2.5;
+    let fraction_field = new MoodField.FractionField("test");
+
+    fraction_field.set_denominator(valid_denom);
+    expect(fraction_field.get_denominator()).toBe(valid_denom);
+
+    expect(() => fraction_field.set_denominator(invalid_denom_1)).toThrow(MoodField.InvalidDenom);
+    expect(() => fraction_field.set_denominator(invalid_denom_2)).toThrow(MoodField.InvalidDenom);
+
+    expect(() => new MoodField.FractionField("test", 1, 1.6).toThrow(MoodField.InvalidDenom));
+
+})
+
+test("SliderField get_data and set_data", () => {
+    const valid_data_1 = 1;
+    const valid_data_2 = -10;
+    const valid_data_3 = 100.5;
+    let fraction_field = new MoodField.FractionField("test");
+
+    fraction_field.set_data(valid_data_1);
+    expect(fraction_field.get_data()).toBe(valid_data_1);
+
+    fraction_field.set_data(valid_data_2);
+    expect(fraction_field.get_data()).toBe(valid_data_2);
+
+    fraction_field.set_data(valid_data_3);
+    expect(fraction_field.get_data()).toBe(valid_data_3);
+
+    expect(() => new MoodField.FractionField("hello", "string").toThrow(CCEnforcement.InvalidDataType));
+})

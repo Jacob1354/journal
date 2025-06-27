@@ -73,9 +73,42 @@ export class SliderField extends AbstractMoodField {
 }
 
 export class FractionField extends AbstractMoodField {
-    constructor(field_name, denominator = 10) {
+    #denom;
+    constructor(field_name, data = 0, denominator = 10) {
         super(field_name);
-        denominator = denominator;
+        this.set_denominator(denominator);
+        this.set_data(data);
+    }
+    
+    set_data(new_data) {
+        //Number instead of integer, because the precision is up the user for maximal expressiveness
+        CCEnforcement.validate_type(new_data, "number");
+        this._data = new_data;
+    }
+
+    get_denominator() {
+        return this.#denom;
+    }
+
+    set_denominator(new_denom) {
+        try {
+            CCEnforcement.validate_integer(new_denom);
+        } catch (err) {
+            if(err instanceof CCEnforcement.InvalidDataType)
+                throw new InvalidDenom("Denom must be an integer");
+            else
+                throw err;
+        }
+        if(new_denom < 1)
+            throw new InvalidDenom("Denom must be bigger or equal to zero");
+        this.#denom = new_denom;
+    }
+}
+
+export class InvalidDenom extends Error {
+    constructor(msg) {
+        super(msg);
+        this.name = "InvalidDenom";
     }
 }
 

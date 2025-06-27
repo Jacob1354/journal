@@ -72,6 +72,7 @@ test("SliderField get_denominator and set_denominator", () => {
 })
 
 test("SliderField get_data and set_data", () => {
+    //Any number is valid because the user might want to express theirself in a precise way
     const valid_data_1 = 1;
     const valid_data_2 = -10;
     const valid_data_3 = 100.5;

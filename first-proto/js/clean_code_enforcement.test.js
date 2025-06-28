@@ -1,9 +1,15 @@
 import * as CCEnforcement from "./clean_code_enforcement";
 
-test("validate_type test", () => {
+test("validate_type primitives test", () => {
     expect(CCEnforcement.validate_type("test", "string")).toBe(true);
     expect(() => CCEnforcement.validate_type(new String(1), "string")).toThrow(CCEnforcement.InvalidDataType);
     expect(() => CCEnforcement.validate_type(1, "string")).toThrow(CCEnforcement.InvalidDataType);
+});
+
+test("validate_type classes test", () => {
+    expect(CCEnforcement.validate_type(new Map(), Map)).toBe(true);
+    expect(() => CCEnforcement.validate_type(new String(1), Number)).toThrow(CCEnforcement.InvalidDataType);
+    expect(() => CCEnforcement.validate_type(1, Number)).toThrow(CCEnforcement.InvalidDataType);
 });
 
 test("validate_integer test", () => {

@@ -1,9 +1,10 @@
-import * as CCEnforcement from "./clean_code_enforcement";
+import { validate_type } from "./clean_code_enforcement";
+
 
 export class Schedule {
     #activities;
     constructor(activities = []) {
-        activities.forEach((activity) => {CCEnforcement.validate_type(activity, Activity)})
+        activities.forEach((activity) => {validate_type(activity, Activity)})
         this.#activities = activities;
     }
 
@@ -21,11 +22,14 @@ export class Activity {
         end_time = new HoursAndMinutes(12, 0), 
         title = "My activity", 
         content = "description") {
-
+            validate_type(start_time, HoursAndMinutes);
+            validate_type(end_time, HoursAndMinutes);
+            validate_type(title, "string");
+            validate_type(content, "string");
     }
 }
 
-class HoursAndMinutes {
+export class HoursAndMinutes {
     constructor(hours = 0, minutes = 0) {
         this.hours = hours;
         this.minutes = minutes;

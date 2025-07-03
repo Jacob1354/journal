@@ -8,8 +8,7 @@ import * as CCEnforcement from "../clean_code/clean_code_enforcement";
 class TestField extends MoodField.AbstractMoodField {}
 
 test("Instanciating AbstractMoodField", () => {
-    // @ts-expect-error
-    expect(() => MoodField.AbstractMoodField("")).toThrow(CCEnforcement.AbstractClassInstanciated);
+    expect(() => new MoodField.AbstractMoodField("")).toThrow(CCEnforcement.AbstractClassInstanciated);
 });
 
 test("AbstractMoodFieldChild without set_data overriding", () => {

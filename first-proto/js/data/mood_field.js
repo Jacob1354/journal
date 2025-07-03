@@ -1,12 +1,11 @@
 import * as CCEnforcement from "../clean_code/clean_code_enforcement";
 
-
 export class AbstractMoodField {
     #field_name;
     _data;
 
     constructor(field_name) {
-        if(new.target instanceof AbstractMoodField) {
+        if(new.target === AbstractMoodField) {
             throw new CCEnforcement.AbstractClassInstanciated(
                 "Cannot initiate AbstactMoodField since it's an abstract class"
             );

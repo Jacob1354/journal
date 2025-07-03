@@ -21,9 +21,19 @@ test("Activity construction", () => {
     const invalid_title = 10;
     const invalid_content = new String();
 
+    let valid_activity = new Schedule.Activity();
+    expect(valid_activity).toBeInstanceOf(Schedule.Activity);
+    expect(valid_activity.content).toBeDefined;
+    expect(valid_activity.title).toBeDefined;
+    expect(valid_activity.start_time).toBeDefined;
+    expect(valid_activity.end_time).toBeDefined;
 
-    expect(new Schedule.Activity()).toBeInstanceOf(Schedule.Activity);
-    expect(new Schedule.Activity(valid_start_time, valid_end_time, valid_title, valid_content)).toBeInstanceOf(Schedule.Activity);
+    valid_activity = new Schedule.Activity(valid_start_time, valid_end_time, valid_title, valid_content);
+    expect(valid_activity).toBeInstanceOf(Schedule.Activity);
+    expect(valid_activity.content).toBeDefined;
+    expect(valid_activity.title).toBeDefined;
+    expect(valid_activity.start_time).toBeDefined;
+    expect(valid_activity.end_time).toBeDefined;
 
     expect(() => new Schedule.Activity(invalid_start_time)).toThrow(InvalidDataType);
     expect(() => new Schedule.Activity(valid_start_time, invalid_end_time)).toThrow(InvalidDataType);

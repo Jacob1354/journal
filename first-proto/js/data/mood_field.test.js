@@ -8,12 +8,13 @@ import * as CCEnforcement from "../clean_code/clean_code_enforcement";
 class TestField extends MoodField.AbstractMoodField {}
 
 test("Instanciating AbstractMoodField", () => {
-    expect(() => MoodField.AbstractMoodField("").toThrow(CCEnforcement.AbstractClassInstanciated));
+    // @ts-expect-error
+    expect(() => MoodField.AbstractMoodField("")).toThrow(CCEnforcement.AbstractClassInstanciated);
 });
 
 test("AbstractMoodFieldChild without set_data overriding", () => {
     let test_field = new TestField("Test");
-    expect(() => test_field.set_data("").toThrow(CCEnforcement.AbstractFunctionNotOverriden));
+    expect(() => test_field.set_data("")).toThrow(CCEnforcement.AbstractFunctionNotOverriden);
 });
 
 
@@ -26,7 +27,8 @@ test("TestField get_data and set_data", () => {
     text_field.set_data(data);
     expect(text_field.get_data()).toBe(data);
 
-    expect(() => new MoodField.TextField("test", 100).toThrow(CCEnforcement.InvalidDataType));
+    // @ts-expect-error
+    expect(() => new MoodField.TextField("test", 100)).toThrow(CCEnforcement.InvalidDataType);
 })
 
 test("NumberField get_data and set_data", () => {
@@ -35,7 +37,7 @@ test("NumberField get_data and set_data", () => {
     number_field.set_data(data);
     expect(number_field.get_data()).toBe(data);
 
-    expect(() => new MoodField.NumberField(1.5, 100).toThrow(CCEnforcement.InvalidDataType));
+    expect(() => new MoodField.NumberField(1.5, 100)).toThrow(CCEnforcement.InvalidDataType);
 })
 
 test("SliderField get_data and set_data", () => {
@@ -53,7 +55,8 @@ test("SliderField get_data and set_data", () => {
     slider_field.set_data(too_big_data);
     expect(slider_field.get_data()).toBe(1);
 
-    expect(() => new MoodField.SliderField("hello", "string").toThrow(CCEnforcement.InvalidDataType));
+    // @ts-expect-error
+    expect(() => new MoodField.SliderField("hello", "string")).toThrow(CCEnforcement.InvalidDataType);
 })
 
 test("SliderField get_denominator and set_denominator", () => {
@@ -68,7 +71,7 @@ test("SliderField get_denominator and set_denominator", () => {
     expect(() => fraction_field.set_denominator(invalid_denom_1)).toThrow(MoodField.InvalidDenom);
     expect(() => fraction_field.set_denominator(invalid_denom_2)).toThrow(MoodField.InvalidDenom);
 
-    expect(() => new MoodField.FractionField("test", 1, 1.6).toThrow(MoodField.InvalidDenom));
+    expect(() => new MoodField.FractionField("test", 1, 1.6)).toThrow(MoodField.InvalidDenom);
 
 })
 
@@ -88,5 +91,6 @@ test("SliderField get_data and set_data", () => {
     fraction_field.set_data(valid_data_3);
     expect(fraction_field.get_data()).toBe(valid_data_3);
 
-    expect(() => new MoodField.FractionField("hello", "string").toThrow(CCEnforcement.InvalidDataType));
+    // @ts-expect-error
+    expect(() => new MoodField.FractionField("hello", "string")).toThrow(CCEnforcement.InvalidDataType);
 })

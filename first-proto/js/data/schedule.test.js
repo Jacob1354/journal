@@ -36,9 +36,13 @@ test("Activity construction", () => {
     expect(valid_activity.start_time).toBeDefined;
     expect(valid_activity.end_time).toBeDefined;
 
+    // @ts-expect-error
     expect(() => new Schedule.Activity(invalid_start_time)).toThrow(InvalidDataType);
+    // @ts-expect-error
     expect(() => new Schedule.Activity(valid_start_time, invalid_end_time)).toThrow(InvalidDataType);
+    // @ts-expect-error
     expect(() => new Schedule.Activity(valid_start_time, valid_end_time, invalid_title)).toThrow(InvalidDataType);
+    // @ts-expect-error
     expect(() => new Schedule.Activity(valid_start_time, valid_end_time, valid_title, invalid_content)).toThrow(InvalidDataType);
 });
 

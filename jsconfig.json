@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "esnext",
+    "checkJs": true,
+    "baseUrl": ".",
+    "typeRoots": [
+      "./first-proto/node_modules/@types"
+    ]
+  },
+  "include": [
+    "first-proto/**/*.js"
+  ]
+}

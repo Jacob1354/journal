@@ -1,5 +1,9 @@
 import { Day } from "./day";
 
 test("Day not undefined", () => {
-    expect(new Day()).toBeInstanceOf(Day);
+    const valid_day = new Day();
+    expect(valid_day).toBeInstanceOf(Day);
+    expect(valid_day.date).toBeDefined();
+    expect(valid_day.mood_fields).toBeDefined();
+    expect(valid_day.schedule).toBeDefined();
 });

@@ -1,5 +1,5 @@
 import * as MoodField from "./mood_field";
-import * as Schedule from "./schedule"
+import * as Schedule from "./schedule";
 
 export class Day {
     constructor() {

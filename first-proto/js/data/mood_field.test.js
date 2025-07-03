@@ -1,5 +1,5 @@
 import * as MoodField from "./mood_field";
-import * as CCEnforcement from "./clean_code_enforcement";
+import * as CCEnforcement from "../clean_code/clean_code_enforcement";
 
 
 /*

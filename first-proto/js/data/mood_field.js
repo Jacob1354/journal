@@ -10,6 +10,7 @@ export class AbstractMoodField {
                 "Cannot initiate AbstactMoodField since it's an abstract class"
             );
         }
+        CCEnforcement.validate_type(field_name, "string");
         this.#field_name = field_name;
     }
 

@@ -1,4 +1,4 @@
-import { InvalidDataType } from "./clean_code_enforcement";
+import { InvalidDataType } from "../clean_code/clean_code_enforcement";
 import * as Schedule from "./schedule"
 
 test("Schedule construction", () => {

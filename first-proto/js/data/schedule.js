@@ -1,4 +1,4 @@
-import { validate_type } from "../clean_code/clean_code_enforcement";
+import { validate_integer, validate_type } from "../clean_code/clean_code_enforcement";
 
 
 export class Schedule {
@@ -56,7 +56,13 @@ export class Activity {
 
 export class HoursAndMinutes {
     constructor(hours = 0, minutes = 0) {
+        validate_integer(hours, 0, 24);
+        validate_integer(minutes, 0, 60);
+
         this.hours = hours;
         this.minutes = minutes;
+    }
+    toString() {
+        return `${this.hours.toString().padStart(2, "0")}:${this.minutes.toString().padStart(2, "0")}`;
     }
 }

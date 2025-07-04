@@ -23,19 +23,31 @@ function validate_class_type(value, type) {
     return true;
 }
 
-export function validate_integer(value) {
+export function validate_integer(value, min = Number.MIN_SAFE_INTEGER, max = Number.MAX_SAFE_INTEGER) {
     validate_primitive_type(value, "number");
     if(!Number.isInteger(value)) {
         throw new InvalidDataType("This value isn't an integer");
     }
+    if(value < min) {
+        throw new OutOfBoundInteger(`This integer cannot be smaller than ${min}`);
+    }
+    if(value > max) {
+        throw new OutOfBoundInteger(`This integer cannot be bigger than ${max}`);
+    }
     return true;
 }
-
 
 export class InvalidDataType extends Error {
     constructor(msg) {
         super(msg);
         this.name = "InvalidDataType"
+    }
+}
+
+export class OutOfBoundInteger extends Error {
+    constructor(msg) {
+        super(msg);
+        this.name = "OutOfBoundInteger";
     }
 }
 

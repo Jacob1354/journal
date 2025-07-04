@@ -17,3 +17,9 @@ test("validate_integer test", () => {
     expect(() => CCEnforcement.validate_integer(new String(1))).toThrow(CCEnforcement.InvalidDataType);
     expect(() => CCEnforcement.validate_integer(1.5)).toThrow(CCEnforcement.InvalidDataType);
 })
+test("validate_integer out of bounds", () => {
+    expect(CCEnforcement.validate_integer(10, 0, 100)).toBe(true);
+    expect(() => CCEnforcement.validate_integer(-10, 0, 100)).toThrow(CCEnforcement.OutOfBoundInteger);
+    expect(() => CCEnforcement.validate_integer(1000, -10, 0)).toThrow(CCEnforcement.OutOfBoundInteger);
+})
+

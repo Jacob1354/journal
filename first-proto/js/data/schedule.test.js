@@ -46,6 +46,11 @@ test("Activity construction", () => {
     expect(() => new Schedule.Activity(valid_start_time, valid_end_time, valid_title, invalid_content)).toThrow(InvalidDataType);
 });
 
+test("HoursAndMinutes toString", () => {
+    const hm = new Schedule.HoursAndMinutes(10, 5);
+    expect(hm.toString()).toBe("10:05");
+}) 
+
 test("Schedule - Adding an activity", () => {
     let schedule = new Schedule.Schedule();
     const start_time1 = new Schedule.HoursAndMinutes(10, 0);

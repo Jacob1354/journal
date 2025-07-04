@@ -16,12 +16,11 @@
     flex-direction: row;
     flex-wrap: wrap;
 }
-.scheduled_activity .activity_remove {
-    width: 30px;
-    height: 30px;
-    margin: auto 5% auto auto;
-    justify-self: flex-end;
+
+.scheduled_activity h3 {
+    margin-left: auto;
 }
+
 
 .scheduled_activity .time_lapse {
     display: flex;
@@ -37,8 +36,16 @@
     background-color: inherit;
     border-radius: inherit;
 }
+
 .scheduled_activity .time_lapse p {
     margin: auto 5px auto 5px;
+}
+
+.scheduled_activity .activity_remove {
+    width: 30px;
+    height: 30px;
+    margin: auto 5% auto auto;
+    justify-self: flex-end;
 }
 
 .scheduled_activity .wrapper {

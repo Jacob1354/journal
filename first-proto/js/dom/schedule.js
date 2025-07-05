@@ -15,6 +15,7 @@ export function load_schedule(schedule) {
 export function load_activity(activity) {
     validate_type(activity, Activity);
     const activity_el = document.createElement("div");
+    activity_el.classList.add("scheduled_activity");
 
     activity_el.appendChild(_load_activity_title(activity));
     activity_el.appendChild(_load_activity_time_interval(activity));

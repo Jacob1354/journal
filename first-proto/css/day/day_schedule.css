@@ -22,14 +22,14 @@
 }
 
 
-.scheduled_activity .time_lapse {
+.scheduled_activity .time_interval {
     display: flex;
     margin: .5em 3% .5em 3%;
     background-color: rgb(202, 255, 255);
     border-radius: 1em;
 }
 
-.scheduled_activity .time_lapse input {
+.scheduled_activity .time_interval input {
     height: 1.5em;
     margin: auto;
     border: none;
@@ -37,7 +37,7 @@
     border-radius: inherit;
 }
 
-.scheduled_activity .time_lapse p {
+.scheduled_activity .time_interval p {
     margin: auto 5px auto 5px;
 }
 

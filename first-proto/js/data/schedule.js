@@ -32,6 +32,7 @@ export class Activity {
         this.title = activity.title;
         this.content = activity.content;
     }
+    
     constructor(
         start_time = new HoursAndMinutes(10 ,0), 
         end_time = new HoursAndMinutes(12, 0), 
@@ -54,6 +55,7 @@ export class Activity {
     }
 }
 
+
 export class HoursAndMinutes {
     constructor(hours = 0, minutes = 0) {
         validate_integer(hours, 0, 24);
@@ -62,7 +64,20 @@ export class HoursAndMinutes {
         this.hours = hours;
         this.minutes = minutes;
     }
+
     toString() {
         return `${this.hours.toString().padStart(2, "0")}:${this.minutes.toString().padStart(2, "0")}`;
+    }
+
+    bigger_than(other) {
+        validate_type(other, HoursAndMinutes);
+        let bigger = false;
+
+        if(this.hours - other.hours > 0)
+            bigger = true;
+        else if(this.hours == other.hours && this.hours > other.hours)
+            bigger = true;
+
+        return bigger;
     }
 }

@@ -51,6 +51,14 @@ test("HoursAndMinutes toString", () => {
     expect(hm.toString()).toBe("10:05");
 }) 
 
+test("HoursAndMinutes bigger_than", () => {
+    const h_smaller = new Schedule.HoursAndMinutes(10, 0);
+    const h_bigger = new Schedule.HoursAndMinutes(23, 0);
+    expect(h_bigger.bigger_than(h_smaller)).toBe(true);
+    expect(h_smaller.bigger_than(h_bigger)).toBe(false);
+    expect(h_smaller.bigger_than(h_smaller)).toBe(false);
+});
+
 test("Schedule - Adding an activity", () => {
     let schedule = new Schedule.Schedule();
     const start_time1 = new Schedule.HoursAndMinutes(10, 0);

@@ -1,19 +1,19 @@
-import { InvalidDataType } from "../clean_code/clean_code_enforcement.js";
-import * as Schedule from "./schedule.js"
+import { Activity, HoursAndMinutes, Schedule } from "./schedule.js";
+import { InvalidDataType } from "../clean_code/clean_code_enforcement.js"
 
 test("Schedule construction", () => {
-    const valid_array = [new Schedule.Activity(), new Schedule.Activity()];
-    const invalid_array = [new Schedule.Activity(), "test", 1, 4, new Schedule.Activity()];
+    const valid_array = [new Activity(), new Activity()];
+    const invalid_array = [new Activity(), "test", 1, 4, new Activity()];
 
-    expect(new Schedule.Schedule()).toBeInstanceOf(Schedule.Schedule);
-    expect(new Schedule.Schedule(valid_array)).toBeInstanceOf(Schedule.Schedule);
-    expect(() => new Schedule.Schedule(invalid_array)).toThrow(InvalidDataType);
+    expect(new Schedule()).toBeInstanceOf(Schedule);
+    expect(new Schedule(valid_array)).toBeInstanceOf(Schedule);
+    expect(() => new Schedule(invalid_array)).toThrow(InvalidDataType);
 });
 
 
 test("Activity construction", () => {
-    const valid_start_time = new Schedule.HoursAndMinutes(10, 10);
-    const valid_end_time = new Schedule.HoursAndMinutes(20, 25);
+    const valid_start_time = new HoursAndMinutes(10, 10);
+    const valid_end_time = new HoursAndMinutes(20, 25);
     const valid_title = "title";
     const valid_content = "content";
 
@@ -22,52 +22,52 @@ test("Activity construction", () => {
     const invalid_title = 10;
     const invalid_content = new String();
 
-    let valid_activity = new Schedule.Activity();
-    expect(valid_activity).toBeInstanceOf(Schedule.Activity);
+    let valid_activity = new Activity();
+    expect(valid_activity).toBeInstanceOf(Activity);
     expect(valid_activity.content).toBeDefined;
     expect(valid_activity.title).toBeDefined;
     expect(valid_activity.start_time).toBeDefined;
     expect(valid_activity.end_time).toBeDefined;
 
-    valid_activity = new Schedule.Activity(valid_start_time, valid_end_time, valid_title, valid_content);
-    expect(valid_activity).toBeInstanceOf(Schedule.Activity);
+    valid_activity = new Activity(valid_start_time, valid_end_time, valid_title, valid_content);
+    expect(valid_activity).toBeInstanceOf(Activity);
     expect(valid_activity.content).toBeDefined;
     expect(valid_activity.title).toBeDefined;
     expect(valid_activity.start_time).toBeDefined;
     expect(valid_activity.end_time).toBeDefined;
 
     // @ts-expect-error
-    expect(() => new Schedule.Activity(invalid_start_time)).toThrow(InvalidDataType);
+    expect(() => new Activity(invalid_start_time)).toThrow(InvalidDataType);
     // @ts-expect-error
-    expect(() => new Schedule.Activity(valid_start_time, invalid_end_time)).toThrow(InvalidDataType);
+    expect(() => new Activity(valid_start_time, invalid_end_time)).toThrow(InvalidDataType);
     // @ts-expect-error
-    expect(() => new Schedule.Activity(valid_start_time, valid_end_time, invalid_title)).toThrow(InvalidDataType);
+    expect(() => new Activity(valid_start_time, valid_end_time, invalid_title)).toThrow(InvalidDataType);
     // @ts-expect-error
-    expect(() => new Schedule.Activity(valid_start_time, valid_end_time, valid_title, invalid_content)).toThrow(InvalidDataType);
+    expect(() => new Activity(valid_start_time, valid_end_time, valid_title, invalid_content)).toThrow(InvalidDataType);
 });
 
 test("HoursAndMinutes toString", () => {
-    const hm = new Schedule.HoursAndMinutes(10, 5);
+    const hm = new HoursAndMinutes(10, 5);
     expect(hm.toString()).toBe("10:05");
 }) 
 
 test("HoursAndMinutes bigger_than", () => {
-    const h_smaller = new Schedule.HoursAndMinutes(10, 0);
-    const h_bigger = new Schedule.HoursAndMinutes(23, 0);
+    const h_smaller = new HoursAndMinutes(10, 0);
+    const h_bigger = new HoursAndMinutes(23, 0);
     expect(h_bigger.bigger_than(h_smaller)).toBe(true);
     expect(h_smaller.bigger_than(h_bigger)).toBe(false);
     expect(h_smaller.bigger_than(h_smaller)).toBe(false);
 });
 
 test("Schedule - Adding an activity", () => {
-    let schedule = new Schedule.Schedule();
-    const start_time1 = new Schedule.HoursAndMinutes(10, 0);
-    const end_time1 = new Schedule.HoursAndMinutes(16, 30);
-    const start_time2 = new Schedule.HoursAndMinutes(20, 0);
-    const end_time2 = new Schedule.HoursAndMinutes(23, 0);
+    let schedule = new Schedule();
+    const start_time1 = new HoursAndMinutes(10, 0);
+    const end_time1 = new HoursAndMinutes(16, 30);
+    const start_time2 = new HoursAndMinutes(20, 0);
+    const end_time2 = new HoursAndMinutes(23, 0);
     
-    const a1 = new Schedule.Activity(start_time1, end_time1, "A1", "a1");
-    const a2 = new Schedule.Activity(start_time2, end_time2, "A2", "a2");
+    const a1 = new Activity(start_time1, end_time1, "A1", "a1");
+    const a2 = new Activity(start_time2, end_time2, "A2", "a2");
     
     expect(schedule.get_activities().length).toBe(0);
     

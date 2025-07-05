@@ -23,3 +23,20 @@ test("validate_integer out of bounds", () => {
     expect(() => CCEnforcement.validate_integer(1000, -10, 0)).toThrow(CCEnforcement.OutOfBoundInteger);
 })
 
+test("validate_array", () => {
+    const arr = [];
+    const not_arr = 1;
+    
+    expect(() => CCEnforcement.validate_array(arr)).not.toThrow(CCEnforcement.InvalidDataType);
+    expect(() => CCEnforcement.validate_array(not_arr)).toThrow(CCEnforcement.InvalidDataType);
+});
+
+test("validate_array_type", () => {
+    const valid_str_arr = ["a", "b", "c", "d", "e"]; 
+    const invalid_str_arr = ["a", "b", 1, new String(), "e"];
+
+    expect(() => CCEnforcement.validate_array_type(valid_str_arr, "string")).not.toThrow(CCEnforcement.ArrayContaintsInvalidDataType);
+
+    expect(() => CCEnforcement.validate_array_type(invalid_str_arr, "string")).toThrow(CCEnforcement.ArrayContaintsInvalidDataType);
+});
+

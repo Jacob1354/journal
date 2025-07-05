@@ -32,7 +32,7 @@ export class Activity {
         this.title = activity.title;
         this.content = activity.content;
     }
-    
+
     constructor(
         start_time = new HoursAndMinutes(10 ,0), 
         end_time = new HoursAndMinutes(12, 0), 

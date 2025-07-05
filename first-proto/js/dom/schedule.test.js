@@ -41,6 +41,7 @@ test("load_activity_title", () => {
     const title = _load_activity_title(a1);
     
     expect(title.nodeName).toBe("H3");
+    expect(title.classList.contains("activity_title")).toBe(true);
     expect(title.innerText).toBe(a1.title);
 });
 

@@ -29,6 +29,7 @@ export function load_activity(activity) {
 export function _load_activity_title(activity) {
     const title = document.createElement("h3");
     title.innerText = activity.title;
+    title.classList.add("activity_title");
 
     return title;
 }

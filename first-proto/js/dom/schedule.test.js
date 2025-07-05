@@ -4,7 +4,7 @@
 
 import { AbstractFunctionNotOverriden } from "../clean_code/clean_code_enforcement.js";
 import { Activity, HoursAndMinutes } from "../data/schedule.js"
-import { load_activity, _load_activity_content, _load_activity_remove_btn, _load_activity_time_interval, _load_activity_title } from "./schedule.js";
+import { load_activity, _load_activity_content, _load_activity_remove_btn, _load_activity_time_interval, _load_activity_title, load_schedule } from "./schedule.js";
 
 let a1, a2, a3;
 
@@ -25,6 +25,16 @@ beforeEach(() => {
                             "A2", 
                             "a2");
                             
+});
+
+test("load_schedule", () => {
+    let activities = [a1, a2, a3];
+    const schedule = load_schedule(activities);
+
+    expect(schedule.classList.contains("scheduled_activities")).toBe(true);
+    expect(schedule.children[0].querySelector(".activity_title").innerText).toBe(a1.title);
+    expect(schedule.children[1].querySelector(".activity_title").innerText).toBe(a3.title);
+    expect(schedule.children[2].querySelector(".activity_title").innerText).toBe(a2.title);
 });
 
 test("load_activity", () => {

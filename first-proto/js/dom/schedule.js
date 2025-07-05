@@ -1,4 +1,4 @@
-import { validate_type } from "../clean_code/clean_code_enforcement.js";
+import { validate_array_type, validate_type } from "../clean_code/clean_code_enforcement.js";
 import { Activity, HoursAndMinutes } from "../data/schedule.js";
 
 export const removeBtnHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -8,8 +8,15 @@ export const removeBtnHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fi
                             <line x1="14" y1="11" x2="14" y2="17"></line>
                         </svg>`
 
-export function load_schedule(schedule) {
-
+export function load_schedule(activities) {
+    validate_array_type(activities, Activity);
+    activities.sort((a1, a2) => a1.start_time.bigger_than(a2.start_time));
+    const scheduled_activities = document.createElement("div");
+    scheduled_activities.classList.add("scheduled_activities");
+    activities.forEach(activity => {
+        scheduled_activities.appendChild(load_activity(activity));
+    });
+    return scheduled_activities;
 }
 
 export function load_activity(activity) {

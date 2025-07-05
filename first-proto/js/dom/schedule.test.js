@@ -6,7 +6,7 @@ import { AbstractFunctionNotOverriden } from "../clean_code/clean_code_enforceme
 import { Activity, HoursAndMinutes } from "../data/schedule.js"
 import { load_activity, _load_activity_content, _load_activity_remove_btn, _load_activity_time_interval, _load_activity_title } from "./schedule.js";
 
-let a1, a2;
+let a1, a2, a3;
 
 beforeEach(() => {
     a1 = new Activity(
@@ -16,21 +16,24 @@ beforeEach(() => {
                             "a1");
     a2 = new Activity(
                             new HoursAndMinutes(16, 0), 
-                            new HoursAndMinutes(2, 30), 
+                            new HoursAndMinutes(23, 30), 
                             "A2", 
                             "a2");
+    a3 = new Activity(
+                            new HoursAndMinutes(12, 0), 
+                            new HoursAndMinutes(15, 30), 
+                            "A2", 
+                            "a2");
+                            
 });
 
 test("load_activity", () => {
-    /*
-    const activity_element = load_activity(a1);
-
-    expect(activity_element.nodeName).toBe("DIV");
-    expect(activity_element.classList.contains("scheduled_activity")).toBe(true);
-    
-    expect(activity_element.firstElementChild).toBe("DIV");
-    expect(activity_element.nodeName).toBe("DIV");
-    */
+    const activity = load_activity(a1);
+    expect(activity.classList.contains("scheduled_activity")).toBe(true);
+    expect(activity.children[0].innerText).toBe(a1.title);
+    expect(activity.children[1].classList.contains("time_interval")).toBe(true);
+    expect(activity.children[2].classList.contains("activity_remove_btn")).toBe(true);
+    expect(activity.children[3].classList.contains("wrapper")).toBe(true);
 
 });
 

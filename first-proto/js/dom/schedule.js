@@ -8,11 +8,11 @@ export const removeBtnHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fi
                             <line x1="14" y1="11" x2="14" y2="17"></line>
                         </svg>`
 
-export function load_schedule(parent, schedule) {
+export function load_schedule(schedule) {
 
 }
 
-export function load_activity(dom_schedule, activity) {
+export function load_activity(activity) {
     validate_type(activity, Activity);
     const activity_el = document.createElement("div");
 

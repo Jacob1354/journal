@@ -2,9 +2,9 @@
  * @jest-environment jsdom
  */
 
-import { AbstractFunctionNotOverriden } from "../clean_code/clean_code_enforcement";
-import { Activity, HoursAndMinutes } from "../data/schedule"
-import { load_activity, _load_activity_content, _load_activity_remove_btn, _load_activity_time_interval, _load_activity_title } from "./schedule";
+import { AbstractFunctionNotOverriden } from "../clean_code/clean_code_enforcement.js";
+import { Activity, HoursAndMinutes } from "../data/schedule.js"
+import { load_activity, _load_activity_content, _load_activity_remove_btn, _load_activity_time_interval, _load_activity_title } from "./schedule.js";
 
 let a1, a2;
 

@@ -1,4 +1,4 @@
-import * as CCEnforcement from "../clean_code/clean_code_enforcement";
+import * as CCEnforcement from "../clean_code/clean_code_enforcement.js";
 
 export class AbstractMoodField {
     #field_name;

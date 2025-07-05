@@ -1,5 +1,6 @@
-import * as MoodField from "./mood_field";
-import * as Schedule from "./schedule";
+import { load_activity } from "../dom/schedule.js";
+import * as MoodField from "./mood_field.js";
+import * as Schedule from "./schedule.js";
 
 export class Day {
     constructor() {

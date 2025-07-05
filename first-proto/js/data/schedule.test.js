@@ -1,5 +1,5 @@
-import { InvalidDataType } from "../clean_code/clean_code_enforcement";
-import * as Schedule from "./schedule"
+import { InvalidDataType } from "../clean_code/clean_code_enforcement.js";
+import * as Schedule from "./schedule.js"
 
 test("Schedule construction", () => {
     const valid_array = [new Schedule.Activity(), new Schedule.Activity()];

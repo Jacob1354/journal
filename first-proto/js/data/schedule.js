@@ -1,4 +1,4 @@
-import { validate_integer, validate_type } from "../clean_code/clean_code_enforcement";
+import { validate_integer, validate_type } from "../clean_code/clean_code_enforcement.js";
 
 
 export class Schedule {

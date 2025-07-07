@@ -21,3 +21,18 @@ nav a {
     color: black;
     text-decoration: none;
 }
+
+.mood_field_fraction {
+    display: flex;
+}
+
+.mood_field_fraction input {
+    margin: auto 5px;
+    text-align: end;
+    
+}
+
+.mood_field_fraction p {
+    font-size: 20px;
+    margin: 0px;
+}

@@ -8,7 +8,7 @@ export const removeBtnHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fi
                             <line x1="14" y1="11" x2="14" y2="17"></line>
                         </svg>`
 
-export function create_schedule(activities) {
+export function create_scheduled_activities(activities) {
     validate_array_type(activities, Activity);
     activities.sort((a1, a2) => a1.start_time.bigger_than(a2.start_time));
     const scheduled_activities = document.createElement("div");

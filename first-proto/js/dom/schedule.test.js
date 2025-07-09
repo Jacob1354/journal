@@ -31,7 +31,7 @@ test("create_scheduled_activities", () => {
     let activities = [a1, a2, a3];
     const schedule = create_scheduled_activities(activities);
 
-    expect(schedule.classList.contains("scheduled_activities")).toBe(true);
+    expect(schedule.id).toBe("scheduled_activities");
     expect(schedule.children[0].querySelector(".activity_title").innerText).toBe(a1.title);
     expect(schedule.children[1].querySelector(".activity_title").innerText).toBe(a3.title);
     expect(schedule.children[2].querySelector(".activity_title").innerText).toBe(a2.title);

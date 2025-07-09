@@ -1,4 +1,4 @@
-.schedule {
+#schedule {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -7,7 +7,7 @@
     background-color: rgb(118, 236, 236);   
 }
 
-.scheduled_activities {
+#scheduled_activities {
     margin: 2%;
 }
 

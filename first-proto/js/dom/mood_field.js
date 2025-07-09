@@ -1,9 +1,9 @@
-import { validate_type } from "../clean_code/clean_code_enforcement";
+import { validate_array_type, validate_type } from "../clean_code/clean_code_enforcement";
 import { AbstractMoodField, FractionField, NumberField, SliderField, TextField } from "../data/mood_field";
 import { validate } from "C:/Users/Jacob/AppData/Local/Microsoft/TypeScript/5.8/node_modules/@babel/types/lib/index";
 
 
-export function load_field(field) {
+export function load_mood_field(field) {
     validate_type(field, AbstractMoodField);
     if(field instanceof NumberField) {
         return _load_number_field(field);

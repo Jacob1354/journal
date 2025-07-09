@@ -2,31 +2,31 @@ import { validate_array_type, validate_type } from "../clean_code/clean_code_enf
 import { AbstractMoodField, FractionField, NumberField, SliderField, TextField } from "../data/mood_field";
 import { validate } from "C:/Users/Jacob/AppData/Local/Microsoft/TypeScript/5.8/node_modules/@babel/types/lib/index";
 
-export function load_mood_fields(fields) {
+export function create_mood_fields(fields) {
     validate_array_type(fields, AbstractMoodField);
     const fields_wrapper = document.createElement("div");
 
     fields.forEach(field => {
-        fields_wrapper.appendChild(load_mood_field(field));
+        fields_wrapper.appendChild(create_mood_field(field));
     });
 
     return fields_wrapper;
 }
 
-export function load_mood_field(field) {
+export function create_mood_field(field) {
     validate_type(field, AbstractMoodField);
     if(field instanceof NumberField) {
-        return _load_number_field(field);
+        return _create_number_field(field);
     } else if(field instanceof TextField) {
-        return _load_text_field(field);
+        return _create_text_field(field);
     } else if(field instanceof FractionField) {
-        return _load_fraction_field(field);
+        return _create_fraction_field(field);
     } else if(field instanceof SliderField) {
-        return _load_slider_field(field);
+        return _create_slider_field(field);
     }
 }
 
-export function _load_number_field(field) {
+export function _create_number_field(field) {
     validate_type(field, NumberField);
 
     const mood_field_wrapper = create_mood_field_wrapper_with_title(field);
@@ -41,7 +41,7 @@ export function _load_number_field(field) {
     return mood_field_wrapper;
 }
 
-export function _load_text_field(field) {
+export function _create_text_field(field) {
     validate_type(field, TextField);
 
     const mood_field_wrapper = create_mood_field_wrapper_with_title(field);
@@ -56,7 +56,7 @@ export function _load_text_field(field) {
     return mood_field_wrapper;
 }
 
-export function _load_fraction_field(field) {
+export function _create_fraction_field(field) {
     validate_type(field, FractionField);
 
     const mood_field_wrapper = create_mood_field_wrapper_with_title(field);
@@ -74,7 +74,7 @@ export function _load_fraction_field(field) {
     return mood_field_wrapper;
 }
 
-export function _load_slider_field(field) {
+export function _create_slider_field(field) {
     validate_type(field, SliderField);
 
     const mood_field_wrapper = create_mood_field_wrapper_with_title(field);

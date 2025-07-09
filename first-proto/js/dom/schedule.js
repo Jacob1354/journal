@@ -8,32 +8,32 @@ export const removeBtnHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fi
                             <line x1="14" y1="11" x2="14" y2="17"></line>
                         </svg>`
 
-export function load_schedule(activities) {
+export function create_schedule(activities) {
     validate_array_type(activities, Activity);
     activities.sort((a1, a2) => a1.start_time.bigger_than(a2.start_time));
     const scheduled_activities = document.createElement("div");
     scheduled_activities.classList.add("scheduled_activities");
     activities.forEach(activity => {
-        scheduled_activities.appendChild(load_activity(activity));
+        scheduled_activities.appendChild(create_activity(activity));
     });
     return scheduled_activities;
 }
 
-export function load_activity(activity) {
+export function create_activity(activity) {
     validate_type(activity, Activity);
     const activity_el = document.createElement("div");
     activity_el.classList.add("scheduled_activity");
 
-    activity_el.appendChild(_load_activity_title(activity));
-    activity_el.appendChild(_load_activity_time_interval(activity));
-    activity_el.appendChild(_load_activity_remove_btn());
-    activity_el.appendChild(_load_activity_content(activity));
+    activity_el.appendChild(_create_activity_title(activity));
+    activity_el.appendChild(_create_activity_time_interval(activity));
+    activity_el.appendChild(_create_activity_remove_btn());
+    activity_el.appendChild(_create_activity_content(activity));
     
     return activity_el;
 }
 
 
-export function _load_activity_title(activity) {
+export function _create_activity_title(activity) {
     const title = document.createElement("h3");
     title.innerText = activity.title;
     title.classList.add("activity_title");
@@ -41,7 +41,7 @@ export function _load_activity_title(activity) {
     return title;
 }
 
-export function _load_activity_time_interval(activity) {
+export function _create_activity_time_interval(activity) {
     const interval = document.createElement("div");
     interval.classList.add("time_interval");
 
@@ -65,14 +65,14 @@ export function _load_activity_time_interval(activity) {
     return interval;
 }
 
-export function _load_activity_remove_btn() {
+export function _create_activity_remove_btn() {
     const btn = document.createElement("button");
     btn.classList.add("activity_remove_btn");
     btn.innerHTML = removeBtnHTML;
     return btn;
 }
 
-export function _load_activity_content(activity) {
+export function _create_activity_content(activity) {
     const wrapper = document.createElement("div");
     wrapper.classList.add("wrapper");
     

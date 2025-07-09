@@ -4,7 +4,7 @@
 
 import { AbstractFunctionNotOverriden } from "../clean_code/clean_code_enforcement.js";
 import { Activity, HoursAndMinutes } from "../data/schedule.js"
-import { load_activity, _load_activity_content, _load_activity_remove_btn, _load_activity_time_interval, _load_activity_title, load_schedule } from "./schedule.js";
+import { create_activity, _create_activity_content, _create_activity_remove_btn, _create_activity_time_interval, _create_activity_title, create_schedule } from "./schedule.js";
 
 let a1, a2, a3;
 
@@ -27,9 +27,9 @@ beforeEach(() => {
                             
 });
 
-test("load_schedule", () => {
+test("create_schedule", () => {
     let activities = [a1, a2, a3];
-    const schedule = load_schedule(activities);
+    const schedule = create_schedule(activities);
 
     expect(schedule.classList.contains("scheduled_activities")).toBe(true);
     expect(schedule.children[0].querySelector(".activity_title").innerText).toBe(a1.title);
@@ -37,8 +37,8 @@ test("load_schedule", () => {
     expect(schedule.children[2].querySelector(".activity_title").innerText).toBe(a2.title);
 });
 
-test("load_activity", () => {
-    const activity = load_activity(a1);
+test("create_activity", () => {
+    const activity = create_activity(a1);
     expect(activity.classList.contains("scheduled_activity")).toBe(true);
     expect(activity.children[0].innerText).toBe(a1.title);
     expect(activity.children[1].classList.contains("time_interval")).toBe(true);
@@ -47,16 +47,16 @@ test("load_activity", () => {
 
 });
 
-test("load_activity_title", () => {
-    const title = _load_activity_title(a1);
+test("create_activity_title", () => {
+    const title = _create_activity_title(a1);
     
     expect(title.nodeName).toBe("H3");
     expect(title.classList.contains("activity_title")).toBe(true);
     expect(title.innerText).toBe(a1.title);
 });
 
-test("load_activity_time_interval", () => {
-    const interval = _load_activity_time_interval(a1);
+test("create_activity_time_interval", () => {
+    const interval = _create_activity_time_interval(a1);
 
     expect(interval.nodeName).toBe("DIV");
     expect(interval.classList.contains("time_interval")).toBe(true);
@@ -73,8 +73,8 @@ test("load_activity_time_interval", () => {
     expect(interval.children[2].value).toBe(String(a1.end_time));
 });
 
-test("load_activity_remove_btn", () => {
-    const btn = _load_activity_remove_btn();
+test("create_activity_remove_btn", () => {
+    const btn = _create_activity_remove_btn();
 
     expect(btn.nodeName).toBe("BUTTON");
     expect(btn.classList.contains("activity_remove_btn")).toBe(true);
@@ -88,8 +88,8 @@ test("load_activity_remove_btn", () => {
     );
 });
 
-test("load_activity_content", () => {
-    const content = _load_activity_content(a1);
+test("create_activity_content", () => {
+    const content = _create_activity_content(a1);
 
     expect(content.nodeName).toBe("DIV");
     expect(content.classList.contains("wrapper")).toBe(true);

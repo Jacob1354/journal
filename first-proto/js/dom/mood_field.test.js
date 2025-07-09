@@ -3,7 +3,7 @@
  */
 
 import { FractionField, NumberField, SliderField, TextField } from "../data/mood_field";
-import { _load_fraction_field, _load_number_field, _load_slider_field, _load_text_field, load_mood_field, load_mood_fields } from "./mood_field";
+import { _create_fraction_field, _create_number_field, _create_slider_field, _create_text_field, create_mood_field, create_mood_fields } from "./mood_field";
 import { validate } from "C:/Users/Jacob/AppData/Local/Microsoft/TypeScript/5.8/node_modules/@babel/types/lib/index";
 
 let nb_field, fraction_field, slider_field, text_field;
@@ -15,9 +15,9 @@ beforeAll(() => {
     text_field = new TextField("text_field");
 })
 
-test("load_mood_fields", () => {
+test("create_mood_fields", () => {
     const fields_arr = [nb_field, fraction_field, slider_field, text_field, nb_field];
-    const fields = load_mood_fields(fields_arr);
+    const fields = create_mood_fields(fields_arr);
 
     expect(fields.children.length).toBe(5);
     expect(fields.querySelectorAll(".mood_field_nb").length).toBe(2);
@@ -27,11 +27,11 @@ test("load_mood_fields", () => {
 });
 
 
-test("load_mood_field", () => {
-    const nb_field_el = load_mood_field(nb_field);
-    const text_field_el = load_mood_field(text_field);
-    const fraction_field_el = load_mood_field(fraction_field);
-    const slider_field_el = load_mood_field(slider_field);
+test("create_mood_field", () => {
+    const nb_field_el = create_mood_field(nb_field);
+    const text_field_el = create_mood_field(text_field);
+    const fraction_field_el = create_mood_field(fraction_field);
+    const slider_field_el = create_mood_field(slider_field);
 
     expect(nb_field_el.querySelectorAll(".mood_field_nb").length).toBe(1);
     expect(text_field_el.querySelectorAll(".mood_field_text").length).toBe(1);
@@ -50,8 +50,8 @@ function test_field_basics(field_el, field_data, field_type) {
     expect(field_el.children[1].classList.contains("mood_field_" + field_type)).toBe(true);
 }
 
-test("_load_number_field", () => {
-    const nb_field_el = _load_number_field(nb_field);
+test("_create_number_field", () => {
+    const nb_field_el = _create_number_field(nb_field);
 
     test_field_basics(nb_field_el, nb_field, "nb");
     expect(nb_field_el.children[1].children[0].nodeName).toBe("INPUT");
@@ -59,8 +59,8 @@ test("_load_number_field", () => {
     expect(nb_field_el.children[1].children[0].value).toBe(String(nb_field.get_data()));
 }); 
 
-test("_load_text_field", () => {
-    const text_field_el = _load_text_field(text_field);
+test("_create_text_field", () => {
+    const text_field_el = _create_text_field(text_field);
     test_field_basics(text_field_el, text_field, "text");
 
     expect(text_field_el.children[1].children[0].nodeName).toBe("TEXTAREA");
@@ -68,8 +68,8 @@ test("_load_text_field", () => {
     expect(text_field_el.children[1].children[0].value).toBe(text_field.get_data());
 }); 
 
-test("_load_fraction_field", () => {
-    const fraction_field_el = _load_fraction_field(fraction_field);
+test("_create_fraction_field", () => {
+    const fraction_field_el = _create_fraction_field(fraction_field);
     test_field_basics(fraction_field_el, fraction_field, "fraction");
 
     expect(fraction_field_el.children[1].children[0].nodeName).toBe("INPUT");
@@ -79,8 +79,8 @@ test("_load_fraction_field", () => {
     expect(fraction_field_el.children[1].children[1].innerText).toBe("/" + String(fraction_field.get_denominator()));
 }); 
 
-test("load_slider_field", () => {
-    const slider_field_el = _load_slider_field(slider_field);
+test("create_slider_field", () => {
+    const slider_field_el = _create_slider_field(slider_field);
 
     test_field_basics(slider_field_el, slider_field, "slider");
     expect(slider_field_el.children[1].children[0].nodeName).toBe("INPUT");

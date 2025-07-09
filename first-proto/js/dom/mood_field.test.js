@@ -3,7 +3,7 @@
  */
 
 import { FractionField, NumberField, SliderField, TextField } from "../data/mood_field";
-import { _load_fraction_field, _load_number_field, _load_slider_field, _load_text_field, load_mood_field } from "./mood_field";
+import { _load_fraction_field, _load_number_field, _load_slider_field, _load_text_field, load_mood_field, load_mood_fields } from "./mood_field";
 import { validate } from "C:/Users/Jacob/AppData/Local/Microsoft/TypeScript/5.8/node_modules/@babel/types/lib/index";
 
 let nb_field, fraction_field, slider_field, text_field;
@@ -14,6 +14,17 @@ beforeAll(() => {
     slider_field = new SliderField("slider_field");
     text_field = new TextField("text_field");
 })
+
+test("load_mood_fields", () => {
+    const fields_arr = [nb_field, fraction_field, slider_field, text_field, nb_field];
+    const fields = load_mood_fields(fields_arr);
+
+    expect(fields.children.length).toBe(5);
+    expect(fields.querySelectorAll(".mood_field_nb").length).toBe(2);
+    expect(fields.querySelectorAll(".mood_field_text").length).toBe(1);
+    expect(fields.querySelectorAll(".mood_field_fraction").length).toBe(1);
+    expect(fields.querySelectorAll(".mood_field_slider").length).toBe(1);
+});
 
 
 test("load_mood_field", () => {

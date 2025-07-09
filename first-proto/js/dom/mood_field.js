@@ -2,6 +2,16 @@ import { validate_array_type, validate_type } from "../clean_code/clean_code_enf
 import { AbstractMoodField, FractionField, NumberField, SliderField, TextField } from "../data/mood_field";
 import { validate } from "C:/Users/Jacob/AppData/Local/Microsoft/TypeScript/5.8/node_modules/@babel/types/lib/index";
 
+export function load_mood_fields(fields) {
+    validate_array_type(fields, AbstractMoodField);
+    const fields_wrapper = document.createElement("div");
+
+    fields.forEach(field => {
+        fields_wrapper.appendChild(load_mood_field(field));
+    });
+
+    return fields_wrapper;
+}
 
 export function load_mood_field(field) {
     validate_type(field, AbstractMoodField);

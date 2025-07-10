@@ -11,7 +11,7 @@ export const removeBtnHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fi
 
 export function render_scheduled_activities(activities) {
     validate_array_type(activities, Activity);
-    document.querySelector("scheduled_activities").replaceWith(create_scheduled_activities(activities));
+    document.querySelector("#scheduled_activities").replaceWith(create_scheduled_activities(activities));
 }
 
 export function create_scheduled_activities(activities) {

@@ -9,23 +9,25 @@ export function render_mood_fields(mood_fields) {
     const mood_fields_2 = document.querySelector("#mood_fields_2");
     const mood_field_els = create_mood_fields(mood_fields);
 
+    clear_element_children(mood_fields_1);
+    clear_element_children(mood_fields_2);
     place_elements_until_field1_max_then_field2(
         mood_fields_1, 
         mood_fields_2, 
-        schedule_height, 
+        schedule_height,
         mood_field_els
     );
 }
 
 export function create_mood_fields(fields) {
     validate_array_type(fields, AbstractMoodField);
-    const fields_wrapper = document.createElement("div");
+    const field_els = [];
 
     fields.forEach(field => {
-        fields_wrapper.appendChild(create_mood_field(field));
+        field_els.push(create_mood_field(field));
     });
 
-    return fields_wrapper;
+    return field_els;
 }
 
 export function create_mood_field(field) {

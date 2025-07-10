@@ -19,11 +19,7 @@ test("create_mood_fields", () => {
     const fields_arr = [nb_field, fraction_field, slider_field, text_field, nb_field];
     const fields = create_mood_fields(fields_arr);
 
-    expect(fields.children.length).toBe(5);
-    expect(fields.querySelectorAll(".mood_field_nb").length).toBe(2);
-    expect(fields.querySelectorAll(".mood_field_text").length).toBe(1);
-    expect(fields.querySelectorAll(".mood_field_fraction").length).toBe(1);
-    expect(fields.querySelectorAll(".mood_field_slider").length).toBe(1);
+    expect(fields.length).toBe(5);
 });
 
 

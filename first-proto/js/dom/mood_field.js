@@ -1,6 +1,21 @@
 import { validate_array_type, validate_type } from "../clean_code/clean_code_enforcement";
 import { AbstractMoodField, FractionField, NumberField, SliderField, TextField } from "../data/mood_field";
-import { validate } from "C:/Users/Jacob/AppData/Local/Microsoft/TypeScript/5.8/node_modules/@babel/types/lib/index";
+import { place_elements_until_field1_max_then_field2 } from "./dom_utils";
+
+export function render_mood_fields(mood_fields) {
+    validate_array_type(mood_fields, AbstractMoodField);
+    const schedule_height = document.querySelector("#schedule").getBoundingClientRect().height;
+    const mood_fields_1 = document.querySelector("#mood_fields_1");
+    const mood_fields_2 = document.querySelector("#mood_fields_2");
+    const mood_field_els = create_mood_fields(mood_fields);
+
+    place_elements_until_field1_max_then_field2(
+        mood_fields_1, 
+        mood_fields_2, 
+        schedule_height, 
+        mood_field_els
+    );
+}
 
 export function create_mood_fields(fields) {
     validate_array_type(fields, AbstractMoodField);

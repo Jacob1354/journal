@@ -1,6 +1,6 @@
-import { validate_array_type, validate_type } from "../clean_code/clean_code_enforcement";
-import { AbstractMoodField, FractionField, NumberField, SliderField, TextField } from "../data/mood_field";
-import { place_elements_until_field1_max_then_field2 } from "./dom_utils";
+import { validate_array_type, validate_type } from "../clean_code/clean_code_enforcement.js";
+import { AbstractMoodField, FractionField, NumberField, SliderField, TextField } from "../data/mood_field.js";
+import { clear_element_children, place_elements_until_field1_max_then_field2 } from "./dom_utils.js";
 
 export function render_mood_fields(mood_fields) {
     validate_array_type(mood_fields, AbstractMoodField);

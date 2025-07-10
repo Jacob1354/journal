@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import * as DOMUtils from "./dom_utils";
+import { clear_element_children, move_child_node, place_elements_until_field1_max_then_field2 } from "./dom_utils";
 
 
 test("clear_element", () => {
@@ -12,7 +12,7 @@ test("clear_element", () => {
     origin.appendChild(p);
     origin.appendChild(a);
 
-    DOMUtils.clear_element_children(origin);
+    clear_element_children(origin);
 
     expect(origin.childElementCount).toBe(0);
 
@@ -63,7 +63,7 @@ test("place_elements_until_field1_max_then_field2", () => {
     mock_getBoundingClientRect(field_2);
     const max_height = 400;
 
-    DOMUtils.place_elements_until_field1_max_then_field2(max_height, field_1, field_2, elements);
+    place_elements_until_field1_max_then_field2(max_height, field_1, field_2, elements);
 
     expect(field_1.children.length).toBe(4);
     expect(field_2.children.length).toBe(6);
@@ -76,7 +76,7 @@ test("move_child_node", () => {
     const child = document.createElement("div");
 
     field_1.appendChild(child);
-    DOMUtils.move_child_node(child, field_2);
+    move_child_node(child, field_2);
     expect(field_1.firstChild).toBe(null);
     expect(field_2.firstChild).toBe(child);
 });

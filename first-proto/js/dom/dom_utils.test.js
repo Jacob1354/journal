@@ -63,7 +63,7 @@ test("place_elements_until_field1_max_then_field2", () => {
     mock_getBoundingClientRect(field_2);
     const max_height = 400;
 
-    place_elements_until_field1_max_then_field2(max_height, field_1, field_2, elements);
+    place_elements_until_field1_max_then_field2(field_1, field_2, max_height, elements);
 
     expect(field_1.children.length).toBe(4);
     expect(field_2.children.length).toBe(6);

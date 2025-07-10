@@ -8,7 +8,7 @@ export function clear_element_children(element) {
 }
 
 
-export function place_elements_until_field1_max_then_field2(field_1_max_height, field_1, field_2, elements) {
+export function place_elements_until_field1_max_then_field2(field_1, field_2, field_1_max_height, elements) {
     validate_type(field_1_max_height, "number");
     validate_type(field_1, HTMLElement);
     validate_type(field_2, HTMLElement);

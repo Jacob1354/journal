@@ -1,12 +1,10 @@
-@import url(day_large.css);
-@import url(day_small.css);
-
+@import url(day_moodfields.css);
 @import url(day_schedule.css);
 
 body {
     display: grid;
     place-items: center;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     margin: 0;
 }
@@ -22,17 +20,41 @@ nav a {
     text-decoration: none;
 }
 
-.mood_field_fraction {
+#day_container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 5% auto auto auto;
+    max-width: 90%;
+    width: 100%;
+    height: 100%;
+}
+
+#day_navigation_bar {
+    grid-column: 1 / 2;
+    grid-row: 1;
+    background-color: rgb(97, 97, 97);
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
 }
 
-.mood_field_fraction input {
-    margin: auto 5px;
-    text-align: end;
-    
+#day_nav_lef_arrow {
+    align-self: flex-start;
+    flex: 1;
+    min-width: 50px;
+    height: 50%;
 }
 
-.mood_field_fraction p {
-    font-size: 20px;
-    margin: 0px;
+#day_nav_date {
+    align-self: center;
+    text-align: center;
+    flex: 5;
+}
+
+#day_nav_right_arrow {
+    align-self: flex-end;
+    flex: 1;
+    min-width: 50px;
+    height: 50%;
 }

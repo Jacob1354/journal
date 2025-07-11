@@ -1,0 +1,25 @@
+.mood_fields {
+    background-color: rgb(242, 126, 240);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+@media (max-width: 992px) {
+    .mood_fields {
+        grid-template-columns: 1fr;
+    }
+}
+
+.mood_field_fraction {
+    display: flex;
+}
+
+.mood_field_fraction input {
+    margin: auto 5px;
+    text-align: end;
+    
+}
+
+.mood_field_fraction p {
+    font-size: 20px;
+    margin: 0px;
+}

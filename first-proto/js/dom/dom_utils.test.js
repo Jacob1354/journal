@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { clear_element_children, move_child_node, place_elements_until_field1_max_then_field2 } from "./dom_utils";
+import { clear_children_of, move_child_node, replace_children_of } from "./dom_utils";
 
 
 test("clear_element", () => {
@@ -12,7 +12,7 @@ test("clear_element", () => {
     origin.appendChild(p);
     origin.appendChild(a);
 
-    clear_element_children(origin);
+    clear_children_of(origin);
 
     expect(origin.childElementCount).toBe(0);
 
@@ -39,35 +39,26 @@ function mock_getBoundingClientRect(el = new HTMLElement) {
     }
 }
 
-test("place_elements_until_field1_max_then_field2", () => {
-    const elements = Array.from({ length: 10 }, () => {
-        const el = document.createElement("div");
-        el.getBoundingClientRect = () => ({
-            width: 10,
-            height: 100, //Only important part is height
-            top: 0,
-            left: 0,
-            bottom: 100,
-            right: 10,
-            x: 0,
-            y: 0,
-            toJSON: () => {},
-        });
-        document.body.appendChild(el);
-        return el;
-    });
+test("replace_children_of", () => {
+    const parent = document.createElement("div");
+    const old_child_1 = document.createElement("div");
+    old_child_1.id = "old_child_1";
+    const old_child_2 = document.createElement("div");
+    old_child_2.id = "old_child_2";
+    const new_child_1 = document.createElement("div");
+    new_child_1.id = "new_child_1";
+    const new_child_2 = document.createElement("div");
+    new_child_2.id = "new_child_2";
+    const new_children = [new_child_1, new_child_2];
 
-    const field_1 = document.createElement("div");
-    mock_getBoundingClientRect(field_1);
-    const field_2 = document.createElement("div");
-    mock_getBoundingClientRect(field_2);
-    const max_height = 400;
+    parent.appendChild(old_child_1);
+    parent.appendChild(old_child_2);
 
-    place_elements_until_field1_max_then_field2(field_1, field_2, max_height, elements);
-
-    expect(field_1.children.length).toBe(4);
-    expect(field_2.children.length).toBe(6);
-    
+    replace_children_of(parent, new_children);
+    expect(parent.querySelector('#old_child_1')).toBe(null);
+    expect(parent.querySelector('#old_child_2')).toBe(null);
+    expect(parent.querySelector('#new_child_1')).not.toBe(null);
+    expect(parent.querySelector('#new_child_2')).not.toBe(null);
 });
 
 test("move_child_node", () => {

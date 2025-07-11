@@ -2,6 +2,7 @@
     background-color: rgb(242, 126, 240);
     display: grid;
     grid-template-columns: 1fr 1fr;
+    flex: 1;
 }
 @media (max-width: 992px) {
     .mood_fields {

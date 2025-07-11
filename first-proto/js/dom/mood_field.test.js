@@ -2,9 +2,9 @@
  * @jest-environment jsdom
  */
 
+import { validate_type } from "../clean_code/clean_code_enforcement";
 import { FractionField, NumberField, SliderField, TextField } from "../data/mood_field";
 import { _create_fraction_field, _create_number_field, _create_slider_field, _create_text_field, create_mood_field, create_mood_fields } from "./mood_field";
-import { validate } from "C:/Users/Jacob/AppData/Local/Microsoft/TypeScript/5.8/node_modules/@babel/types/lib/index";
 
 let nb_field, fraction_field, slider_field, text_field;
 
@@ -37,7 +37,7 @@ test("create_mood_field", () => {
 
 //Field type must be one of the following : mood_field_[nb/text/fraction/slider]
 function test_field_basics(field_el, field_data, field_type) {
-    validate(field_type, "string");
+    validate_type(field_type, "string");
 
     expect(field_el.classList.contains("mood_field")).toBe(true);
     expect(field_el.children[0].nodeName).toBe("H2");

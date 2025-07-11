@@ -1,22 +1,14 @@
 import { validate_array_type, validate_type } from "../clean_code/clean_code_enforcement.js";
 import { AbstractMoodField, FractionField, NumberField, SliderField, TextField } from "../data/mood_field.js";
-import { clear_element_children, place_elements_until_field1_max_then_field2 } from "./dom_utils.js";
+import { clear_children_of, replace_children_of } from "./dom_utils.js";
 
 export function render_mood_fields(mood_fields) {
     validate_array_type(mood_fields, AbstractMoodField);
     const schedule_height = document.querySelector("#schedule").getBoundingClientRect().height;
-    const mood_fields_1 = document.querySelector("#mood_fields_1");
-    const mood_fields_2 = document.querySelector("#mood_fields_2");
+    const mood_fields_container = document.querySelector("#mood_fields");
     const mood_field_els = create_mood_fields(mood_fields);
 
-    clear_element_children(mood_fields_1);
-    clear_element_children(mood_fields_2);
-    place_elements_until_field1_max_then_field2(
-        mood_fields_1, 
-        mood_fields_2, 
-        schedule_height,
-        mood_field_els
-    );
+    replace_children_of(mood_fields_container, mood_field_els);
 }
 
 export function create_mood_fields(fields) {

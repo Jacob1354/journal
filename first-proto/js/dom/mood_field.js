@@ -2,15 +2,6 @@ import { validate_array_type, validate_type } from "../clean_code/clean_code_enf
 import { AbstractMoodField, FractionField, NumberField, SliderField, TextField } from "../data/mood_field.js";
 import { clear_children_of, replace_children_of } from "./dom_utils.js";
 
-export function render_mood_fields(mood_fields) {
-    validate_array_type(mood_fields, AbstractMoodField);
-    const schedule_height = document.querySelector("#schedule").getBoundingClientRect().height;
-    const mood_fields_container = document.querySelector("#mood_fields");
-    const mood_field_els = create_mood_fields(mood_fields);
-
-    replace_children_of(mood_fields_container, mood_field_els);
-}
-
 export function create_mood_fields(fields) {
     validate_array_type(fields, AbstractMoodField);
     const field_els = [];

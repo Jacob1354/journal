@@ -1,6 +1,5 @@
 import { validate_type } from "./clean_code/clean_code_enforcement.js";
 import { Day } from "./data/day.js";
-import { render_mood_fields } from "./dom/mood_field.js";
 import {  } from "./dom/schedule.js";
 import { DomDay } from "./dom/dom_day.js"
 

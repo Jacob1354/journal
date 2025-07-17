@@ -8,8 +8,13 @@ const end_time2 = new HoursAndMinutes(23, 0);
 const start_time3 = new HoursAndMinutes(11, 0);
 const end_time3 = new HoursAndMinutes(17, 0);
 
+const a1 = new Activity(start_time1, end_time1, "A1", "a1");
+const a2 = new Activity(start_time2, end_time2, "A2", "a2");
+const a3 = new Activity(start_time3, end_time3, "A3", "a3");
+
+
 test("Schedule construction", () => {
-    const valid_array = [new Activity(start_time1), new Activity(start_time2), new Activity(start_time3)];
+    const valid_array = [a1, a2, a3];
     const invalid_array = [new Activity(), "test", 1, 4, new Activity()];
 
     const valid_schedule = new Schedule(valid_array);
@@ -24,10 +29,6 @@ test("Schedule construction", () => {
 
 test("Schedule - Adding an activity", () => {
     let schedule = new Schedule();
-    
-    const a1 = new Activity(start_time1, end_time1, "A1", "a1");
-    const a2 = new Activity(start_time2, end_time2, "A2", "a2");
-    const a3 = new Activity(start_time3, end_time3, "A3", "a3");
     
     expect(schedule.get_activities().length).toBe(0);
     
@@ -53,6 +54,30 @@ test("Schedule - Adding an activity", () => {
     expect(schedule.get_activities()[0].content).toBe("a3");
 });
 
+test("Schedule.add_activities", () => {
+    const activities1 = [a1, a2]; 
+    const activities2 = [a3]; 
+    const schedule = new Schedule(); 
+    
+    schedule.add_activities(activities1);
+    expect(schedule.get_activities().length).toBe(2);
+    expect(schedule.get_activities()[0].start_time).toBe(start_time1);
+    expect(schedule.get_activities()[0].end_time).toBe(end_time1);
+    expect(schedule.get_activities()[0].title).toBe("A1");
+    expect(schedule.get_activities()[0].content).toBe("a1");
+    
+    expect(schedule.get_activities()[1].start_time).toBe(start_time2);
+    expect(schedule.get_activities()[1].end_time).toBe(end_time2);
+    expect(schedule.get_activities()[1].title).toBe("A2");
+    expect(schedule.get_activities()[1].content).toBe("a2");
+
+    schedule.add_activities(activities2);
+    expect(schedule.get_activities().length).toBe(3);
+    expect(schedule.get_activities()[0].start_time).toBe(start_time3);
+    expect(schedule.get_activities()[0].end_time).toBe(end_time3);
+    expect(schedule.get_activities()[0].title).toBe("A3");
+    expect(schedule.get_activities()[0].content).toBe("a3");
+});
 
 test("Activity construction", () => {
     const valid_start_time = new HoursAndMinutes(10, 10);

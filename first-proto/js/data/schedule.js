@@ -4,6 +4,7 @@ import { validate_array_type, validate_integer, validate_type } from "../clean_c
 export class Schedule {
     #activities;
     constructor(activities = []) {
+        this.#activities = [];
         this.add_activities(activities);
     }
 
@@ -21,7 +22,9 @@ export class Schedule {
 
     add_activities(activities = []) {
         validate_array_type(activities, Activity);
-        this.#activities = activities;
+        activities.forEach(activity => 
+            this.#activities.push(new Activity(activity))
+        );
         this.#activities.sort((a1, a2) => a1.start_time.bigger_than(a2.start_time)? 1 : -1);
     }
 

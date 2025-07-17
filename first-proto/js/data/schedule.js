@@ -1,17 +1,28 @@
-import { validate_integer, validate_type } from "../clean_code/clean_code_enforcement.js";
+import { validate_array_type, validate_integer, validate_type } from "../clean_code/clean_code_enforcement.js";
 
 
 export class Schedule {
     #activities;
     constructor(activities = []) {
-        activities.forEach((activity) => {validate_type(activity, Activity)})
-        this.#activities = activities;
-        this.#activities.sort((a1, a2) => a1.get_start)
+        this.add_activities(activities);
+    }
+
+    static from(other) {
+        const copy = new Schedule();
+        copy.add_activities(other.get_activities());
+        return copy;
     }
 
     add_activity(new_activity) {
         validate_type(new_activity, Activity);
-        this.#activities.push(new Activity(new_activity));
+        this.#activities.push(new Activity(new_activity));        
+        this.#activities.sort((a1, a2) => a1.start_time.bigger_than(a2.start_time)? 1 : -1);
+    }
+
+    add_activities(activities = []) {
+        validate_array_type(activities, Activity);
+        this.#activities = activities;
+        this.#activities.sort((a1, a2) => a1.start_time.bigger_than(a2.start_time)? 1 : -1);
     }
 
     get_activities() {
@@ -79,5 +90,10 @@ export class HoursAndMinutes {
             bigger = true;
 
         return bigger;
+    }
+
+    equal_to(other) {
+        validate_type(other, HoursAndMinutes);
+        return this.hours == other.hours && this.minutes == other.minutes; 
     }
 }

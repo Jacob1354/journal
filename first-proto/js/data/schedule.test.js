@@ -1,13 +1,25 @@
 import { Activity, HoursAndMinutes, Schedule } from "./schedule.js";
-import { InvalidDataType } from "../clean_code/clean_code_enforcement.js"
+import { ArrayContaintsInvalidDataType, InvalidDataType } from "../clean_code/clean_code_enforcement.js"
+
+const start_time1 = new HoursAndMinutes(15, 0);
+const end_time1 = new HoursAndMinutes(16, 30);
+const start_time2 = new HoursAndMinutes(20, 0);
+const end_time2 = new HoursAndMinutes(23, 0);
+const start_time3 = new HoursAndMinutes(11, 0);
+const end_time3 = new HoursAndMinutes(17, 0);
 
 test("Schedule construction", () => {
-    const valid_array = [new Activity(), new Activity()];
+    const valid_array = [new Activity(start_time1), new Activity(start_time2), new Activity(start_time3)];
     const invalid_array = [new Activity(), "test", 1, 4, new Activity()];
 
+    const valid_schedule = new Schedule(valid_array);
+
     expect(new Schedule()).toBeInstanceOf(Schedule);
-    expect(new Schedule(valid_array)).toBeInstanceOf(Schedule);
-    expect(() => new Schedule(invalid_array)).toThrow(InvalidDataType);
+    expect(valid_schedule).toBeInstanceOf(Schedule);
+    expect(() => new Schedule(invalid_array)).toThrow(ArrayContaintsInvalidDataType);
+    expect(valid_schedule.get_activities()[0].start_time.equal_to(start_time3)).toBe(true);
+    expect(valid_schedule.get_activities()[1].start_time.equal_to(start_time1)).toBe(true);
+    expect(valid_schedule.get_activities()[2].start_time.equal_to(start_time2)).toBe(true);
 });
 
 
@@ -59,12 +71,16 @@ test("HoursAndMinutes bigger_than", () => {
     expect(h_smaller.bigger_than(h_smaller)).toBe(false);
 });
 
+test("HoursAndMinutes equal_to", () => {
+    const start_time1_copy = new HoursAndMinutes(start_time1.hours, start_time1.minutes);
+
+    expect(start_time1.equal_to(start_time1)).toBe(true);
+    expect(start_time1.equal_to(start_time1_copy)).toBe(true);
+    expect(start_time1.equal_to(start_time2)).toBe(false);
+});
+
 test("Schedule - Adding an activity", () => {
     let schedule = new Schedule();
-    const start_time1 = new HoursAndMinutes(10, 0);
-    const end_time1 = new HoursAndMinutes(16, 30);
-    const start_time2 = new HoursAndMinutes(20, 0);
-    const end_time2 = new HoursAndMinutes(23, 0);
     
     const a1 = new Activity(start_time1, end_time1, "A1", "a1");
     const a2 = new Activity(start_time2, end_time2, "A2", "a2");

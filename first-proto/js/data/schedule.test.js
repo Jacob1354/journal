@@ -22,6 +22,37 @@ test("Schedule construction", () => {
     expect(valid_schedule.get_activities()[2].start_time.equal_to(start_time2)).toBe(true);
 });
 
+test("Schedule - Adding an activity", () => {
+    let schedule = new Schedule();
+    
+    const a1 = new Activity(start_time1, end_time1, "A1", "a1");
+    const a2 = new Activity(start_time2, end_time2, "A2", "a2");
+    const a3 = new Activity(start_time3, end_time3, "A3", "a3");
+    
+    expect(schedule.get_activities().length).toBe(0);
+    
+    schedule.add_activity(a1);
+    expect(schedule.get_activities().length).toBe(1);
+    expect(schedule.get_activities()[0].start_time).toBe(start_time1);
+    expect(schedule.get_activities()[0].end_time).toBe(end_time1);
+    expect(schedule.get_activities()[0].title).toBe("A1");
+    expect(schedule.get_activities()[0].content).toBe("a1");
+    
+    schedule.add_activity(a2);
+    expect(schedule.get_activities().length).toBe(2);
+    expect(schedule.get_activities()[1].start_time).toBe(start_time2);
+    expect(schedule.get_activities()[1].end_time).toBe(end_time2);
+    expect(schedule.get_activities()[1].title).toBe("A2");
+    expect(schedule.get_activities()[1].content).toBe("a2");
+
+    schedule.add_activity(a3);
+    expect(schedule.get_activities().length).toBe(3);
+    expect(schedule.get_activities()[0].start_time).toBe(start_time3);
+    expect(schedule.get_activities()[0].end_time).toBe(end_time3);
+    expect(schedule.get_activities()[0].title).toBe("A3");
+    expect(schedule.get_activities()[0].content).toBe("a3");
+});
+
 
 test("Activity construction", () => {
     const valid_start_time = new HoursAndMinutes(10, 10);
@@ -77,27 +108,4 @@ test("HoursAndMinutes equal_to", () => {
     expect(start_time1.equal_to(start_time1)).toBe(true);
     expect(start_time1.equal_to(start_time1_copy)).toBe(true);
     expect(start_time1.equal_to(start_time2)).toBe(false);
-});
-
-test("Schedule - Adding an activity", () => {
-    let schedule = new Schedule();
-    
-    const a1 = new Activity(start_time1, end_time1, "A1", "a1");
-    const a2 = new Activity(start_time2, end_time2, "A2", "a2");
-    
-    expect(schedule.get_activities().length).toBe(0);
-    
-    schedule.add_activity(a1);
-    expect(schedule.get_activities().length).toBe(1);
-    expect(schedule.get_activities()[0].start_time).toBe(start_time1);
-    expect(schedule.get_activities()[0].end_time).toBe(end_time1);
-    expect(schedule.get_activities()[0].title).toBe("A1");
-    expect(schedule.get_activities()[0].content).toBe("a1");
-    
-    schedule.add_activity(a2);
-    expect(schedule.get_activities().length).toBe(2);
-    expect(schedule.get_activities()[1].start_time).toBe(start_time2);
-    expect(schedule.get_activities()[1].end_time).toBe(end_time2);
-    expect(schedule.get_activities()[1].title).toBe("A2");
-    expect(schedule.get_activities()[1].content).toBe("a2");
 });

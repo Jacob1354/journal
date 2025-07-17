@@ -1,12 +1,15 @@
 import { validate_type } from "./clean_code/clean_code_enforcement.js";
 import { Day } from "./data/day.js";
 import { render_mood_fields } from "./dom/mood_field.js";
-import { render_scheduled_activities } from "./dom/schedule.js";
+import {  } from "./dom/schedule.js";
+import { DomDay } from "./dom/dom_day.js"
 
-function render_day(day = new Day()) {
-    validate_type(day, Day);
-    render_scheduled_activities(day.schedule.get_activities());
-    render_mood_fields(day.mood_fields);
+function get_day() {
+    return new Day();
 }
 
-render_day();
+let dom_day = new DomDay(get_day());
+
+dom_day.render_day();
+
+document.getElementById("activity_adder_btn").addEventListener("click", () => dom_day.add_activity());

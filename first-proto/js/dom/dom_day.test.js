@@ -4,6 +4,7 @@
 
 import { Day } from "../data/day.js";
 import { Activity, HoursAndMinutes } from "../data/schedule.js";
+import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_TITLE_CLASS, MOOD_FIELDS_ID, SCHEDULED_ACTIVITIES_ID } from "./constants.js";
 import { DomDay } from "./dom_day.js";
 
 const start_time1 = new HoursAndMinutes(10, 0);
@@ -24,8 +25,8 @@ beforeEach(() => {
 
     const activities = document.createElement("div");
     const mood_fields = document.createElement("div");
-    activities.id = "scheduled_activities";
-    mood_fields.id = "mood_fields";
+    activities.id = SCHEDULED_ACTIVITIES_ID;
+    mood_fields.id = MOOD_FIELDS_ID;
     document.body.appendChild(activities);
     document.body.appendChild(mood_fields);
 
@@ -34,19 +35,19 @@ beforeEach(() => {
 });
 
 test("DomDay.remove_activity", () => {
-    let btns = document.querySelectorAll(".activity_remove_btn");
+    let btns = document.getElementsByClassName(ACTIVITIY_REMOVE_BTN_CLASS);
     // @ts-ignore
     btns[0].click();
     
-    let activities = document.querySelector("#scheduled_activities");
+    let activities = document.getElementById(SCHEDULED_ACTIVITIES_ID);
     expect(activities.children.length).toBe(1);
     // @ts-ignore
-    expect(activities.children[0].querySelector(".activity_title").innerText).toBe("A2");
+    expect(activities.children[0].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].innerText).toBe("A2");
     
-    btns = document.querySelectorAll(".activity_remove_btn");
+    btns = document.getElementsByClassName(ACTIVITIY_REMOVE_BTN_CLASS);
     btns[0].appendChild(document.createElement("div"));
     // @ts-ignore
     btns[0].getElementsByTagName("div")[0].click();
-    activities = document.querySelector("#scheduled_activities");
+    activities = document.getElementById(SCHEDULED_ACTIVITIES_ID);
     expect(activities.children.length).toBe(0);
 });

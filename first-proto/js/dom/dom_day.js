@@ -38,7 +38,8 @@ export class DomDay {
     }
 
     remove_activity(target) {
-        if(target.closest("button").classList.contains(ACTIVITIY_REMOVE_BTN_CLASS)) {
+        const btn = target.closest("button");
+        if(btn != undefined && btn.classList.contains(ACTIVITIY_REMOVE_BTN_CLASS)) {
             const activity_index = target.parentElement.getAttribute("index");
             this.#day.schedule.remove_activity(Number(activity_index));
             this.render_schedule();

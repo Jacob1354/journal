@@ -16,16 +16,16 @@ const activities_arr_of_3_unordered = [a1, a2, a3];
 
 
 test("Schedule construction", () => {
+    const result_arr = activities_arr_of_3_ordered;
     const invalid_array = [new Activity(), "test", 1, 4, new Activity()];
-
     const valid_schedule = new Schedule(activities_arr_of_3_unordered);
 
     expect(new Schedule()).toBeInstanceOf(Schedule);
     expect(valid_schedule).toBeInstanceOf(Schedule);
     expect(() => new Schedule(invalid_array)).toThrow(ArrayContaintsInvalidDataType);
-    expect(valid_schedule.get_activities()[0].start_time.equal_to(start_time3)).toBe(true);
-    expect(valid_schedule.get_activities()[1].start_time.equal_to(start_time1)).toBe(true);
-    expect(valid_schedule.get_activities()[2].start_time.equal_to(start_time2)).toBe(true);
+    expect(valid_schedule.get_activities()[0].start_time.equal_to(result_arr[0].start_time)).toBe(true);
+    expect(valid_schedule.get_activities()[1].start_time.equal_to(result_arr[1].start_time)).toBe(true);
+    expect(valid_schedule.get_activities()[2].start_time.equal_to(result_arr[2].start_time)).toBe(true);
 });
 
 test("Schedule - Adding an activity", () => {

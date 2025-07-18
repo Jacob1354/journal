@@ -4,6 +4,7 @@
 
 import { validate_type } from "../clean_code/clean_code_enforcement";
 import { FractionField, NumberField, SliderField, TextField } from "../data/mood_field";
+import { MOOD_FIELD_CLASS, MOOD_FIELD_FRACTION_CLASS, MOOD_FIELD_NB_CLASS, MOOD_FIELD_SLIDER_CLASS, MOOD_FIELD_TEXT_CLASS, MOOD_FIELD_TEXT_NAME } from "./constants";
 import { _create_fraction_field, _create_number_field, _create_slider_field, _create_text_field, create_mood_field, create_mood_fields } from "./mood_field";
 
 let nb_field, fraction_field, slider_field, text_field;
@@ -29,17 +30,17 @@ test("create_mood_field", () => {
     const fraction_field_el = create_mood_field(fraction_field);
     const slider_field_el = create_mood_field(slider_field);
 
-    expect(nb_field_el.querySelectorAll(".mood_field_nb").length).toBe(1);
-    expect(text_field_el.querySelectorAll(".mood_field_text").length).toBe(1);
-    expect(fraction_field_el.querySelectorAll(".mood_field_fraction").length).toBe(1);
-    expect(slider_field_el.querySelectorAll(".mood_field_slider").length).toBe(1);
+    expect(nb_field_el.getElementsByClassName(MOOD_FIELD_NB_CLASS).length).toBe(1);
+    expect(text_field_el.getElementsByClassName(MOOD_FIELD_TEXT_CLASS).length).toBe(1);
+    expect(fraction_field_el.getElementsByClassName(MOOD_FIELD_FRACTION_CLASS).length).toBe(1);
+    expect(slider_field_el.getElementsByClassName(MOOD_FIELD_SLIDER_CLASS).length).toBe(1);
 }); 
 
 //Field type must be one of the following : mood_field_[nb/text/fraction/slider]
 function test_field_basics(field_el, field_data, field_type) {
     validate_type(field_type, "string");
 
-    expect(field_el.classList.contains("mood_field")).toBe(true);
+    expect(field_el.classList.contains(MOOD_FIELD_CLASS)).toBe(true);
     expect(field_el.children[0].nodeName).toBe("H2");
     expect(field_el.children[0].innerText).toBe(field_data.get_field_name());
     expect(field_el.children[1].nodeName).toBe("DIV");
@@ -60,7 +61,7 @@ test("_create_text_field", () => {
     test_field_basics(text_field_el, text_field, "text");
 
     expect(text_field_el.children[1].children[0].nodeName).toBe("TEXTAREA");
-    expect(text_field_el.children[1].children[0].name).toBe("mood_field_text");
+    expect(text_field_el.children[1].children[0].name).toBe(MOOD_FIELD_TEXT_NAME);
     expect(text_field_el.children[1].children[0].value).toBe(text_field.get_data());
 }); 
 

@@ -1,6 +1,10 @@
 //Schedule
 export const SCHEDULED_ACTIVITIES_ID = "scheduled_activities";
+export const SCHEDULED_ACTIVITY_CLASS = "scheduled_activity";
 export const ACTIVITIY_REMOVE_BTN_CLASS = "activity_remove_btn";
+export const ACTIVITIY_TIMEINTERVAL_CLASS = "time_interval";
+export const ACTIVITIY_STARTTIME_CLASS = "activity_start_time";
+export const ACTIVITIY_ENDTIME_CLASS = "activity_end_time";
 export const ACTIVITIY_TITLE_CLASS = "activity_title";
 export const ACTIVITIY_CONTENT_WRAPPER_CLASS = "wrapper";
 export const ACTIVITIY_CONTENT_CLASS = "activity_content";

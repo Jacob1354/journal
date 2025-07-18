@@ -4,6 +4,7 @@
 
 import { AbstractFunctionNotOverriden } from "../clean_code/clean_code_enforcement.js";
 import { Activity, HoursAndMinutes } from "../data/schedule.js"
+import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_CONTENT_WRAPPER_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_TIMEINTERVAL_CLASS, ACTIVITIY_TITLE_CLASS, SCHEDULED_ACTIVITIES_ID, SCHEDULED_ACTIVITY_CLASS } from "./constants.js";
 import { create_activity, _create_activity_content, _create_activity_remove_btn, _create_activity_time_interval, _create_activity_title, create_scheduled_activities } from "./schedule.js";
 
 let a1, a2, a3;
@@ -31,23 +32,23 @@ test("create_scheduled_activities", () => {
     let activities = [a1, a2, a3];
     const schedule = create_scheduled_activities(activities);
 
-    expect(schedule.id).toBe("scheduled_activities");
-    expect(schedule.children[0].querySelector(".activity_title").innerText).toBe(a1.title);
+    expect(schedule.id).toBe(SCHEDULED_ACTIVITIES_ID);
+    expect(schedule.children[0].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].innerText).toBe(a1.title);
     expect(schedule.children[0].getAttribute("index")).toBe("0");
-    expect(schedule.children[1].querySelector(".activity_title").innerText).toBe(a3.title);
+    expect(schedule.children[1].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].innerText).toBe(a3.title);
     expect(schedule.children[1].getAttribute("index")).toBe("1");
-    expect(schedule.children[2].querySelector(".activity_title").innerText).toBe(a2.title);
+    expect(schedule.children[2].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].innerText).toBe(a2.title);
     expect(schedule.children[2].getAttribute("index")).toBe("2");
 });
 
 test("create_activity", () => {
     const activity = create_activity(a1, 0);
-    expect(activity.classList.contains("scheduled_activity")).toBe(true);
+    expect(activity.classList.contains(SCHEDULED_ACTIVITY_CLASS)).toBe(true);
     expect(activity.getAttribute("index")).toBe("0");
     expect(activity.children[0].innerText).toBe(a1.title);
-    expect(activity.children[1].classList.contains("time_interval")).toBe(true);
-    expect(activity.children[2].classList.contains("activity_remove_btn")).toBe(true);
-    expect(activity.children[3].classList.contains("wrapper")).toBe(true);
+    expect(activity.children[1].classList.contains(ACTIVITIY_TIMEINTERVAL_CLASS)).toBe(true);
+    expect(activity.children[2].classList.contains(ACTIVITIY_REMOVE_BTN_CLASS)).toBe(true);
+    expect(activity.children[3].classList.contains(ACTIVITIY_CONTENT_WRAPPER_CLASS)).toBe(true);
 
 });
 
@@ -55,7 +56,7 @@ test("create_activity_title", () => {
     const title = _create_activity_title(a1);
     
     expect(title.nodeName).toBe("H3");
-    expect(title.classList.contains("activity_title")).toBe(true);
+    expect(title.classList.contains(ACTIVITIY_TITLE_CLASS)).toBe(true);
     expect(title.innerText).toBe(a1.title);
 });
 
@@ -63,7 +64,7 @@ test("create_activity_time_interval", () => {
     const interval = _create_activity_time_interval(a1);
 
     expect(interval.nodeName).toBe("DIV");
-    expect(interval.classList.contains("time_interval")).toBe(true);
+    expect(interval.classList.contains(ACTIVITIY_TIMEINTERVAL_CLASS)).toBe(true);
     expect(interval.children[0].nodeName).toBe("INPUT");
     expect(interval.children[1].nodeName).toBe("P");
     expect(interval.children[2].nodeName).toBe("INPUT");
@@ -81,7 +82,7 @@ test("create_activity_remove_btn", () => {
     const btn = _create_activity_remove_btn();
 
     expect(btn.nodeName).toBe("BUTTON");
-    expect(btn.classList.contains("activity_remove_btn")).toBe(true);
+    expect(btn.classList.contains(ACTIVITIY_REMOVE_BTN_CLASS)).toBe(true);
     expect(btn.innerHTML).toBe(
         `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="3 6 5 6 21 6"></polyline>
@@ -96,10 +97,10 @@ test("create_activity_content", () => {
     const content = _create_activity_content(a1);
 
     expect(content.nodeName).toBe("DIV");
-    expect(content.classList.contains("wrapper")).toBe(true);
+    expect(content.classList.contains(ACTIVITIY_CONTENT_WRAPPER_CLASS)).toBe(true);
     
     expect(content.firstChild.nodeName).toBe("INPUT");
-    expect(content.firstChild.classList.contains("activity_content")).toBe(true);
+    expect(content.firstChild.classList.contains(ACTIVITIY_CONTENT_CLASS)).toBe(true);
     expect(content.firstChild.type).toBe("text");
     expect(content.firstChild.value).toBe(a1.content);
 })

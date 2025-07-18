@@ -11,13 +11,14 @@ const end_time3 = new HoursAndMinutes(17, 0);
 const a1 = new Activity(start_time1, end_time1, "A1", "a1");
 const a2 = new Activity(start_time2, end_time2, "A2", "a2");
 const a3 = new Activity(start_time3, end_time3, "A3", "a3");
+const activities_arr_of_3_ordered = [a3, a1, a2];
+const activities_arr_of_3_unordered = [a1, a2, a3];
 
 
 test("Schedule construction", () => {
-    const valid_array = [a1, a2, a3];
     const invalid_array = [new Activity(), "test", 1, 4, new Activity()];
 
-    const valid_schedule = new Schedule(valid_array);
+    const valid_schedule = new Schedule(activities_arr_of_3_unordered);
 
     expect(new Schedule()).toBeInstanceOf(Schedule);
     expect(valid_schedule).toBeInstanceOf(Schedule);
@@ -77,6 +78,16 @@ test("Schedule.add_activities", () => {
     expect(schedule.get_activities()[0].end_time).toBe(end_time3);
     expect(schedule.get_activities()[0].title).toBe("A3");
     expect(schedule.get_activities()[0].content).toBe("a3");
+});
+
+test("Schedule.remove_activity(index)", () => {
+    const og_arr = activities_arr_of_3_ordered;
+    const schedule = new Schedule(og_arr);
+
+    schedule.remove_activity(1);
+    expect(schedule.get_activities().length).toBe(og_arr.length-1);
+    expect(schedule.get_activities()[0].title).toBe(og_arr[0].title);
+    expect(schedule.get_activities()[1].title).toBe(og_arr[2].title);
 });
 
 test("Activity construction", () => {

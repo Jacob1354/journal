@@ -14,6 +14,10 @@ export class Schedule {
         return copy;
     }
 
+    get_activities() {
+        return [...this.#activities];
+    }
+
     add_activity(new_activity) {
         validate_type(new_activity, Activity);
         this.#activities.push(new Activity(new_activity));        
@@ -28,9 +32,11 @@ export class Schedule {
         this.#activities.sort((a1, a2) => a1.start_time.bigger_than(a2.start_time)? 1 : -1);
     }
 
-    get_activities() {
-        return [...this.#activities];
+    remove_activity(index) {
+        validate_integer(index, 0, this.#activities.length);
+        this.#activities.splice(index, 1);
     }
+
 
 }
 

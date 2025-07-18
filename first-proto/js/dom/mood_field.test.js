@@ -21,14 +21,16 @@ test("create_mood_fields", () => {
     const fields = create_mood_fields(fields_arr);
 
     expect(fields.length).toBe(5);
+    expect(fields[0].getAttribute("index")).toBe("0");
+    expect(fields[4].getAttribute("index")).toBe("4");
 });
 
 
 test("create_mood_field", () => {
-    const nb_field_el = create_mood_field(nb_field);
-    const text_field_el = create_mood_field(text_field);
-    const fraction_field_el = create_mood_field(fraction_field);
-    const slider_field_el = create_mood_field(slider_field);
+    const nb_field_el = create_mood_field(nb_field, 0);
+    const text_field_el = create_mood_field(text_field, 1);
+    const fraction_field_el = create_mood_field(fraction_field, 2);
+    const slider_field_el = create_mood_field(slider_field, 3);
 
     expect(nb_field_el.getElementsByClassName(MOOD_FIELD_NB_CLASS).length).toBe(1);
     expect(text_field_el.getElementsByClassName(MOOD_FIELD_TEXT_CLASS).length).toBe(1);

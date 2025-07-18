@@ -26,6 +26,7 @@ export class DomDay {
         const activities = create_scheduled_activities(this.#day.schedule.get_activities());
         const scheduled_activities = document.querySelector("#scheduled_activities");
         scheduled_activities.replaceWith(activities);
+        activities.addEventListener("click", (event) => this.remove_activity(event.target));
     }
 
     render_mood_fields() {
@@ -33,5 +34,13 @@ export class DomDay {
         const mood_field_els = create_mood_fields(this.#day.mood_fields);
     
         replace_children_of(mood_fields_container, mood_field_els);
+    }
+
+    remove_activity(target) {
+        if(target.closest("button").classList.contains("activity_remove_btn")) {
+            const activity_index = target.parentElement.getAttribute("index");
+            this.#day.schedule.remove_activity(Number(activity_index));
+            this.render_schedule();
+        }
     }
 }

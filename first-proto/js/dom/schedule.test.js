@@ -33,13 +33,17 @@ test("create_scheduled_activities", () => {
 
     expect(schedule.id).toBe("scheduled_activities");
     expect(schedule.children[0].querySelector(".activity_title").innerText).toBe(a1.title);
+    expect(schedule.children[0].getAttribute("index")).toBe("0");
     expect(schedule.children[1].querySelector(".activity_title").innerText).toBe(a3.title);
+    expect(schedule.children[1].getAttribute("index")).toBe("1");
     expect(schedule.children[2].querySelector(".activity_title").innerText).toBe(a2.title);
+    expect(schedule.children[2].getAttribute("index")).toBe("2");
 });
 
 test("create_activity", () => {
-    const activity = create_activity(a1);
+    const activity = create_activity(a1, 0);
     expect(activity.classList.contains("scheduled_activity")).toBe(true);
+    expect(activity.getAttribute("index")).toBe("0");
     expect(activity.children[0].innerText).toBe(a1.title);
     expect(activity.children[1].classList.contains("time_interval")).toBe(true);
     expect(activity.children[2].classList.contains("activity_remove_btn")).toBe(true);

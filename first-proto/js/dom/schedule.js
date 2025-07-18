@@ -1,4 +1,4 @@
-import { validate_array_type, validate_type } from "../clean_code/clean_code_enforcement.js";
+import { validate_array_type, validate_integer, validate_type } from "../clean_code/clean_code_enforcement.js";
 import { Activity, HoursAndMinutes } from "../data/schedule.js";
 
 export const removeBtnHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -13,16 +13,18 @@ export function create_scheduled_activities(activities) {
     validate_array_type(activities, Activity);
     const scheduled_activities = document.createElement("div");
     scheduled_activities.id = "scheduled_activities";
-    activities.forEach(activity => {
-        scheduled_activities.appendChild(create_activity(activity));
+    activities.forEach((activity, i) => {
+        scheduled_activities.appendChild(create_activity(activity, i));
     });
     return scheduled_activities;
 }
 
-export function create_activity(activity) {
+export function create_activity(activity, index) {
     validate_type(activity, Activity);
+    validate_integer(index, 0);
     const activity_el = document.createElement("div");
     activity_el.classList.add("scheduled_activity");
+    activity_el.setAttribute("index", index);
 
     activity_el.appendChild(_create_activity_title(activity));
     activity_el.appendChild(_create_activity_time_interval(activity));

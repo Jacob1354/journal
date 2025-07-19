@@ -1,5 +1,5 @@
 import { TextField, NumberField, FractionField, SliderField, AbstractMoodField, InvalidDenom } from "./mood_field";
-import {AbstractClassInstanciated, AbstractFunctionNotOverriden, InvalidDataType} from "../clean_code/clean_code_enforcement";
+import {AbstractClassInstanciated, AbstractFunctionNotOverriden, InvalidDataType, OutOfBoundInteger} from "../clean_code/clean_code_enforcement";
 
 
 /*
@@ -58,20 +58,18 @@ test("NumberField.parse_input", () => {
 });
 
 test("SliderField get_data and set_data", () => {
-    const valid_data = .5;
-    const too_small_data = -1;
-    const too_big_data = 100;
+    const valid_data = 5;
+    const invalid_data_not_integer = .5;
+    const out_of_bound_1 = 101;
+    const out_of_bound_2 = -1;
     let slider_field = new SliderField("test");
 
     slider_field.set_data(valid_data);
     expect(slider_field.get_data()).toBe(valid_data);
 
-    slider_field.set_data(too_small_data);
-    expect(slider_field.get_data()).toBe(0);
-
-    slider_field.set_data(too_big_data);
-    expect(slider_field.get_data()).toBe(1);
-
+    expect(() => slider_field.set_data(invalid_data_not_integer)).toThrow(InvalidDataType);
+    expect(() => slider_field.set_data(out_of_bound_1)).toThrow(OutOfBoundInteger);
+    expect(() => slider_field.set_data(out_of_bound_2)).toThrow(OutOfBoundInteger);
     // @ts-expect-error
     expect(() => new SliderField("hello", "string")).toThrow(InvalidDataType);
 })

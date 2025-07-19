@@ -30,6 +30,14 @@ test("TextField get_data and set_data", () => {
     expect(() => new TextField("test", 100)).toThrow(InvalidDataType);
 })
 
+test("TextField.parse_input", () => {
+    const input_1 = "10";
+    const input_2 = 10;
+    const field = new TextField("field");
+
+    expect(field.parse_input(input_1)).toBe("10");
+    expect(field.parse_input(input_2)).toBe("10");
+});
 
 test("NumberField get_data and set_data", () => {
     const data = 10;
@@ -39,6 +47,15 @@ test("NumberField get_data and set_data", () => {
 
     expect(() => new NumberField(1.5, 100)).toThrow(InvalidDataType);
 })
+
+test("NumberField.parse_input", () => {
+    const input_1 = "10";
+    const input_2 = 10;
+    const field = new NumberField("field");
+
+    expect(field.parse_input(input_1)).toBe(10);
+    expect(field.parse_input(input_2)).toBe(10);
+});
 
 test("SliderField get_data and set_data", () => {
     const valid_data = .5;
@@ -59,7 +76,16 @@ test("SliderField get_data and set_data", () => {
     expect(() => new SliderField("hello", "string")).toThrow(InvalidDataType);
 })
 
-test("SliderField get_denominator and set_denominator", () => {
+test("SliderField.parse_input", () => {
+    const input_1 = "10";
+    const input_2 = 10;
+    const field = new SliderField("field");
+
+    expect(field.parse_input(input_1)).toBe(10);
+    expect(field.parse_input(input_2)).toBe(10);
+});
+
+test("FractionField get_denominator and set_denominator", () => {
     const valid_denom = 1;
     const invalid_denom_1 = -10;
     const invalid_denom_2 = 2.5;
@@ -75,7 +101,7 @@ test("SliderField get_denominator and set_denominator", () => {
 
 })
 
-test("SliderField get_data and set_data", () => {
+test("FractionField get_data and set_data", () => {
     //Any number is valid because the user might want to express theirself in a precise way
     const valid_data_1 = 1;
     const valid_data_2 = -10;
@@ -94,3 +120,12 @@ test("SliderField get_data and set_data", () => {
     // @ts-expect-error
     expect(() => new FractionField("hello", "string")).toThrow(InvalidDataType);
 })
+
+test("FractionField.parse_input", () => {
+    const input_1 = "10";
+    const input_2 = 10;
+    const field = new FractionField("field");
+
+    expect(field.parse_input(input_1)).toBe(10);
+    expect(field.parse_input(input_2)).toBe(10);
+});

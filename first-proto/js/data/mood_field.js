@@ -1,4 +1,4 @@
-import * as CCEnforcement from "../clean_code/clean_code_enforcement.js";
+import { AbstractClassInstanciated, AbstractFunctionNotOverriden, validate_type, validate_integer, InvalidDataType} from "../clean_code/clean_code_enforcement.js";
 
 export class AbstractMoodField {
     #field_name;
@@ -6,11 +6,11 @@ export class AbstractMoodField {
 
     constructor(field_name) {
         if(new.target === AbstractMoodField) {
-            throw new CCEnforcement.AbstractClassInstanciated(
+            throw new AbstractClassInstanciated(
                 "Cannot initiate AbstactMoodField since it's an abstract class"
             );
         }
-        CCEnforcement.validate_type(field_name, "string");
+        validate_type(field_name, "string");
         this.#field_name = field_name;
     }
 
@@ -25,9 +25,15 @@ export class AbstractMoodField {
         return this._data;
     }
     set_data(new_data) {
-        throw new CCEnforcement.AbstractFunctionNotOverriden(
+        throw new AbstractFunctionNotOverriden(
             "No set_data method defined for this " + String(this.constructor)
         );
+    }
+
+    parse_input(value){}
+
+    update_from_input(value) {
+        this.set_data(this.parse_input(value));
     }
 }
 
@@ -38,8 +44,12 @@ export class TextField extends AbstractMoodField {
     }
 
     set_data(new_data) {
-        CCEnforcement.validate_type(new_data, "string");
+        validate_type(new_data, "string");
         this._data = new_data;
+    }
+    
+    parse_input(value) {
+        return String(value);
     }
 }
 
@@ -50,8 +60,12 @@ export class NumberField extends AbstractMoodField {
     }
 
     set_data(new_data) {
-        CCEnforcement.validate_integer(new_data);
+        validate_integer(new_data);
         this._data = new_data;
+    }
+
+    parse_input(value) {
+        return Number(value);
     }
 }
 
@@ -60,15 +74,19 @@ export class SliderField extends AbstractMoodField {
         super(field_name);
         this.set_data(data);
     }
-
+    
     set_data(new_data) {
-        CCEnforcement.validate_type(new_data, "number");
+        validate_type(new_data, "number");
         if(new_data < 0)
             this._data = 0;
         else if (new_data > 1)
             this._data = 1;
         else
             this._data = new_data; 
+    }
+    
+    parse_input(value) {
+        return Number(value);
     }
 }
 
@@ -82,19 +100,19 @@ export class FractionField extends AbstractMoodField {
     
     set_data(new_data) {
         //Number instead of integer, because the precision is up the user for maximal expressiveness
-        CCEnforcement.validate_type(new_data, "number");
+        validate_type(new_data, "number");
         this._data = new_data;
     }
-
+    
     get_denominator() {
         return this.#denom;
     }
 
     set_denominator(new_denom) {
         try {
-            CCEnforcement.validate_integer(new_denom);
+            validate_integer(new_denom);
         } catch (err) {
-            if(err instanceof CCEnforcement.InvalidDataType)
+            if(err instanceof InvalidDataType)
                 throw new InvalidDenom("Denom must be an integer");
             else
                 throw err;
@@ -102,6 +120,10 @@ export class FractionField extends AbstractMoodField {
         if(new_denom < 1)
             throw new InvalidDenom("Denom must be bigger or equal to zero");
         this.#denom = new_denom;
+    }
+    
+    parse_input(value) {
+        return Number(value);
     }
 }
 

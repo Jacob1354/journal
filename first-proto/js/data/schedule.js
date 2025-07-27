@@ -21,7 +21,7 @@ export class Schedule {
     add_activity(new_activity) {
         validate_type(new_activity, Activity);
         this.#activities.push(new Activity(new_activity));        
-        this.#activities.sort((a1, a2) => a1.start_time.bigger_than(a2.start_time)? 1 : -1);
+        this._sort_activities();
     }
 
     add_activities(activities = []) {
@@ -29,12 +29,39 @@ export class Schedule {
         activities.forEach(activity => 
             this.#activities.push(new Activity(activity))
         );
-        this.#activities.sort((a1, a2) => a1.start_time.bigger_than(a2.start_time)? 1 : -1);
+        this._sort_activities();
+    }
+
+    update_activity_title(index, title) {
+        validate_integer(index, 0, this.#activities.length - 1);
+        validate_type(title, "string");
+        this.#activities[index].title = title;
+    }
+
+    update_activity_content(index, content) {
+        validate_integer(index, 0, this.#activities.length - 1);
+        validate_type(content, "string");
+        this.#activities[index].content = content;
+    }
+
+    update_activity_start_time(index, start_time) {
+        validate_integer(index, 0, this.#activities.length - 1);
+        this.#activities[index].start_time = HoursAndMinutes.from_string(start_time);
+        this._sort_activities();
+    }
+
+    update_activity_end_time(index, end_time) {
+        validate_integer(index, 0, this.#activities.length - 1);
+        this.#activities[index].end_time = HoursAndMinutes.from_string(end_time);
     }
 
     remove_activity(index) {
         validate_integer(index, 0, this.#activities.length);
         this.#activities.splice(index, 1);
+    }
+
+    _sort_activities() {
+            this.#activities.sort((a1, a2) => a1.start_time.bigger_than(a2.start_time)? 1 : -1);
     }
 
 

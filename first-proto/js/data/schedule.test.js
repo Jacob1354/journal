@@ -8,11 +8,19 @@ const end_time2 = new HoursAndMinutes(23, 0);
 const start_time3 = new HoursAndMinutes(11, 0);
 const end_time3 = new HoursAndMinutes(17, 0);
 
-const a1 = new Activity(start_time1, end_time1, "A1", "a1");
-const a2 = new Activity(start_time2, end_time2, "A2", "a2");
-const a3 = new Activity(start_time3, end_time3, "A3", "a3");
-const activities_arr_of_3_ordered = [a3, a1, a2];
-const activities_arr_of_3_unordered = [a1, a2, a3];
+let a1 = new Activity(start_time1, end_time1, "A1", "a1");
+let a2 = new Activity(start_time2, end_time2, "A2", "a2");
+let a3 = new Activity(start_time3, end_time3, "A3", "a3");
+let activities_arr_of_3_ordered = [a3, a1, a2];
+let activities_arr_of_3_unordered = [a1, a2, a3];
+
+beforeEach(() => {
+    a1 = new Activity(start_time1, end_time1, "A1", "a1");
+    a2 = new Activity(start_time2, end_time2, "A2", "a2");
+    a3 = new Activity(start_time3, end_time3, "A3", "a3");
+    activities_arr_of_3_ordered = [a3, a1, a2];
+    activities_arr_of_3_unordered = [a1, a2, a3];
+});
 
 
 test("Schedule construction", () => {
@@ -78,6 +86,40 @@ test("Schedule.add_activities", () => {
     expect(schedule.get_activities()[0].end_time).toBe(end_time3);
     expect(schedule.get_activities()[0].title).toBe("A3");
     expect(schedule.get_activities()[0].content).toBe("a3");
+});
+
+test("Schedule.update_activity_title", () => {
+    const new_title = "this is a new title";
+    const schedule = new Schedule(activities_arr_of_3_ordered); //[a3, a1, a2]
+
+    schedule.update_activity_title(1, new_title);
+    expect(schedule.get_activities()[1].title).toBe(new_title);
+    
+});
+test("Schedule.update_activity_content", () => {
+    const new_content = "this is the new content";
+    const schedule = new Schedule(activities_arr_of_3_ordered); //[a3, a1, a2]
+    
+    schedule.update_activity_content(1, new_content);
+    expect(schedule.get_activities()[1].content).toBe(new_content);
+});
+test("Schedule.update_activity_start_time", () => {
+    const schedule = new Schedule(activities_arr_of_3_ordered); //[a3, a1, a2]
+    const new_start_time = new HoursAndMinutes(23, 59);
+    a3.start_time = new_start_time;
+    schedule.update_activity_start_time(0, String(new_start_time));
+
+    expect(schedule.get_activities()[2]).toMatchObject(a3);
+    expect(schedule.get_activities()[2].start_time).toMatchObject(new_start_time);
+    
+});
+test("Schedule.update_activity_end_time", () => {
+    const schedule = new Schedule([a1]);
+    const new_end_time = new HoursAndMinutes(20, 10);
+
+    schedule.update_activity_end_time(0, String(new_end_time));
+    expect(schedule.get_activities()[0].end_time).toMatchObject(new_end_time);
+    
 });
 
 test("Schedule.remove_activity(index)", () => {

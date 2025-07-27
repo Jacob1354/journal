@@ -189,9 +189,13 @@ test("HoursAndMinutes toString", () => {
 test("HoursAndMinutes bigger_than", () => {
     const h_smaller = new HoursAndMinutes(10, 0);
     const h_bigger = new HoursAndMinutes(23, 0);
+    const h_bigger_bigger = new HoursAndMinutes(23, 30);
     expect(h_bigger.bigger_than(h_smaller)).toBe(true);
     expect(h_smaller.bigger_than(h_bigger)).toBe(false);
     expect(h_smaller.bigger_than(h_smaller)).toBe(false);
+    
+    expect(h_bigger_bigger.bigger_than(h_bigger)).toBe(true);
+    expect(h_bigger.bigger_than(h_bigger_bigger)).toBe(false);
 });
 
 test("HoursAndMinutes equal_to", () => {

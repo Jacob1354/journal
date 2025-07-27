@@ -131,7 +131,7 @@ export class HoursAndMinutes {
 
         if(this.hours - other.hours > 0)
             bigger = true;
-        else if(this.hours == other.hours && this.hours > other.hours)
+        else if(this.hours == other.hours && this.minutes > other.minutes)
             bigger = true;
 
         return bigger;

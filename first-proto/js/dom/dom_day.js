@@ -28,7 +28,7 @@ export class DomDay {
         const scheduled_activities = document.getElementById(SCHEDULED_ACTIVITIES_ID);
         scheduled_activities.replaceWith(activities);
         activities.addEventListener("click", (event) => this.remove_activity(event.target));
-        activities.addEventListener("input", (event) => this.update_from_input(event));
+        activities.addEventListener("input", (event) => this._update_from_input(event));
     }
 
     render_mood_fields() {
@@ -36,7 +36,7 @@ export class DomDay {
         const mood_field_els = create_mood_fields(this.#day.mood_fields);
     
         replace_children_of(mood_fields_container, mood_field_els);
-        mood_fields_container.addEventListener("input", (event) => this.update_from_input(event));
+        mood_fields_container.addEventListener("input", (event) => this._update_from_input(event));
     }
 
     remove_activity(target) {
@@ -48,7 +48,7 @@ export class DomDay {
         }
     }
 
-    update_from_input(event) {
+    _update_from_input(event) {
         if(event.currentTarget.classList.contains(MOOD_FIELDS_WRAPPER_CLASS))
             this._update_from_mood_field_input(event.target);
         else if(event.currentTarget.id == SCHEDULED_ACTIVITIES_ID)

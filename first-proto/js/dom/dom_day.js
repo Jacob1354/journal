@@ -1,7 +1,7 @@
 import { validate_type } from "../clean_code/clean_code_enforcement.js";
 import { Day } from "../data/day.js";
 import { Activity } from "../data/schedule.js";
-import { ACTIVITIY_REMOVE_BTN_CLASS, MOOD_FIELD_CLASS, MOOD_FIELDS_CLASS, MOOD_FIELDS_ID, SCHEDULED_ACTIVITIES_ID, SCHEDULED_ACTIVITY_CLASS } from "./constants.js";
+import { ACTIVITIY_REMOVE_BTN_CLASS, MOOD_FIELD_CLASS, MOOD_FIELDS_WRAPPER_CLASS, MOOD_FIELDS_WRAPPER_ID, SCHEDULED_ACTIVITIES_ID, SCHEDULED_ACTIVITY_CLASS } from "./constants.js";
 import { replace_children_of } from "./dom_utils.js";
 import { create_mood_fields } from "./mood_field.js";
 import { create_scheduled_activities } from "./schedule.js";
@@ -32,7 +32,7 @@ export class DomDay {
     }
 
     render_mood_fields() {
-        const mood_fields_container = document.getElementById(MOOD_FIELDS_ID);
+        const mood_fields_container = document.getElementById(MOOD_FIELDS_WRAPPER_ID);
         const mood_field_els = create_mood_fields(this.#day.mood_fields);
     
         replace_children_of(mood_fields_container, mood_field_els);
@@ -49,7 +49,7 @@ export class DomDay {
     }
 
     update_from_input(event) {
-        if(event.currentTarget.classList.contains(MOOD_FIELDS_CLASS))
+        if(event.currentTarget.classList.contains(MOOD_FIELDS_WRAPPER_CLASS))
             this._update_from_mood_field_input(event.target);
         else if(event.currentTarget.id == SCHEDULED_ACTIVITIES_ID)
             this._update_from_schedule_input(event.target);

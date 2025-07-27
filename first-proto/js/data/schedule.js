@@ -85,6 +85,15 @@ export class HoursAndMinutes {
         this.minutes = minutes;
     }
 
+    static from_string(s = "") {
+        validate_type(s, "string");
+        const format = /^(([0-1][0-9])|(2[0-3])):[0-5][0-9]$/ //HH:MM
+        if(!format.test(s))
+            throw new InvalidTimeFormat("HoursAndMinutes.from_string(string) must match \"HH:MM\"");
+
+        return new HoursAndMinutes(Number(s.slice(0, 2)), Number(s.slice(3)));
+    }
+
     toString() {
         return `${this.hours.toString().padStart(2, "0")}:${this.minutes.toString().padStart(2, "0")}`;
     }
@@ -104,5 +113,12 @@ export class HoursAndMinutes {
     equal_to(other) {
         validate_type(other, HoursAndMinutes);
         return this.hours == other.hours && this.minutes == other.minutes; 
+    }
+}
+
+export class InvalidTimeFormat extends Error {
+    constructor(msg) {
+        super(msg);
+        this.name = "InvalidTimeFormat";
     }
 }

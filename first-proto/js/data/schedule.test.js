@@ -1,4 +1,4 @@
-import { Activity, HoursAndMinutes, Schedule } from "./schedule.js";
+import { Activity, HoursAndMinutes, InvalidTimeFormat, Schedule } from "./schedule.js";
 import { ArrayContaintsInvalidDataType, InvalidDataType } from "../clean_code/clean_code_enforcement.js"
 
 const start_time1 = new HoursAndMinutes(15, 0);
@@ -123,6 +123,20 @@ test("Activity construction", () => {
     expect(() => new Activity(valid_start_time, valid_end_time, invalid_title)).toThrow(InvalidDataType);
     // @ts-expect-error
     expect(() => new Activity(valid_start_time, valid_end_time, valid_title, invalid_content)).toThrow(InvalidDataType);
+});
+
+
+test("HoursAndMinutes.from_string", () => {
+    const valid_time_strings = ["00:00", "19:00", "23:59"];
+    const invalid_time_strings = ["a", "5:1", "04:1", "4:19", "30:10", "24:00", "20:60"];
+
+    valid_time_strings.forEach(element => {
+        expect(HoursAndMinutes.from_string(element)).toBeDefined();
+    });
+    
+    invalid_time_strings.forEach(element => {
+        expect(() => HoursAndMinutes.from_string(element)).toThrow(InvalidTimeFormat);
+    });
 });
 
 test("HoursAndMinutes toString", () => {

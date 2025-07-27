@@ -4,7 +4,7 @@
 
 import { Day } from "../data/day.js";
 import { Activity, HoursAndMinutes } from "../data/schedule.js";
-import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_TITLE_CLASS, MOOD_FIELDS_ID, SCHEDULED_ACTIVITIES_ID } from "./constants.js";
+import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_TITLE_CLASS, MOOD_FIELDS_CLASS, MOOD_FIELDS_ID, SCHEDULED_ACTIVITIES_ID } from "./constants.js";
 import { DomDay } from "./dom_day.js";
 
 const start_time1 = new HoursAndMinutes(10, 0);
@@ -21,12 +21,13 @@ beforeEach(() => {
     day = new Day();
     day.schedule.add_activity(a1);
     day.schedule.add_activity(a2);
-    dom_day = new DomDay(day)
+    dom_day = new DomDay(day);
 
     const activities = document.createElement("div");
     const mood_fields = document.createElement("div");
     activities.id = SCHEDULED_ACTIVITIES_ID;
     mood_fields.id = MOOD_FIELDS_ID;
+    mood_fields.classList.add(MOOD_FIELDS_CLASS);
     document.body.appendChild(activities);
     document.body.appendChild(mood_fields);
 
@@ -50,4 +51,16 @@ test("DomDay.remove_activity", () => {
     btns[0].getElementsByTagName("div")[0].click();
     activities = document.getElementById(SCHEDULED_ACTIVITIES_ID);
     expect(activities.children.length).toBe(0);
+});
+
+test("DomDay._", () => {
+    const index = 3; //In the default template, the 4th mood_field is a TextField
+    const new_input = "this is the new input";
+    const test_field = document.getElementById(MOOD_FIELDS_ID).querySelector('[index="' + index + '"]');
+    
+    expect(dom_day._get_day_copy_for_test().mood_fields[index].get_data()).not.toBe(new_input);
+    
+    test_field.value = new_input;
+    test_field.dispatchEvent(new Event("input", {bubbles: true}));
+    expect(dom_day._get_day_copy_for_test().mood_fields[index].get_data()).toBe(new_input);
 });

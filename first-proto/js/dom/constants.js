@@ -11,6 +11,7 @@ export const ACTIVITIY_CONTENT_CLASS = "activity_content";
 
 //MoodFields
 export const MOOD_FIELDS_ID = "mood_fields";
+export const MOOD_FIELDS_CLASS = "mood_fields";
 export const MOOD_FIELD_CLASS = "mood_field";
 export const MOOD_FIELD_NB_CLASS = "mood_field_nb";
 export const MOOD_FIELD_TEXT_CLASS = "mood_field_text";

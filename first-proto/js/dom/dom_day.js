@@ -1,7 +1,7 @@
 import { validate_type } from "../clean_code/clean_code_enforcement.js";
 import { Day } from "../data/day.js";
 import { Activity } from "../data/schedule.js";
-import { ACTIVITIY_REMOVE_BTN_CLASS, MOOD_FIELD_CLASS, MOOD_FIELDS_WRAPPER_CLASS, MOOD_FIELDS_WRAPPER_ID, SCHEDULED_ACTIVITIES_ID, SCHEDULED_ACTIVITY_CLASS } from "./constants.js";
+import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_ENDTIME_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_STARTTIME_CLASS, ACTIVITIY_TIMEINTERVAL_CLASS, ACTIVITIY_TITLE_CLASS, MOOD_FIELD_CLASS, MOOD_FIELDS_WRAPPER_CLASS, MOOD_FIELDS_WRAPPER_ID, SCHEDULED_ACTIVITIES_ID, SCHEDULED_ACTIVITY_CLASS } from "./constants.js";
 import { replace_children_of } from "./dom_utils.js";
 import { create_mood_fields } from "./mood_field.js";
 import { create_scheduled_activities } from "./schedule.js";
@@ -56,7 +56,21 @@ export class DomDay {
     }
 
     _update_from_schedule_input(input) {
-        
+        const activity_field = input.closest("[index]");
+        if(activity_field != undefined) {
+            const index = Number(activity_field.getAttribute("index"));
+            if(input.classList.contains(ACTIVITIY_TITLE_CLASS))
+                this.#day.schedule.update_activity_title(index, input.value);
+            else if(input.classList.contains(ACTIVITIY_CONTENT_CLASS))
+                this.#day.schedule.update_activity_content(index, input.value);
+            else {
+                if(input.classList.contains(ACTIVITIY_STARTTIME_CLASS))
+                    this.#day.schedule.update_activity_start_time(index, input.value);
+                else if(input.classList.contains(ACTIVITIY_ENDTIME_CLASS))  
+                    this.#day.schedule.update_activity_end_time(index, input.value);
+                this.render_schedule(); //Changing time might change the order
+            }
+        }
     }
 
     _update_from_mood_field_input(input) {

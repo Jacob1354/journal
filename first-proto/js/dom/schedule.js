@@ -1,6 +1,6 @@
 import { validate_array_type, validate_integer, validate_type } from "../clean_code/clean_code_enforcement.js";
 import { Activity, HoursAndMinutes, Schedule } from "../data/schedule.js";
-import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_CONTENT_WRAPPER_CLASS, ACTIVITIY_ENDTIME_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_STARTTIME_CLASS, ACTIVITIY_TIMEINTERVAL_CLASS, ACTIVITIY_TITLE_CLASS, SCHEDULED_ACTIVITIES_ID, SCHEDULED_ACTIVITY_CLASS } from "./constants.js";
+import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_CONTENT_WRAPPER_CLASS, ACTIVITIY_ENDTIME_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_STARTTIME_CLASS, ACTIVITIY_TIMEINTERVAL_CLASS, ACTIVITIY_TITLE_CLASS, ACTIVITIES_ID, ACTIVITY_CLASS } from "./constants.js";
 
 export const removeBtnHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="3 6 5 6 21 6"></polyline>
@@ -21,9 +21,15 @@ export class DOMSchedule {
         this.#schedule = schedule;
     }
 
-    create_scheduled_activities() {
+    render() {
+        const activities = this._create_scheduled_activities();
+        const scheduled_activities = document.getElementById(ACTIVITIES_ID);
+        scheduled_activities.replaceWith(activities);
+    }
+
+    _create_scheduled_activities() {
         const scheduled_activities = document.createElement("div");
-        scheduled_activities.id = SCHEDULED_ACTIVITIES_ID;
+        scheduled_activities.id = ACTIVITIES_ID;
         this.#schedule.get_activities().forEach((activity, i) => {
             scheduled_activities.appendChild(this._create_activity(activity, i));
         });
@@ -34,14 +40,14 @@ export class DOMSchedule {
         validate_type(activity, Activity);
         validate_integer(index, 0);
         const activity_el = document.createElement("div");
-        activity_el.classList.add(SCHEDULED_ACTIVITY_CLASS);
+        activity_el.classList.add(ACTIVITY_CLASS);
         activity_el.setAttribute("index", index);
     
         activity_el.appendChild(this._create_activity_title(activity));
         activity_el.appendChild(this._create_activity_time_interval(activity));
         activity_el.appendChild(this._create_activity_remove_btn());
         activity_el.appendChild(this._create_activity_content(activity));
-        
+
         return activity_el;
     }
     
@@ -82,6 +88,7 @@ export class DOMSchedule {
         const btn = document.createElement("button");
         btn.classList.add(ACTIVITIY_REMOVE_BTN_CLASS);
         btn.innerHTML = removeBtnHTML;
+        btn.addEventListener("click", (event) => this._remove_activity(event.target));
         return btn;
     }
     
@@ -96,6 +103,13 @@ export class DOMSchedule {
     
         wrapper.appendChild(content);
         return wrapper;
+    }
+
+    _remove_activity(btn) {
+        const activitiy_el = btn.closest("." + ACTIVITY_CLASS);
+        const index = activitiy_el.getAttribute("index");
+        this.#schedule.remove_activity(index);
+        this.render();
     }
 }
 

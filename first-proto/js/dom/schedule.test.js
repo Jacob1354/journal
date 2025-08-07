@@ -4,7 +4,7 @@
 
 import { AbstractFunctionNotOverriden } from "../clean_code/clean_code_enforcement.js";
 import { Activity, HoursAndMinutes, Schedule } from "../data/schedule.js"
-import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_CONTENT_WRAPPER_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_TIMEINTERVAL_CLASS, ACTIVITIY_TITLE_CLASS, SCHEDULED_ACTIVITIES_ID, SCHEDULED_ACTIVITY_CLASS } from "./constants.js";
+import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_CONTENT_WRAPPER_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_TIMEINTERVAL_CLASS, ACTIVITIY_TITLE_CLASS, ACTIVITIES_ID, ACTIVITY_CLASS } from "./constants.js";
 import { DOMSchedule } from "./schedule.js";
 
 let a1, a2, a3, activities, dom_schedule;
@@ -30,9 +30,9 @@ beforeEach(() => {
 });
 
 test("create_scheduled_activities", () => {
-    const schedule_el = dom_schedule.create_scheduled_activities();
+    const schedule_el = dom_schedule._create_scheduled_activities();
 
-    expect(schedule_el.id).toBe(SCHEDULED_ACTIVITIES_ID);
+    expect(schedule_el.id).toBe(ACTIVITIES_ID);
     expect(schedule_el.children[0].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].innerText).toBe(a1.title);
     expect(schedule_el.children[0].getAttribute("index")).toBe("0");
     expect(schedule_el.children[1].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].innerText).toBe(a3.title);
@@ -43,7 +43,7 @@ test("create_scheduled_activities", () => {
 
 test("_create_activity", () => {
     const activity = dom_schedule._create_activity(a1, 0);
-    expect(activity.classList.contains(SCHEDULED_ACTIVITY_CLASS)).toBe(true);
+    expect(activity.classList.contains(ACTIVITY_CLASS)).toBe(true);
     expect(activity.getAttribute("index")).toBe("0");
     expect(activity.children[0].innerText).toBe(a1.title);
     expect(activity.children[1].classList.contains(ACTIVITIY_TIMEINTERVAL_CLASS)).toBe(true);

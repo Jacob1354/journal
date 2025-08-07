@@ -4,21 +4,23 @@
 
 import { validate_type } from "../clean_code/clean_code_enforcement";
 import { FractionField, NumberField, SliderField, TextField } from "../data/mood_field";
+import { Schedule } from "../data/schedule";
 import { MOOD_FIELD_CLASS, MOOD_FIELD_FRACTION_CLASS, MOOD_FIELD_NB_CLASS, MOOD_FIELD_SLIDER_CLASS, MOOD_FIELD_TEXT_CLASS, MOOD_FIELD_TEXT_NAME } from "./constants";
-import { _create_fraction_field, _create_number_field, _create_slider_field, _create_text_field, create_mood_field, create_mood_fields } from "./mood_field";
+import { DOMMoodField } from "./mood_field";
 
-let nb_field, fraction_field, slider_field, text_field;
+let nb_field, fraction_field, slider_field, text_field, mood_fields, dom_mood_field;
 
 beforeAll(() => {
     nb_field = new NumberField("nb_field");
     fraction_field = new FractionField("fraction_field");
     slider_field = new SliderField("slider_field");
     text_field = new TextField("text_field");
+    mood_fields = [nb_field, fraction_field, slider_field, text_field, nb_field];
+    dom_mood_field = new DOMMoodField(new Date(), mood_fields);
 })
 
 test("create_mood_fields", () => {
-    const fields_arr = [nb_field, fraction_field, slider_field, text_field, nb_field];
-    const fields = create_mood_fields(fields_arr);
+    const fields = dom_mood_field.create_mood_fields();
 
     expect(fields.length).toBe(5);
     expect(fields[0].getAttribute("index")).toBe("0");
@@ -27,10 +29,10 @@ test("create_mood_fields", () => {
 
 
 test("create_mood_field", () => {
-    const nb_field_el = create_mood_field(nb_field, 0);
-    const text_field_el = create_mood_field(text_field, 1);
-    const fraction_field_el = create_mood_field(fraction_field, 2);
-    const slider_field_el = create_mood_field(slider_field, 3);
+    const nb_field_el = dom_mood_field._create_mood_field(nb_field, 0);
+    const text_field_el = dom_mood_field._create_mood_field(text_field, 1);
+    const fraction_field_el = dom_mood_field._create_mood_field(fraction_field, 2);
+    const slider_field_el = dom_mood_field._create_mood_field(slider_field, 3);
 
     expect(nb_field_el.getElementsByClassName(MOOD_FIELD_NB_CLASS).length).toBe(1);
     expect(text_field_el.getElementsByClassName(MOOD_FIELD_TEXT_CLASS).length).toBe(1);
@@ -50,7 +52,7 @@ function test_field_basics(field_el, field_data, field_type) {
 }
 
 test("_create_number_field", () => {
-    const nb_field_el = _create_number_field(nb_field);
+    const nb_field_el = dom_mood_field._create_number_field(nb_field);
 
     test_field_basics(nb_field_el, nb_field, "nb");
     expect(nb_field_el.children[1].children[0].nodeName).toBe("INPUT");
@@ -59,7 +61,7 @@ test("_create_number_field", () => {
 }); 
 
 test("_create_text_field", () => {
-    const text_field_el = _create_text_field(text_field);
+    const text_field_el = dom_mood_field._create_text_field(text_field);
     test_field_basics(text_field_el, text_field, "text");
 
     expect(text_field_el.children[1].children[0].nodeName).toBe("TEXTAREA");
@@ -68,7 +70,7 @@ test("_create_text_field", () => {
 }); 
 
 test("_create_fraction_field", () => {
-    const fraction_field_el = _create_fraction_field(fraction_field);
+    const fraction_field_el = dom_mood_field._create_fraction_field(fraction_field);
     test_field_basics(fraction_field_el, fraction_field, "fraction");
 
     expect(fraction_field_el.children[1].children[0].nodeName).toBe("INPUT");
@@ -79,7 +81,7 @@ test("_create_fraction_field", () => {
 }); 
 
 test("create_slider_field", () => {
-    const slider_field_el = _create_slider_field(slider_field);
+    const slider_field_el = dom_mood_field._create_slider_field(slider_field);
 
     test_field_basics(slider_field_el, slider_field, "slider");
     expect(slider_field_el.children[1].children[0].nodeName).toBe("INPUT");

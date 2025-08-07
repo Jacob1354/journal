@@ -3,14 +3,16 @@ import { Day } from "../data/day.js";
 import { Activity } from "../data/schedule.js";
 import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_ENDTIME_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_STARTTIME_CLASS, ACTIVITIY_TIMEINTERVAL_CLASS, ACTIVITIY_TITLE_CLASS, MOOD_FIELD_CLASS, MOOD_FIELDS_WRAPPER_CLASS, MOOD_FIELDS_WRAPPER_ID, SCHEDULED_ACTIVITIES_ID, SCHEDULED_ACTIVITY_CLASS } from "./constants.js";
 import { replace_children_of } from "./dom_utils.js";
-import { create_mood_fields } from "./mood_field.js";
+import { DOMMoodField } from "./mood_field.js";
 import { create_scheduled_activities } from "./schedule.js";
 
 export class DomDay {
     #day;
+    #dom_moodfields
     constructor(day = new Day()) {
         validate_type(day, Day);
         this.#day = Day.from(day);
+        this.#dom_moodfields = new DOMMoodField(day.date, day.mood_fields);
     }
 
     render_day() {
@@ -33,7 +35,7 @@ export class DomDay {
 
     render_mood_fields() {
         const mood_fields_container = document.getElementById(MOOD_FIELDS_WRAPPER_ID);
-        const mood_field_els = create_mood_fields(this.#day.mood_fields);
+        const mood_field_els = this.#dom_moodfields.create_mood_fields(this.#day.mood_fields);
     
         replace_children_of(mood_fields_container, mood_field_els);
         mood_fields_container.addEventListener("input", (event) => this._update_from_input(event));

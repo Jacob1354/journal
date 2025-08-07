@@ -35,7 +35,7 @@ export class DomDay {
 
     render_mood_fields() {
         const mood_fields_container = document.getElementById(MOOD_FIELDS_WRAPPER_ID);
-        const mood_field_els = this.#dom_moodfields.create_mood_fields(this.#day.mood_fields);
+        const mood_field_els = this.#dom_moodfields.create_mood_fields();
     
         replace_children_of(mood_fields_container, mood_field_els);
         mood_fields_container.addEventListener("input", (event) => this._update_from_input(event));
@@ -51,9 +51,7 @@ export class DomDay {
     }
 
     _update_from_input(event) {
-        if(event.currentTarget.classList.contains(MOOD_FIELDS_WRAPPER_CLASS))
-            this._update_from_mood_field_input(event.target);
-        else if(event.currentTarget.id == SCHEDULED_ACTIVITIES_ID)
+        if(event.currentTarget.id == SCHEDULED_ACTIVITIES_ID)
             this._update_from_schedule_input(event.target);
     }
 
@@ -72,14 +70,6 @@ export class DomDay {
                     this.#day.schedule.update_activity_end_time(index, input.value);
                 this.render_schedule(); //Changing time might change the order
             }
-        }
-    }
-
-    _update_from_mood_field_input(input) {
-        const mood_field = input.closest("[index]");
-        if(mood_field != undefined) {
-            const index = Number(mood_field.getAttribute("index"));
-            this.#day.mood_fields[index].update_from_input(input.value);
         }
     }
 

@@ -52,15 +52,3 @@ test("DomDay.remove_activity", () => {
     activities = document.getElementById(SCHEDULED_ACTIVITIES_ID);
     expect(activities.children.length).toBe(0);
 });
-
-test("DomDay._", () => {
-    const index = 3; //In the default template, the 4th mood_field is a TextField
-    const new_input = "this is the new input";
-    const test_field = document.getElementById(MOOD_FIELDS_WRAPPER_ID).querySelector('[index="' + index + '"]');
-    
-    expect(dom_day._get_day_copy_for_test().mood_fields[index].get_data()).not.toBe(new_input);
-    
-    test_field.value = new_input;
-    test_field.dispatchEvent(new Event("input", {bubbles: true}));
-    expect(dom_day._get_day_copy_for_test().mood_fields[index].get_data()).toBe(new_input);
-});

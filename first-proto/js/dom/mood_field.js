@@ -15,6 +15,13 @@ export class DOMMoodField {
         this.#mood_fields = mood_fields;
     }
 
+    render_mood_fields() {
+        const mood_fields_container = document.getElementById(MOOD_FIELDS_WRAPPER_ID);
+        const mood_field_els = this.create_mood_fields();
+    
+        replace_children_of(mood_fields_container, mood_field_els);
+    }
+
     create_mood_fields() {
         const field_els = [];
 
@@ -39,7 +46,15 @@ export class DOMMoodField {
             dom_field = this._create_slider_field(field);
         }
         dom_field.setAttribute("index", index);
+        dom_field.addEventListener("input", (event) => this._update_from_input(event));
         return dom_field;
+    }
+    
+    _update_from_input(event) {
+        const index = event.currentTarget.getAttribute("index");
+        const new_val = event.target.value;
+        console.log(this.#mood_fields[index]);
+        this.#mood_fields[index].set_data(this.#mood_fields[index].parse_input(new_val));
     }
 
     _create_number_field(field) {
@@ -118,6 +133,10 @@ export class DOMMoodField {
         wrapper.appendChild(field_name);
         
         return wrapper;
+    }
+
+    _get_fields_for_tests() {
+        return this.#mood_fields;
     }
 
 }

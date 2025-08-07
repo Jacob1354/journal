@@ -5,7 +5,7 @@
 import { validate_type } from "../clean_code/clean_code_enforcement";
 import { FractionField, NumberField, SliderField, TextField } from "../data/mood_field";
 import { Schedule } from "../data/schedule";
-import { MOOD_FIELD_CLASS, MOOD_FIELD_FRACTION_CLASS, MOOD_FIELD_INPUT_CLASS, MOOD_FIELD_NB_CLASS, MOOD_FIELD_SLIDER_CLASS, MOOD_FIELD_TEXT_CLASS, MOOD_FIELD_TEXT_NAME } from "./constants";
+import { MOOD_FIELD_CLASS, MOOD_FIELD_FRACTION_CLASS, MOOD_FIELD_INPUT_CLASS, MOOD_FIELD_NB_CLASS, MOOD_FIELD_SLIDER_CLASS, MOOD_FIELD_TEXT_CLASS, MOOD_FIELD_TEXT_NAME, MOOD_FIELDS_WRAPPER_ID } from "./constants";
 import { DOMMoodField } from "./mood_field";
 
 let nb_field, fraction_field, slider_field, text_field, mood_fields, dom_mood_field;
@@ -39,6 +39,22 @@ test("create_mood_field", () => {
     expect(fraction_field_el.getElementsByClassName(MOOD_FIELD_FRACTION_CLASS).length).toBe(1);
     expect(slider_field_el.getElementsByClassName(MOOD_FIELD_SLIDER_CLASS).length).toBe(1);
 }); 
+
+test("_update_from_input", () => {
+    const index = 3; //In the default template, the 4th mood_field is a TextField
+    const new_input = "this is the new input";
+    const mood_fields_wrapper = document.createElement("div");
+    mood_fields_wrapper.id = MOOD_FIELDS_WRAPPER_ID;
+    document.body.appendChild(mood_fields_wrapper);
+    dom_mood_field.render_mood_fields();
+    const mood_field = document.getElementById(MOOD_FIELDS_WRAPPER_ID).querySelector('[index="' + index + '"]');
+    const input_field = mood_field.querySelector("." + MOOD_FIELD_INPUT_CLASS);
+    expect(dom_mood_field._get_fields_for_tests()[index].get_data()).not.toBe(new_input);
+    
+    input_field.value = new_input;
+    input_field.dispatchEvent(new Event("input", {bubbles: true}));
+    expect(dom_mood_field._get_fields_for_tests()[index].get_data()).toBe(new_input);
+});
 
 //Field type must be one of the following : mood_field_[nb/text/fraction/slider]
 function test_field_basics(field_el, field_data, field_type) {

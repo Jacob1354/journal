@@ -5,7 +5,7 @@
 import { validate_type } from "../clean_code/clean_code_enforcement";
 import { FractionField, NumberField, SliderField, TextField } from "../data/mood_field";
 import { Schedule } from "../data/schedule";
-import { MOOD_FIELD_CLASS, MOOD_FIELD_FRACTION_CLASS, MOOD_FIELD_NB_CLASS, MOOD_FIELD_SLIDER_CLASS, MOOD_FIELD_TEXT_CLASS, MOOD_FIELD_TEXT_NAME } from "./constants";
+import { MOOD_FIELD_CLASS, MOOD_FIELD_FRACTION_CLASS, MOOD_FIELD_INPUT_CLASS, MOOD_FIELD_NB_CLASS, MOOD_FIELD_SLIDER_CLASS, MOOD_FIELD_TEXT_CLASS, MOOD_FIELD_TEXT_NAME } from "./constants";
 import { DOMMoodField } from "./mood_field";
 
 let nb_field, fraction_field, slider_field, text_field, mood_fields, dom_mood_field;
@@ -49,6 +49,7 @@ function test_field_basics(field_el, field_data, field_type) {
     expect(field_el.children[0].innerText).toBe(field_data.get_field_name());
     expect(field_el.children[1].nodeName).toBe("DIV");
     expect(field_el.children[1].classList.contains("mood_field_" + field_type)).toBe(true);
+    expect(field_el.querySelector("." + MOOD_FIELD_INPUT_CLASS)).toBeDefined;
 }
 
 test("_create_number_field", () => {

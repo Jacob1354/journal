@@ -13,6 +13,7 @@ export const ACTIVITIY_CONTENT_CLASS = "activity_content";
 export const MOOD_FIELDS_WRAPPER_ID = "mood_fields";
 export const MOOD_FIELDS_WRAPPER_CLASS = "mood_fields";
 export const MOOD_FIELD_CLASS = "mood_field";
+export const MOOD_FIELD_INPUT_CLASS = "mood_field_input";
 export const MOOD_FIELD_NB_CLASS = "mood_field_nb";
 export const MOOD_FIELD_TEXT_CLASS = "mood_field_text";
 export const MOOD_FIELD_TEXT_NAME = "mood_field_text";

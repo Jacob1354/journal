@@ -1,6 +1,6 @@
 import { Client, Pool } from 'pg'
-import { DB, SERVER_HOST, PASSWORD, SERVER_PORT, USER } from './server_const.js'
-import { Day } from './js/data/day.js';
+import { DB , PASSWORD, USER } from './const.js'
+import { Day } from '../js/data/day.js';
 
 export function load_db_pool() {
     const pool = new Pool({

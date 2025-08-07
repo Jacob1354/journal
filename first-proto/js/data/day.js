@@ -1,5 +1,4 @@
 import { validate_type } from "../clean_code/clean_code_enforcement.js";
-import { create_activity } from "../dom/schedule.js";
 import { NumberField, FractionField, TextField, SliderField } from "./mood_field.js";
 import { Schedule } from "./schedule.js";
 

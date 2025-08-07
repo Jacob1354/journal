@@ -53,7 +53,6 @@ export class DOMMoodField {
     _update_from_input(event) {
         const index = event.currentTarget.getAttribute("index");
         const new_val = event.target.value;
-        console.log(this.#mood_fields[index]);
         this.#mood_fields[index].set_data(this.#mood_fields[index].parse_input(new_val));
     }
 

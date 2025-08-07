@@ -3,11 +3,11 @@
  */
 
 import { AbstractFunctionNotOverriden } from "../clean_code/clean_code_enforcement.js";
-import { Activity, HoursAndMinutes } from "../data/schedule.js"
+import { Activity, HoursAndMinutes, Schedule } from "../data/schedule.js"
 import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_CONTENT_WRAPPER_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_TIMEINTERVAL_CLASS, ACTIVITIY_TITLE_CLASS, SCHEDULED_ACTIVITIES_ID, SCHEDULED_ACTIVITY_CLASS } from "./constants.js";
-import { create_activity, _create_activity_content, _create_activity_remove_btn, _create_activity_time_interval, _create_activity_title, create_scheduled_activities } from "./schedule.js";
+import { DOMSchedule } from "./schedule.js";
 
-let a1, a2, a3;
+let a1, a2, a3, activities, dom_schedule;
 
 beforeEach(() => {
     a1 = new Activity(
@@ -25,24 +25,24 @@ beforeEach(() => {
                             new HoursAndMinutes(15, 30), 
                             "A2", 
                             "a2");
-                            
+    activities = [a1, a2, a3];
+    dom_schedule = new DOMSchedule(new Date(), new Schedule(activities));
 });
 
 test("create_scheduled_activities", () => {
-    let activities = [a1, a2, a3];
-    const schedule = create_scheduled_activities(activities);
+    const schedule_el = dom_schedule.create_scheduled_activities();
 
-    expect(schedule.id).toBe(SCHEDULED_ACTIVITIES_ID);
-    expect(schedule.children[0].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].innerText).toBe(a1.title);
-    expect(schedule.children[0].getAttribute("index")).toBe("0");
-    expect(schedule.children[1].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].innerText).toBe(a3.title);
-    expect(schedule.children[1].getAttribute("index")).toBe("1");
-    expect(schedule.children[2].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].innerText).toBe(a2.title);
-    expect(schedule.children[2].getAttribute("index")).toBe("2");
+    expect(schedule_el.id).toBe(SCHEDULED_ACTIVITIES_ID);
+    expect(schedule_el.children[0].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].innerText).toBe(a1.title);
+    expect(schedule_el.children[0].getAttribute("index")).toBe("0");
+    expect(schedule_el.children[1].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].innerText).toBe(a3.title);
+    expect(schedule_el.children[1].getAttribute("index")).toBe("1");
+    expect(schedule_el.children[2].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].innerText).toBe(a2.title);
+    expect(schedule_el.children[2].getAttribute("index")).toBe("2");
 });
 
-test("create_activity", () => {
-    const activity = create_activity(a1, 0);
+test("_create_activity", () => {
+    const activity = dom_schedule._create_activity(a1, 0);
     expect(activity.classList.contains(SCHEDULED_ACTIVITY_CLASS)).toBe(true);
     expect(activity.getAttribute("index")).toBe("0");
     expect(activity.children[0].innerText).toBe(a1.title);
@@ -53,7 +53,7 @@ test("create_activity", () => {
 });
 
 test("create_activity_title", () => {
-    const title = _create_activity_title(a1);
+    const title = dom_schedule._create_activity_title(a1);
     
     expect(title.nodeName).toBe("H3");
     expect(title.classList.contains(ACTIVITIY_TITLE_CLASS)).toBe(true);
@@ -61,7 +61,7 @@ test("create_activity_title", () => {
 });
 
 test("create_activity_time_interval", () => {
-    const interval = _create_activity_time_interval(a1);
+    const interval = dom_schedule._create_activity_time_interval(a1);
 
     expect(interval.nodeName).toBe("DIV");
     expect(interval.classList.contains(ACTIVITIY_TIMEINTERVAL_CLASS)).toBe(true);
@@ -79,7 +79,7 @@ test("create_activity_time_interval", () => {
 });
 
 test("create_activity_remove_btn", () => {
-    const btn = _create_activity_remove_btn();
+    const btn = dom_schedule._create_activity_remove_btn();
 
     expect(btn.nodeName).toBe("BUTTON");
     expect(btn.classList.contains(ACTIVITIY_REMOVE_BTN_CLASS)).toBe(true);
@@ -94,7 +94,7 @@ test("create_activity_remove_btn", () => {
 });
 
 test("create_activity_content", () => {
-    const content = _create_activity_content(a1);
+    const content = dom_schedule._create_activity_content(a1);
 
     expect(content.nodeName).toBe("DIV");
     expect(content.classList.contains(ACTIVITIY_CONTENT_WRAPPER_CLASS)).toBe(true);

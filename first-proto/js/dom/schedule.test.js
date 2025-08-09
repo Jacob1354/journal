@@ -7,7 +7,7 @@ import { Activity, HoursAndMinutes, Schedule } from "../data/schedule.js"
 import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_CONTENT_WRAPPER_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_TIMEINTERVAL_CLASS, ACTIVITIY_TITLE_CLASS, ACTIVITIES_ID, ACTIVITY_CLASS } from "./constants.js";
 import { DOMSchedule } from "./schedule.js";
 
-let a1, a2, a3, activities, dom_schedule;
+let a1, a2, a3, activities, schedule, dom_schedule;
 
 beforeEach(() => {
     a1 = new Activity(
@@ -26,7 +26,8 @@ beforeEach(() => {
                             "A2", 
                             "a2");
     activities = [a1, a2, a3];
-    dom_schedule = new DOMSchedule(new Date(), new Schedule(activities));
+    schedule = new Schedule(activities);
+    dom_schedule = new DOMSchedule(new Date(), schedule);
 });
 
 test("create_scheduled_activities", () => {
@@ -104,3 +105,4 @@ test("create_activity_content", () => {
     expect(content.firstChild.type).toBe("text");
     expect(content.firstChild.value).toBe(a1.content);
 })
+

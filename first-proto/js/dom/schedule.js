@@ -11,29 +11,40 @@ export const removeBtnHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fi
                         
 
 export class DOMSchedule {
-    #date;
-    #schedule;
-
-    constructor(date, schedule) {
-        validate_type(date, Date);
-        validate_type(schedule, Schedule);
-        this.#date = date;
-        this.#schedule = schedule;
+    #update_title;
+    #update_content;
+    #update_start_time;
+    #update_end_time;
+    #remove_activity;
+    
+    constructor(
+        update_title,
+        update_content,
+        update_start_time,
+        update_end_time,
+        remove_activity
+    ) {
+        this.#update_title = update_title;
+        this.#update_content = update_content;
+        this.#update_start_time = update_start_time;
+        this.#update_end_time = update_end_time;
+        this.#remove_activity = remove_activity;
     }
 
-    render() {
-        const activities = this._create_scheduled_activities();
-        const scheduled_activities = document.getElementById(ACTIVITIES_ID);
-        scheduled_activities.replaceWith(activities);
+    render(activities) {
+        validate_array_type(activities, Activity);
+        const activities_el = this._create_scheduled_activities(activities);
+        const activities_container = document.getElementById(ACTIVITIES_ID);
+        activities_container.replaceWith(activities_el);
     }
 
-    _create_scheduled_activities() {
-        const scheduled_activities = document.createElement("div");
-        scheduled_activities.id = ACTIVITIES_ID;
-        this.#schedule.get_activities().forEach((activity, i) => {
-            scheduled_activities.appendChild(this._create_activity(activity, i));
+    _create_scheduled_activities(activities) {
+        const activities_container = document.createElement("div");
+        activities_container.id = ACTIVITIES_ID;
+        activities.forEach((activity, i) => {
+            activities_container.appendChild(this._create_activity(activity, i));
         });
-        return scheduled_activities;
+        return activities_container;
     }
     
     _create_activity(activity, index) {
@@ -56,6 +67,7 @@ export class DOMSchedule {
         const title = document.createElement("h3");
         title.innerText = activity.title;
         title.classList.add(ACTIVITIY_TITLE_CLASS);
+        title.addEventListener("input", this.#update_title);
     
         return title;
     }
@@ -68,6 +80,7 @@ export class DOMSchedule {
         start_time.classList.add(ACTIVITIY_STARTTIME_CLASS);
         start_time.type = "time";
         start_time.value = String(activity.start_time);
+        start_time.addEventListener("input", this.#update_start_time);
     
         const to = document.createElement("p");
         to.innerText = "to";
@@ -76,7 +89,8 @@ export class DOMSchedule {
         end_time.classList.add(ACTIVITIY_ENDTIME_CLASS);
         end_time.type = "time";
         end_time.value = String(activity.end_time);
-    
+        end_time.addEventListener("input", this.#update_end_time);
+        
         interval.appendChild(start_time);
         interval.appendChild(to);
         interval.appendChild(end_time);
@@ -88,7 +102,7 @@ export class DOMSchedule {
         const btn = document.createElement("button");
         btn.classList.add(ACTIVITIY_REMOVE_BTN_CLASS);
         btn.innerHTML = removeBtnHTML;
-        btn.addEventListener("click", (event) => this._remove_activity(event.target));
+        btn.addEventListener("click", this.#remove_activity);
         return btn;
     }
     
@@ -100,16 +114,10 @@ export class DOMSchedule {
         content.classList.add(ACTIVITIY_CONTENT_CLASS);
         content.type = "text";
         content.value = activity.content;
+        content.addEventListener("input", this.#update_content);
     
         wrapper.appendChild(content);
         return wrapper;
-    }
-
-    _remove_activity(btn) {
-        const activitiy_el = btn.closest("." + ACTIVITY_CLASS);
-        const index = activitiy_el.getAttribute("index");
-        this.#schedule.remove_activity(index);
-        this.render();
     }
 }
 

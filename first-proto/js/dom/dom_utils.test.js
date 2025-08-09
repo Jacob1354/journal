@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { clear_children_of, move_child_node, replace_children_of } from "./dom_utils";
+import { clear_children_of, get_parent_with_selector, move_child_node, replace_children_of } from "./dom_utils";
 
 
 test("clear_element", () => {
@@ -18,26 +18,6 @@ test("clear_element", () => {
 
 })
 
-
-function mock_getBoundingClientRect(el = new HTMLElement) {
-    el.getBoundingClientRect = () => {
-        let height = 0;
-        for(const child of el.children) {
-            height += child.getBoundingClientRect().height;
-        };
-        return {
-        width: 10,
-        height: height,
-        top: 0,
-        left: 0,
-        bottom: height,
-        right: 10,
-        x: 0,
-        y: 0,
-        toJSON: () => {},
-        };
-    }
-}
 
 test("replace_children_of", () => {
     const parent = document.createElement("div");
@@ -70,4 +50,8 @@ test("move_child_node", () => {
     move_child_node(child, field_2);
     expect(field_1.firstChild).toBe(null);
     expect(field_2.firstChild).toBe(child);
+});
+
+test("error_pop_up", () => {
+    throw new Error("Not implemented, yet");
 });

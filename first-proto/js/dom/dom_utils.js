@@ -23,3 +23,21 @@ export function move_child_node(el, new_parent) {
     el.parentElement.removeChild(el);
     new_parent.appendChild(el);
 }
+
+
+export function error_pop_up(msg) {
+    console.log(msg);
+}
+
+export class ParentNotFound extends Error {
+    constructor(msg) {
+        super(msg);
+        this.name = "ParentNotFound";
+    }
+}
+export class UndefinedAttribute extends Error {
+    constructor(msg) {
+        super(msg);
+        this.name = "UndefinedAttribute";
+    }
+}

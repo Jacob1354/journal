@@ -24,6 +24,22 @@ export function move_child_node(el, new_parent) {
     new_parent.appendChild(el);
 }
 
+/*
+ * Uses HTMLElement.closest, therefore the search includes itself
+*/
+export function get_parent_attribute(child, parent_selector, attribute) {
+    validate_type(child, HTMLElement);
+    validate_type(parent_selector, "string");
+    validate_type(attribute, "string");
+
+    const activity = child.closest(parent_selector);
+    if(activity === null)
+        throw new ParentNotFound("No parent node with class 'activity'");
+    const index = activity.getAttribute(attribute);
+    if(index === null)
+        throw new UndefinedAttribute("index attribute isn't defined");
+    return index;
+}
 
 export function error_pop_up(msg) {
     console.log(msg);

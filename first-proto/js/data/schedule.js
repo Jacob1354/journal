@@ -56,6 +56,7 @@ export class Schedule {
     }
 
     remove_activity(index) {
+        index = Number(index);
         validate_integer(index, 0, this.#activities.length);
         this.#activities.splice(index, 1);
     }

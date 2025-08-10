@@ -33,26 +33,33 @@ export class Schedule {
     }
 
     update_activity_title(index, title) {
+        index = Number(index);
         validate_integer(index, 0, this.#activities.length - 1);
         validate_type(title, "string");
         this.#activities[index].title = title;
+        this._sort_activities();
     }
 
     update_activity_content(index, content) {
+        index = Number(index);
         validate_integer(index, 0, this.#activities.length - 1);
         validate_type(content, "string");
         this.#activities[index].content = content;
+        this._sort_activities();
     }
 
     update_activity_start_time(index, start_time) {
+        index = Number(index);
         validate_integer(index, 0, this.#activities.length - 1);
         this.#activities[index].start_time = HoursAndMinutes.from_string(start_time);
         this._sort_activities();
     }
 
     update_activity_end_time(index, end_time) {
+        index = Number(index);
         validate_integer(index, 0, this.#activities.length - 1);
         this.#activities[index].end_time = HoursAndMinutes.from_string(end_time);
+        this._sort_activities();
     }
 
     remove_activity(index) {
@@ -62,10 +69,15 @@ export class Schedule {
     }
 
     _sort_activities() {
-            this.#activities.sort((a1, a2) => a1.start_time.bigger_than(a2.start_time)? 1 : -1);
+        this.#activities.sort((a1, a2) => {
+            let ret_val = 0;
+            if(a1.start_time.bigger_than(a2.start_time))
+                ret_val = 1;
+            else if(a2.start_time.bigger_than(a1.start_time))
+                ret_val = -1;
+            return ret_val;
+        });
     }
-
-
 }
 
 
@@ -100,6 +112,14 @@ export class Activity {
             this.title = title;
             this.content = content;
             }
+    }
+
+    equal_to(other) {
+        validate_type(other, Activity);
+        return this.title === other.title
+            && this.content === other.content
+            && this.start_time.equal_to(other.start_time)
+            && this.end_time.equal_to(other.end_time);
     }
 }
 

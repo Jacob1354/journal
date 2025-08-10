@@ -31,9 +31,9 @@ test("Schedule construction", () => {
     expect(new Schedule()).toBeInstanceOf(Schedule);
     expect(valid_schedule).toBeInstanceOf(Schedule);
     expect(() => new Schedule(invalid_array)).toThrow(ArrayContaintsInvalidDataType);
-    expect(valid_schedule.get_activities()[0].start_time.equal_to(result_arr[0].start_time)).toBe(true);
-    expect(valid_schedule.get_activities()[1].start_time.equal_to(result_arr[1].start_time)).toBe(true);
-    expect(valid_schedule.get_activities()[2].start_time.equal_to(result_arr[2].start_time)).toBe(true);
+    expect(valid_schedule.get_activities()[0].equal_to(result_arr[0])).toBeTruthy();
+    expect(valid_schedule.get_activities()[1].equal_to(result_arr[1])).toBeTruthy();
+    expect(valid_schedule.get_activities()[2].equal_to(result_arr[2])).toBeTruthy();
 });
 
 test("Schedule - Adding an activity", () => {
@@ -131,6 +131,26 @@ test("Schedule.remove_activity(index)", () => {
     expect(schedule.get_activities()[0].title).toBe(og_arr[0].title);
     expect(schedule.get_activities()[1].title).toBe(og_arr[2].title);
 });
+
+test("Schedule._sort_activities()", () => {
+    const activities = [a1, a3, a2, a1, a3];
+    const sorted_activities = [a3, a3, a1, a1, a2];
+    const schedule = new Schedule(activities);
+
+    expect(schedule.get_activities()[0].equal_to(sorted_activities[0])).toBeTruthy();
+    expect(schedule.get_activities()[1].equal_to(sorted_activities[1])).toBeTruthy();
+    expect(schedule.get_activities()[2].equal_to(sorted_activities[2])).toBeTruthy();
+    expect(schedule.get_activities()[3].equal_to(sorted_activities[3])).toBeTruthy();
+    expect(schedule.get_activities()[4].equal_to(sorted_activities[4])).toBeTruthy();
+    
+    schedule._sort_activities();
+
+    expect(schedule.get_activities()[0].equal_to(sorted_activities[0])).toBeTruthy();
+    expect(schedule.get_activities()[1].equal_to(sorted_activities[1])).toBeTruthy();
+    expect(schedule.get_activities()[2].equal_to(sorted_activities[2])).toBeTruthy();
+    expect(schedule.get_activities()[3].equal_to(sorted_activities[3])).toBeTruthy();
+    expect(schedule.get_activities()[4].equal_to(sorted_activities[4])).toBeTruthy();
+}); 
 
 test("Activity construction", () => {
     const valid_start_time = new HoursAndMinutes(10, 10);

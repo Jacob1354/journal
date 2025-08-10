@@ -1,8 +1,8 @@
 import { validate_type } from "../clean_code/clean_code_enforcement.js";
 import { Day } from "../data/day.js";
 import { Activity } from "../data/schedule.js";
-import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_ENDTIME_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_STARTTIME_CLASS, ACTIVITIY_TIMEINTERVAL_CLASS, ACTIVITIY_TITLE_CLASS, MOOD_FIELD_CLASS, MOOD_FIELDS_WRAPPER_CLASS, MOOD_FIELDS_WRAPPER_ID, ACTIVITIES_ID, ACTIVITY_CLASS } from "./constants.js";
-import { replace_children_of } from "./dom_utils.js";
+import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_ENDTIME_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_STARTTIME_CLASS, ACTIVITIY_TIMEINTERVAL_CLASS, ACTIVITIY_TITLE_CLASS, MOOD_FIELD_CLASS, MOOD_FIELDS_WRAPPER_CLASS, MOOD_FIELDS_WRAPPER_ID, ACTIVITIES_ID, ACTIVITY_CLASS, ERR_MSG_UNABLE_TO_DELETE_ACTIVITY } from "./constants.js";
+import { error_pop_up, get_parent_attribute, ParentNotFound, replace_children_of, UndefinedAttribute } from "./dom_utils.js";
 import { DOMMoodField } from "./mood_field.js";
 import { DOMSchedule } from "./schedule.js";
 
@@ -14,7 +14,13 @@ export class DomDay {
         validate_type(day, Day);
         this.#day = Day.from(day);
         this.#dom_moodfields = new DOMMoodField(day.date, day.mood_fields);
-        this.#dom_schedule = new DOMSchedule(day.date, day.schedule);
+        this.#dom_schedule = new DOMSchedule(
+            (event) => this._update_activity_title(event),
+            (event) => this._update_activity_content(event),
+            (event) => this._update_activity_start_time(event),
+            (event) => this._update_activity_end_time(event),
+            (event) => this._remove_activity(event)
+        );
     }
 
 
@@ -24,7 +30,7 @@ export class DomDay {
     }
 
     render_schedule() {
-        this.#dom_schedule.render();
+        this.#dom_schedule.render(this.#day.schedule.get_activities());
     }
 
     add_activity() {
@@ -37,29 +43,62 @@ export class DomDay {
         const mood_field_els = this.#dom_moodfields.create_mood_fields();
     
         replace_children_of(mood_fields_container, mood_field_els);
-        mood_fields_container.addEventListener("input", (event) => this._update_from_input(event));
     }
 
-    _update_from_input(event) {
-        if(event.currentTarget.id == ACTIVITIES_ID)
-            this._update_from_schedule_input(event.target);
+    
+    _update_activity_title(event) {
+        validate_type(event, Event);
+        const input_field = event.target;
+        try {
+            const index = get_parent_attribute(input_field, "." + ACTIVITY_CLASS, "index");
+            this.#day.schedule.update_activity_title(index, input_field.value);
+        } catch (error) {
+            error_pop_up(error);
+        }
     }
-
-    _update_from_schedule_input(input) {
-        const activity_field = input.closest("[index]");
-        if(activity_field != undefined) {
-            const index = Number(activity_field.getAttribute("index"));
-            if(input.classList.contains(ACTIVITIY_TITLE_CLASS))
-                this.#day.schedule.update_activity_title(index, input.value);
-            else if(input.classList.contains(ACTIVITIY_CONTENT_CLASS))
-                this.#day.schedule.update_activity_content(index, input.value);
-            else {
-                if(input.classList.contains(ACTIVITIY_STARTTIME_CLASS))
-                    this.#day.schedule.update_activity_start_time(index, input.value);
-                else if(input.classList.contains(ACTIVITIY_ENDTIME_CLASS))  
-                    this.#day.schedule.update_activity_end_time(index, input.value);
-                this.render_schedule(); //Changing time might change the order
-            }
+    
+    _update_activity_content(event) {
+        validate_type(event, Event);
+        const input_field = event.target;
+        try {
+            const index = get_parent_attribute(input_field, "." + ACTIVITY_CLASS, "index");
+            this.#day.schedule.update_activity_content(index, input_field.value);
+        } catch (error) {
+            error_pop_up(error);
+        }
+    }
+    
+    _update_activity_start_time(event) {
+        validate_type(event, Event);
+        const input_field = event.target;
+        try {
+            const index = get_parent_attribute(input_field, "." + ACTIVITY_CLASS, "index");
+            this.#day.schedule.update_activity_start_time(index, input_field.value);
+        } catch (error) {
+            error_pop_up(error);
+        }
+    }
+    
+    _update_activity_end_time(event) {
+        validate_type(event, Event);
+        const input_field = event.target;
+        try {
+            const index = get_parent_attribute(input_field, "." + ACTIVITY_CLASS, "index");
+            this.#day.schedule.update_activity_end_time(index, input_field.value);
+        } catch (error) {
+            error_pop_up(error);
+        }
+    }
+    
+    _remove_activity(event) {
+        validate_type(event, Event);
+        const btn = event.target;
+        try {
+            const index = get_parent_attribute(btn, "." + ACTIVITY_CLASS, "index");
+            this.#day.schedule.remove_activity(index);
+            this.#dom_schedule.render(this.#day.schedule.get_activities());
+        } catch (error) {
+            error_pop_up("Sorry, we we'rent able to remove this activity");
         }
     }
 

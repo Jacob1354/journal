@@ -9,6 +9,8 @@ export const ACTIVITIY_TITLE_CLASS = "activity_title";
 export const ACTIVITIY_CONTENT_WRAPPER_CLASS = "wrapper";
 export const ACTIVITIY_CONTENT_CLASS = "activity_content";
 
+export const ERR_MSG_UNABLE_TO_DELETE_ACTIVITY = "Sorry, we were unable to delete the activity";
+
 //MoodFields
 export const MOOD_FIELDS_WRAPPER_ID = "mood_fields";
 export const MOOD_FIELDS_WRAPPER_CLASS = "mood_fields";

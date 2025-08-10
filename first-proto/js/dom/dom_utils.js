@@ -25,10 +25,10 @@ export function move_child_node(el, new_parent) {
 }
 
 /*
- * Uses HTMLElement.closest, therefore the search includes itself
+ * Uses Element.closest, therefore the search includes itself
 */
 export function get_parent_attribute(child, parent_selector, attribute) {
-    validate_type(child, HTMLElement);
+    validate_type(child, Element);
     validate_type(parent_selector, "string");
     validate_type(attribute, "string");
 

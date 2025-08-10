@@ -13,6 +13,8 @@ function validate_primitive_type(value, type) {
     if(typeof value !== type) {
         throw new InvalidDataType("This variable isn't a " + type);
     }
+    if(type === "number" && Number.isNaN(value))
+        throw new InvalidDataType("NaN");
     return true;
 }
 

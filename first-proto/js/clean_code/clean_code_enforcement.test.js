@@ -12,6 +12,7 @@ test("validate_type primitives test", () => {
     expect(validate_type("test", "string")).toBe(true);
     expect(() => validate_type(new String(1), "string")).toThrow(InvalidDataType);
     expect(() => validate_type(1, "string")).toThrow(InvalidDataType);
+    expect(() => validate_type("error - NaN", "number")).toThrow(InvalidDataType);
 });
 
 test("validate_type classes test", () => {

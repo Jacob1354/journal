@@ -31,7 +31,7 @@ beforeEach(() => {
 });
 
 test("create_scheduled_activities", () => {
-    const schedule_el = dom_schedule._create_scheduled_activities();
+    const schedule_el = dom_schedule._create_scheduled_activities(activities);
 
     expect(schedule_el.id).toBe(ACTIVITIES_ID);
     expect(schedule_el.children[0].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].innerText).toBe(a1.title);

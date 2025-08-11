@@ -74,6 +74,7 @@ export class DomDay {
         try {
             const index = get_parent_attribute(input_field, "." + ACTIVITY_CLASS, "index");
             this.#day.schedule.update_activity_start_time(index, input_field.value);
+            this.#dom_schedule.render(this.#day.schedule.get_activities());
         } catch (error) {
             error_pop_up(error);
         }

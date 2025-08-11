@@ -4,7 +4,7 @@
 
 import { Day } from "../data/day.js";
 import { Activity, HoursAndMinutes } from "../data/schedule.js";
-import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_TITLE_CLASS, MOOD_FIELDS_WRAPPER_CLASS, MOOD_FIELDS_WRAPPER_ID, ACTIVITIES_ID, ACTIVITY_CLASS, ACTIVITIY_STARTTIME_CLASS, ACTIVITIY_ENDTIME_CLASS } from "./constants.js";
+import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_TITLE_CLASS, MOOD_FIELDS_WRAPPER_CLASS, MOOD_FIELDS_WRAPPER_ID, ACTIVITIES_ID, ACTIVITY_CLASS, ACTIVITIY_STARTTIME_CLASS, ACTIVITIY_ENDTIME_CLASS, MOOD_FIELD_INPUT_CLASS } from "./constants.js";
 import { DomDay } from "./dom_day.js";
 
 const start_time1 = new HoursAndMinutes(10, 0);
@@ -135,4 +135,20 @@ test("_update_activity_end_time", () => {
     current_end_time_str = String(dom_day._get_day_copy_for_test().schedule
                                     .get_activities()[activity_index].end_time);
     expect(current_end_time_str).toBe(new_end_time);
+});
+
+test("_update_mood_field", () => {
+    const index = 3; //In the default template, the 4th mood_field is a TextField
+    const new_input = "this is the new input";
+    const mood_fields_wrapper = document.createElement("div");
+    mood_fields_wrapper.id = MOOD_FIELDS_WRAPPER_ID;
+    document.body.appendChild(mood_fields_wrapper);
+    dom_day.render_mood_fields();
+    const mood_field = document.getElementById(MOOD_FIELDS_WRAPPER_ID).querySelector('[index="' + index + '"]');
+    const input_field = mood_field.querySelector("." + MOOD_FIELD_INPUT_CLASS);
+    expect(dom_day._get_day_copy_for_test().mood_fields[index].get_data()).not.toBe(new_input);
+    
+    input_field.value = new_input;
+    input_field.dispatchEvent(new Event("input", {bubbles: true}));
+    expect(dom_day._get_day_copy_for_test().mood_fields[index].get_data()).toBe(new_input);
 });

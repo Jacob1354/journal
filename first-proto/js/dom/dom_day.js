@@ -13,7 +13,9 @@ export class DomDay {
     constructor(day = new Day()) {
         validate_type(day, Day);
         this.#day = Day.from(day);
-        this.#dom_moodfields = new DOMMoodField(day.date, day.mood_fields);
+        this.#dom_moodfields = new DOMMoodField( { 
+            update : (event) => this._update_mood_field(event) 
+        } );
         this.#dom_schedule = new DOMSchedule({
             update_title : (event) => this._update_activity_title(event),
             update_content : (event) => this._update_activity_content(event),
@@ -39,10 +41,7 @@ export class DomDay {
     }
 
     render_mood_fields() {
-        const mood_fields_container = document.getElementById(MOOD_FIELDS_WRAPPER_ID);
-        const mood_field_els = this.#dom_moodfields.create_mood_fields();
-    
-        replace_children_of(mood_fields_container, mood_field_els);
+        this.#dom_moodfields.render_mood_fields(this.#day.mood_fields);
     }
 
     
@@ -102,6 +101,15 @@ export class DomDay {
             error_pop_up("Sorry, we we'rent able to remove this activity");
         }
     }
+
+    _update_mood_field(event) {
+        const mood_field_el = event.target.closest("." + MOOD_FIELD_CLASS);
+        const index = mood_field_el.getAttribute("index");
+        const new_val = event.target.value;
+        const mood_field = this.#day.mood_fields[index];
+        mood_field.set_data(mood_field.parse_input(new_val));
+    }
+    
 
     _get_day_copy_for_test() {
         return Day.from(this.#day);

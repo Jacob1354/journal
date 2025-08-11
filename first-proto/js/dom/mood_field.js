@@ -5,27 +5,25 @@ import { MOOD_FIELD_CLASS, MOOD_FIELD_FRACTION_CLASS, MOOD_FIELD_INPUT_CLASS, MO
 import { clear_children_of, replace_children_of } from "./dom_utils.js";
 
 export class DOMMoodField {
-    #date;
-    #mood_fields;
+    #update;
 
-    constructor(date, mood_fields) {
-        validate_type(date, Date);
-        validate_array_type(mood_fields, AbstractMoodField);
-        this.#date = date;
-        this.#mood_fields = mood_fields;
+    constructor( {update} ) {
+        this.#update = update;
     }
 
-    render_mood_fields() {
+    render_mood_fields(mood_fields) {
+        validate_array_type(mood_fields, AbstractMoodField);
         const mood_fields_container = document.getElementById(MOOD_FIELDS_WRAPPER_ID);
-        const mood_field_els = this.create_mood_fields();
-    
+        const mood_field_els = this._create_mood_fields(mood_fields);
+        
         replace_children_of(mood_fields_container, mood_field_els);
     }
-
-    create_mood_fields() {
+    
+    _create_mood_fields(mood_fields) {
+        validate_array_type(mood_fields, AbstractMoodField);
         const field_els = [];
 
-        this.#mood_fields.forEach((field, i) => {
+        mood_fields.forEach((field, i) => {
             field_els.push(this._create_mood_field(field, i));
         });
 
@@ -46,34 +44,28 @@ export class DOMMoodField {
             dom_field = this._create_slider_field(field);
         }
         dom_field.setAttribute("index", index);
-        dom_field.addEventListener("input", (event) => this._update_from_input(event));
         return dom_field;
     }
     
-    _update_from_input(event) {
-        const index = event.currentTarget.getAttribute("index");
-        const new_val = event.target.value;
-        this.#mood_fields[index].set_data(this.#mood_fields[index].parse_input(new_val));
-    }
-
     _create_number_field(field) {
         validate_type(field, NumberField);
-
+        
         const mood_field_wrapper = this._create_mood_field_wrapper_with_title(field);
         const nb_field = document.createElement("div");
         nb_field.classList.add(MOOD_FIELD_NB_CLASS);
         const input = document.createElement("input");
         input.type = "number";
         input.value = field.get_data();
+        input.addEventListener("input", this.#update);
         nb_field.appendChild(input);
         mood_field_wrapper.appendChild(nb_field);
-
+        
         return mood_field_wrapper;
     }
-
+    
     _create_text_field(field) {
         validate_type(field, TextField);
-
+        
         const mood_field_wrapper = this._create_mood_field_wrapper_with_title(field);
         const text_field = document.createElement("div");
         text_field.classList.add(MOOD_FIELD_TEXT_CLASS);
@@ -81,34 +73,37 @@ export class DOMMoodField {
         input.classList.add(MOOD_FIELD_INPUT_CLASS);
         input.name = MOOD_FIELD_TEXT_NAME;
         input.value = field.get_data();
+        input.addEventListener("input", this.#update);
         text_field.appendChild(input);
         mood_field_wrapper.appendChild(text_field);
-
+        
         return mood_field_wrapper;
     }
-
+    
     _create_fraction_field(field) {
         validate_type(field, FractionField);
-
+        
         const mood_field_wrapper = this._create_mood_field_wrapper_with_title(field);
         const fraction_field = document.createElement("div");
         fraction_field.classList.add(MOOD_FIELD_FRACTION_CLASS);
         const input = document.createElement("input");
         input.classList.add(MOOD_FIELD_INPUT_CLASS);
         input.type = "number";
+
         input.value = field.get_data();
+        input.addEventListener("input", this.#update);
         const denominator = document.createElement("p");
         denominator.innerText = "/" + String(field.get_denominator());
         fraction_field.appendChild(input);
         fraction_field.appendChild(denominator);
         mood_field_wrapper.appendChild(fraction_field);
-
+        
         return mood_field_wrapper;
     }
-
+    
     _create_slider_field(field) {
         validate_type(field, SliderField);
-
+        
         const mood_field_wrapper = this._create_mood_field_wrapper_with_title(field);
         const nb_field = document.createElement("div");
         nb_field.classList.add(MOOD_FIELD_SLIDER_CLASS);
@@ -116,6 +111,7 @@ export class DOMMoodField {
         input.classList.add(MOOD_FIELD_INPUT_CLASS);
         input.type = "range";
         input.value = field.get_data();
+        input.addEventListener("input", this.#update);
         nb_field.appendChild(input);
         mood_field_wrapper.appendChild(nb_field);
 
@@ -132,10 +128,6 @@ export class DOMMoodField {
         wrapper.appendChild(field_name);
         
         return wrapper;
-    }
-
-    _get_fields_for_tests() {
-        return this.#mood_fields;
     }
 
 }

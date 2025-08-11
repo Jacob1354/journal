@@ -14,13 +14,13 @@ export class DomDay {
         validate_type(day, Day);
         this.#day = Day.from(day);
         this.#dom_moodfields = new DOMMoodField(day.date, day.mood_fields);
-        this.#dom_schedule = new DOMSchedule(
-            (event) => this._update_activity_title(event),
-            (event) => this._update_activity_content(event),
-            (event) => this._update_activity_start_time(event),
-            (event) => this._update_activity_end_time(event),
-            (event) => this._remove_activity(event)
-        );
+        this.#dom_schedule = new DOMSchedule({
+            update_title : (event) => this._update_activity_title(event),
+            update_content : (event) => this._update_activity_content(event),
+            update_start_time : (event) => this._update_activity_start_time(event),
+            update_end_time : (event) => this._update_activity_end_time(event),
+            remove_activity : (event) => this._remove_activity(event)
+        });
     }
 
 

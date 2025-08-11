@@ -17,12 +17,13 @@ export class DOMSchedule {
     #update_end_time;
     #remove_activity;
     
-    constructor(
+    constructor( {
         update_title,
         update_content,
         update_start_time,
         update_end_time,
         remove_activity
+    }
     ) {
         this.#update_title = update_title;
         this.#update_content = update_content;

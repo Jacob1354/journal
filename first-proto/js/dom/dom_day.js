@@ -41,7 +41,7 @@ export class DomDay {
     }
 
     render_mood_fields() {
-        this.#dom_moodfields.render_mood_fields(this.#day.mood_fields);
+        this.#dom_moodfields.render(this.#day.mood_fields);
     }
 
     

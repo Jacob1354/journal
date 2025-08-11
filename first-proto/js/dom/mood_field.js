@@ -11,7 +11,7 @@ export class DOMMoodField {
         this.#update = update;
     }
 
-    render_mood_fields(mood_fields) {
+    render(mood_fields) {
         validate_array_type(mood_fields, AbstractMoodField);
         const mood_fields_container = document.getElementById(MOOD_FIELDS_WRAPPER_ID);
         const mood_field_els = this._create_mood_fields(mood_fields);

@@ -15,10 +15,14 @@ const MIME_type = {
 };
 
 app.get('/', async (req, res, next) => {
-    await readFile("./public/day.html", "utf8", (err, data) => {
-        if(err) throw err;
-        res.send(data);
-    });
+    res.redirect("/signin.html");
+});
+
+app.post('/signin', (req, res) => {
+
+});
+
+app.post('/signup', (req, res) => {
 
 });
 

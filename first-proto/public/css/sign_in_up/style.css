@@ -1,0 +1,58 @@
+body {
+    background-color: aquamarine;
+    display: flex;
+    flex-direction: column;
+    padding: 10%;
+}
+nav {
+    border: solid black 1px;
+    border-radius: 10px;
+    background-color: rgb(246, 190, 253);
+    margin: 0 auto 50px auto;
+    padding: 10px;
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+nav a {
+    border: solid black 1px;
+    border-radius: 10px;
+    background-color: rgb(250, 214, 254);
+    padding: 5px;
+    text-decoration: none;
+    color: black;
+}
+
+.container {
+    border: solid black 1px;
+    border-radius: 10px;
+    background-color: rgb(246, 190, 253);
+    margin: 0 auto 50px auto;
+    padding: 10px;
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+form {
+    border: solid black 1px;
+    border-radius: 10px;
+    background-color: rgb(246, 190, 253);
+    margin: 0 auto 50px auto;
+    padding: 10px;
+    width: 50%;
+}
+
+#user_getter_box {
+    border: solid black 1px;
+    background-color: rgb(202, 155, 246);
+    margin: 50px auto 0 auto;
+    width: 50%;
+}
+
+.err_text {
+    color: red;
+}

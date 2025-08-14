@@ -1,5 +1,5 @@
 import { validate_type } from "../clean_code/clean_code_enforcement.js";
-import { NumberField, FractionField, TextField, SliderField } from "./mood_field.js";
+import { NumberField, FractionField, TextField } from "./mood_field.js";
 import { Schedule } from "./schedule.js";
 
 export class Day {

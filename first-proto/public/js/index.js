@@ -1,5 +1,5 @@
-import { validate_type } from "./clean_code/clean_code_enforcement.js";
-import { Day } from "./data/day.js";
+import { validate_type } from "../../shared/clean_code/clean_code_enforcement.js";
+import { Day } from "../../shared/data/day.js";
 import {  } from "./dom/schedule.js";
 import { DomDay } from "./dom/dom_day.js"
 

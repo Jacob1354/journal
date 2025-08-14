@@ -2,8 +2,8 @@
  * @jest-environment jsdom
  */
 
-import { Day } from "../data/day.js";
-import { Activity, HoursAndMinutes } from "../data/schedule.js";
+import { Day } from "../../../shared/data/day.js";
+import { Activity, HoursAndMinutes } from "../../../shared/data/schedule.js";
 import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_TITLE_CLASS, MOOD_FIELDS_WRAPPER_CLASS, MOOD_FIELDS_WRAPPER_ID, ACTIVITIES_ID, ACTIVITY_CLASS, ACTIVITIY_STARTTIME_CLASS, ACTIVITIY_ENDTIME_CLASS, MOOD_FIELD_INPUT_CLASS } from "./constants.js";
 import { DomDay } from "./dom_day.js";
 

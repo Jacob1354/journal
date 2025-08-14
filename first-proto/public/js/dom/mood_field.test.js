@@ -2,9 +2,8 @@
  * @jest-environment jsdom
  */
 
-import { validate_type } from "../clean_code/clean_code_enforcement";
-import { FractionField, NumberField, SliderField, TextField } from "../data/mood_field";
-import { Schedule } from "../data/schedule";
+import { validate_type } from "../../../shared/clean_code/clean_code_enforcement";
+import { FractionField, NumberField, SliderField, TextField } from "../../../shared/data/mood_field";
 import { MOOD_FIELD_CLASS, MOOD_FIELD_FRACTION_CLASS, MOOD_FIELD_INPUT_CLASS, MOOD_FIELD_NB_CLASS, MOOD_FIELD_SLIDER_CLASS, MOOD_FIELD_TEXT_CLASS, MOOD_FIELD_TEXT_NAME, MOOD_FIELDS_WRAPPER_ID } from "./constants";
 import { DOMMoodField } from "./mood_field";
 

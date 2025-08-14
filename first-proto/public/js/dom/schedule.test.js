@@ -2,8 +2,8 @@
  * @jest-environment jsdom
  */
 
-import { AbstractFunctionNotOverriden } from "../clean_code/clean_code_enforcement.js";
-import { Activity, HoursAndMinutes, Schedule } from "../data/schedule.js"
+import { AbstractFunctionNotOverriden } from "../../../shared/clean_code/clean_code_enforcement.js";
+import { Activity, HoursAndMinutes, Schedule } from "../../../shared/data/schedule.js"
 import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_CONTENT_WRAPPER_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_TIMEINTERVAL_CLASS, ACTIVITIY_TITLE_CLASS, ACTIVITIES_ID, ACTIVITY_CLASS } from "./constants.js";
 import { DOMSchedule } from "./schedule.js";
 

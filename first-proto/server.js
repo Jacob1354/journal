@@ -1,7 +1,4 @@
 import express from 'express';
-import { access, existsSync, readFile } from 'node:fs'
-import { constants } from 'node:fs/promises';
-import { extname } from 'node:path';
 import { SERVER_HOST, SERVER_PORT } from './server_const.js';
 
 

@@ -1,4 +1,4 @@
-import { validate_array_type, validate_type } from "../clean_code/clean_code_enforcement.js";
+import { validate_array_type, validate_type } from "../../../shared/clean_code/clean_code_enforcement.js";
 
 export function clear_children_of(element) {
     validate_type(element, HTMLElement);

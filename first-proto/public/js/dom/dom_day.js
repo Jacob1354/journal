@@ -1,8 +1,8 @@
-import { validate_type } from "../clean_code/clean_code_enforcement.js";
-import { Day } from "../data/day.js";
-import { Activity } from "../data/schedule.js";
-import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_ENDTIME_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_STARTTIME_CLASS, ACTIVITIY_TIMEINTERVAL_CLASS, ACTIVITIY_TITLE_CLASS, MOOD_FIELD_CLASS, MOOD_FIELDS_WRAPPER_CLASS, MOOD_FIELDS_WRAPPER_ID, ACTIVITIES_ID, ACTIVITY_CLASS, ERR_MSG_UNABLE_TO_DELETE_ACTIVITY } from "./constants.js";
-import { error_pop_up, get_parent_attribute, ParentNotFound, replace_children_of, UndefinedAttribute } from "./dom_utils.js";
+import { validate_type } from "../../../shared/clean_code/clean_code_enforcement.js";
+import { Day } from "../../../shared/data/day.js";
+import { Activity } from "../../../shared/data/schedule.js";
+import { MOOD_FIELD_CLASS, ACTIVITY_CLASS } from "./constants.js";
+import { error_pop_up, get_parent_attribute } from "./dom_utils.js";
 import { DOMMoodField } from "./mood_field.js";
 import { DOMSchedule } from "./schedule.js";
 

@@ -12,7 +12,7 @@ const MIME_type = {
 };
 
 app.get('/', async (req, res, next) => {
-    res.redirect("/signin.html");
+    res.redirect("/html/signin.html");
 });
 
 app.post('/signin', (req, res) => {

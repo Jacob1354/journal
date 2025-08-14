@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/sign_in_up/style.css">
-    <title>index</title>
+    <link rel="stylesheet" href="../css/sign_in_up/style.css">
+    <title>Sign Up</title>
 </head>
 <body>
     <nav>
@@ -12,15 +12,17 @@
         <a href="signin.html">Sign in</a>
     </nav>
     <form method="post">
-        <h2>Sign In</h2>
+        <h2>Sign Up</h2>
+        <p>Name :</p>
+        <input type="text" name="name" id="name">
         <p>Username :</p>
         <input type="text" name="username" id="username_input">
         <p>Password :</p>
         <input type="text" name="password" id="password_input">
-        <button id="sign_in_btn" type="button">Sign In</button>
-        <p id="signin_success"></p>
-        <p id="signin_err" class="err_text"></p>
+        <button id="sign_up_btn" type="button">Sign Up</button>
+        <p id="create_user_success"></p>
+        <p id="create_user_error" class="err_text"></p>
     </form>
-    <script src="js/sign_in_up/signin.js"></script>
+    <script src="../js/sign_in_up/signup.js"></script>
 </body>
 </html>

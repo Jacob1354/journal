@@ -23,9 +23,9 @@ const preexisting_user = new User({
 const preexisting_user_session = "this is the session";
 const invalid_user_session = "this is not the session";
 
-/*
-const mock_get_user = jest.fn((username) => valid_user);
-const mock_get_user_from_session = jest.fn((session) => valid_user);
+
+const mock_get_user = jest.fn((username) => username === preexisting_user.username ? preexisting_user : false);
+const mock_get_user_from_session = jest.fn((session) => preexisting_user);
 const mock_add_user = jest.fn((user) => true);
 const mock_create_session_cookie = jest.fn((user) => true);
 const mockAuthDAO = jest.fn(() => ({ 
@@ -37,7 +37,8 @@ const mockAuthDAO = jest.fn(() => ({
 jest.unstable_mockModule("../dao/auth_dao", () => ({
     AuthDAO: mockAuthDAO
 }));
-*/
+
+
 jest.unstable_mockModule('node:crypto', () => ({
     randomBytes: jest.fn(() => preexisting_user_session)
 }));

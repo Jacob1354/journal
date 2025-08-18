@@ -1,5 +1,7 @@
+import { validate_type } from "../../shared/clean_code/clean_code_enforcement";
 import { AuthDAO } from "../dao/auth_dao";
 import { randomBytes } from 'node:crypto';
+import { User } from "../data/auth_data";
 
 export class AuthService {
     #auth_dao;
@@ -8,7 +10,10 @@ export class AuthService {
     }
 
     signup_user(user) {
-        throw new Error("Not implemented");
+        validate_type(user, User);
+        this._check_if_user_is_valid(user);
+        this._check_if_username_is_taken(user);
+        this.#auth_dao.add_user(user);
     }
 
 
@@ -24,6 +29,38 @@ export class AuthService {
 
     authenticate_session(session) {
         
+    }
+
+    _check_if_user_is_valid(user) {
+        validate_type(user, User);
+        if(!user.username || user.username === ""
+            || !user.password || user.password === "" 
+            || !user.name || user.name === ""
+        ) {
+            throw new InvalidUser("One of the props of the user is invalid");
+        }
+    }
+
+    _check_if_username_is_taken(user) {
+        try {
+            if(this.#auth_dao.get_user(user.username))
+                throw new UnavailableUsername("Unvailable username");
+        } catch(err) {
+            if(err instanceof UnavailableUsername)
+                throw err;
+            else 
+                throw new UnableToCreateUser("Couldn't get_user from db to check username");
+        }
+    }
+
+}
+
+
+
+export class UnableToCreateUser extends Error {
+    constructor(msg) {
+        super(msg);
+        this.name = "UnableToCreateUser";
     }
 }
 

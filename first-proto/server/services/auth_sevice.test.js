@@ -25,7 +25,7 @@ const invalid_user_session = "this is not the session";
 
 
 const mock_get_user = jest.fn((username) => username === preexisting_user.username ? preexisting_user : false);
-const mock_get_user_from_session = jest.fn((session) => preexisting_user);
+const mock_get_user_from_session = jest.fn((session) => session == preexisting_user_session ? preexisting_user : null);
 const mock_add_user = jest.fn((user) => true);
 const mock_add_session_cookie = jest.fn((user, session) => true);
 const mockAuthDAO = jest.fn(() => ({ 

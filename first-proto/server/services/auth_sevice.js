@@ -1,6 +1,6 @@
 import { validate_type } from "../../shared/clean_code/clean_code_enforcement";
 import { AuthDAO } from "../dao/auth_dao";
-import { randomBytes } from 'node:crypto';
+import { randomBytes } from 'crypto';
 import { User } from "../data/auth_data";
 
 export class AuthService {
@@ -22,9 +22,16 @@ export class AuthService {
      * If it's the case, it creates and return a session cookie
     */
     signin_user(user) {
-        const new_cookie = "TODO";
-        
-        return new_cookie;
+        validate_type(user, User);
+        const db_user = this.#auth_dao.get_user(user.username)
+        if(!db_user)
+            throw new UserNotFound("Couldn't sign in user since they couldn't be found");
+        if(user.password != db_user.password)
+            throw new InvalidPassword("Invalid password");
+
+        const session = randomBytes(32);
+        this.#auth_dao.add_session_cookie(user, session);
+        return session;
     }
 
     authenticate_session(session) {

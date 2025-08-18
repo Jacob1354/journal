@@ -27,25 +27,25 @@ const invalid_user_session = "this is not the session";
 const mock_get_user = jest.fn((username) => username === preexisting_user.username ? preexisting_user : false);
 const mock_get_user_from_session = jest.fn((session) => preexisting_user);
 const mock_add_user = jest.fn((user) => true);
-const mock_create_session_cookie = jest.fn((user) => true);
+const mock_add_session_cookie = jest.fn((user, session) => true);
 const mockAuthDAO = jest.fn(() => ({ 
     get_user_from_session: mock_get_user_from_session,
     add_user: mock_add_user,
     get_user: mock_get_user,
-    create_session_cookie: mock_create_session_cookie
+    add_session_cookie: mock_add_session_cookie
 }));
 jest.unstable_mockModule("../dao/auth_dao", () => ({
     AuthDAO: mockAuthDAO
 }));
 
-
-jest.unstable_mockModule('node:crypto', () => ({
-    randomBytes: jest.fn(() => preexisting_user_session)
+const mockRandomBytes = jest.fn((bytes) => preexisting_user_session);
+jest.unstable_mockModule('crypto', () => ({
+    randomBytes: mockRandomBytes
 }));
 
 const { AuthService, UnavailableUsername, InvalidUser, UserNotFound, InvalidPassword, InvalidSession } = await import("./auth_sevice");
 const { AuthDAO } = await import("../dao/auth_dao");
-const { randomBytes } =  await import('node:crypto');
+const { randomBytes } =  await import('crypto');
 
 
 let auth_service = new AuthService();

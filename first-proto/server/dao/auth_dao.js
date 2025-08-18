@@ -15,7 +15,7 @@ export class AuthDAO {
         throw new Error("Not implemented");
     }
 
-    create_session_cookie(user) {
+    add_session_cookie(user, session) {
         throw new Error("Not implemented");
     }
 }

@@ -1,31 +1,16 @@
-import express from 'express';
-import { SERVER_HOST, SERVER_PORT } from './server_const.js';
+import Database from "better-sqlite3";
+import { AuthService } from "./services/auth_sevice";
+import { JournalService } from "./services/journal_service";
 
+export class JournalServer {
+    
+    constructor() {
+        this.db = new Database("journaldb.db");
+        this.auth_service = new AuthService(this.db);
+        this.journal_service = new JournalService(this.db);
+    }
 
-const app = express();
-
-
-const MIME_type = {
-    ".html" : "text/html",
-    ".css" : "text/css",
-    ".js" : "application/javascript",
-};
-
-app.get('/', async (req, res, next) => {
-    res.redirect("/html/signin.html");
-});
-
-app.post('/signin', (req, res) => {
-
-});
-
-app.post('/signup', (req, res) => {
-
-});
-
-app.use(express.static("public"));
-
-
-app.listen(SERVER_PORT, () => {
-  console.log(`Server listening on http://${SERVER_HOST}:${SERVER_PORT}/`)
-})
+    close_server() {
+        this.db.close();
+    }
+}

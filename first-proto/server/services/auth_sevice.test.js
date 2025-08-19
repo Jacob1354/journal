@@ -28,12 +28,12 @@ const invalid_user_session = "this is not the session";
 const mock_get_user = jest.fn((username) => username === preexisting_user.username ? preexisting_user : false);
 const mock_get_user_from_session = jest.fn((session) => session == preexisting_user_session ? preexisting_user : null);
 const mock_add_user = jest.fn((user) => true);
-const mock_add_session_cookie = jest.fn((user, session) => true);
+const mock_add_session = jest.fn((user, session) => true);
 const mockAuthDAO = jest.fn(() => ({ 
     get_user_from_session: mock_get_user_from_session,
     add_user: mock_add_user,
     get_user: mock_get_user,
-    add_session_cookie: mock_add_session_cookie
+    add_session: mock_add_session
 }));
 jest.unstable_mockModule("../dao/auth_dao", () => ({
     AuthDAO: mockAuthDAO

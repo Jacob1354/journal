@@ -32,7 +32,7 @@ export class AuthService {
             throw new InvalidPassword("Invalid password");
 
         const session = randomBytes(32);
-        this.#auth_dao.add_session_cookie(user, session);
+        this.#auth_dao.add_session(user, session);
         return session;
     }
 

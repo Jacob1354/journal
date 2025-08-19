@@ -2,11 +2,13 @@ import { validate_type } from "../../shared/clean_code/clean_code_enforcement";
 import { AuthDAO } from "../dao/auth_dao";
 import { randomBytes } from 'crypto';
 import { User } from "../data/auth_data";
+import Database from "better-sqlite3";
 
 export class AuthService {
     #auth_dao;
-    constructor() {
-        this.#auth_dao = new AuthDAO();
+    constructor(db) {
+        validate_type(db, Database);
+        this.#auth_dao = new AuthDAO(db);
     }
 
     signup_user(user) {

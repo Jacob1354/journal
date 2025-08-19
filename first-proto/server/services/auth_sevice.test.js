@@ -1,4 +1,5 @@
 import { jest } from '@jest/globals';
+import Database from 'better-sqlite3';
 const { User } = await import("../data/auth_data");
 
 const valid_username = "username";
@@ -47,12 +48,12 @@ const { AuthService, UnavailableUsername, InvalidUser, UserNotFound, InvalidPass
 const { AuthDAO } = await import("../dao/auth_dao");
 const { randomBytes } =  await import('crypto');
 
-
-let auth_service = new AuthService();
+const db = new Database(":memory:");
+let auth_service = new AuthService(db);
 
 
 beforeEach(() => {
-    auth_service = new AuthService();
+    auth_service = new AuthService(db);
 })
 
 

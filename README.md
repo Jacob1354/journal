@@ -7,3 +7,4 @@ Future improvements
  - More robust session token creation
  - Prettier UI
  - More complex db error (ex: trying again a few times depending on the sqlite error code)
+ - Being able to remove an account

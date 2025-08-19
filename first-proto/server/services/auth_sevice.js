@@ -1,5 +1,5 @@
 import { validate_type } from "../../shared/clean_code/clean_code_enforcement";
-import { AuthDAO } from "../dao/auth_dao";
+import { AuthDAO, UnavailableUsername } from "../dao/auth_dao";
 import { randomBytes } from 'crypto';
 import { User } from "../data/auth_data";
 import Database from "better-sqlite3";
@@ -74,13 +74,6 @@ export class UnableToCreateUser extends Error {
     constructor(msg) {
         super(msg);
         this.name = "UnableToCreateUser";
-    }
-}
-
-export class UnavailableUsername extends Error {
-    constructor(msg) {
-        super(msg);
-        this.name = "UnavailableUsername";
     }
 }
 

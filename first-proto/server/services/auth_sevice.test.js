@@ -1,6 +1,7 @@
 import { jest } from '@jest/globals';
 import Database from 'better-sqlite3';
 const { User } = await import("../data/auth_data");
+import { UnavailableUsername } from '../dao/auth_dao';
 
 const valid_username = "username";
 const valid_password = "pwd";
@@ -44,7 +45,7 @@ jest.unstable_mockModule('crypto', () => ({
     randomBytes: mockRandomBytes
 }));
 
-const { AuthService, UnavailableUsername, InvalidUser, UserNotFound, InvalidPassword, InvalidSession } = await import("./auth_sevice");
+const { AuthService, InvalidUser, UserNotFound, InvalidPassword, InvalidSession } = await import("./auth_sevice");
 const { AuthDAO } = await import("../dao/auth_dao");
 const { randomBytes } =  await import('crypto');
 

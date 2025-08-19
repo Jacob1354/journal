@@ -24,3 +24,17 @@ export class AuthDAO {
         throw new Error("Not implemented");
     }
 }
+
+export class UnavailableUsername extends Error {
+    constructor(msg) {
+        super(msg);
+        this.name = "UnavailableUsername";
+    }
+}
+
+export class UnvailableSession extends Error {
+    constructor(msg) {
+        super(msg);
+        this.name = "UnvailableSession";
+    }
+}

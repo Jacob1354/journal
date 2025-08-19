@@ -1,5 +1,3 @@
-
-
 DROP TABLE text_field;
 DROP TABLE number_field;
 DROP TABLE fraction_field;
@@ -8,6 +6,8 @@ DROP VIEW activity_view;
 DROP TABLE activity;
 DROP TABLE mood_field;
 DROP TABLE day;
+
+
 
 
 CREATE TABLE day (

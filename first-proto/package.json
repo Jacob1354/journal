@@ -14,7 +14,7 @@
         "jest-environment-jsdom": "^30.0.4"
     },
     "dependencies": {
-        "express": "^5.1.0",
-        "pg": "^8.16.3"
+        "better-sqlite3": "^12.2.0",
+        "express": "^5.1.0"
     }
 }

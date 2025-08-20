@@ -61,7 +61,12 @@ test("get_user: notfound", () => {
 
 
 test("get_user_from_session: success", () => {
-    expect(auth_dao.get_user_from_session(preexisting_user_session)).toEqual(preexisting_user);
+    //The hash isn't returned when getting user from session
+    const returned_user = new User({
+        username: preexisting_user.username,
+        name: preexisting_user.name
+    });
+    expect(auth_dao.get_user_from_session(preexisting_user_session)).toEqual(returned_user);
 });
 test("get_user_from_session: not_found", () => {
     expect(auth_dao.get_user_from_session(new_user_session)).toBe(null);

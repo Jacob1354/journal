@@ -1,7 +1,7 @@
 import Database from "better-sqlite3";
 import { validate_type } from "../../shared/clean_code/clean_code_enforcement";
 import { User } from "../data/auth_data";
-import { InvalidUser } from "../services/auth_sevice";
+import { InvalidUser } from "../data/auth_data";
 
 export class AuthDAO {
     #db;
@@ -64,6 +64,8 @@ export class AuthDAO {
         try {
             this.#db.prepare("INSERT INTO session (username, session) VALUES (?, ?)")
                 .run(user.username, session);
+        } catch(err) {
+            throw err;
         }
     }
 }

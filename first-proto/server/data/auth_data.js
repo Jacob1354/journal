@@ -15,3 +15,10 @@ export class User {
         this.hash = hash;
     }
 }
+export class InvalidUser extends Error {
+    constructor(msg) {
+        super(msg);
+        this.name = "InvalidUser";
+    }
+}
+

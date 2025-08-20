@@ -37,7 +37,8 @@ const mockAuthDAO = jest.fn(() => ({
     add_session: mock_add_session
 }));
 jest.unstable_mockModule("../dao/auth_dao", () => ({
-    AuthDAO: mockAuthDAO
+    AuthDAO: mockAuthDAO,
+    UnavailableUsername: UnavailableUsername
 }));
 
 const mockRandomBytes = jest.fn((bytes) => preexisting_user_session);
@@ -45,9 +46,17 @@ jest.unstable_mockModule('crypto', () => ({
     randomBytes: mockRandomBytes
 }));
 
+const mockHash = jest.fn((pwd) => {});
+const mockVerify = jest.fn((hash, pwd) => pwd === preexisting_user.password);
+jest.unstable_mockModule('argon2', () => ({
+    hash: mockHash,
+    verify: mockVerify
+}));
+
 const { AuthService, InvalidUser, UserNotFound, InvalidPassword, InvalidSession } = await import("./auth_sevice");
 const { AuthDAO } = await import("../dao/auth_dao");
 const { randomBytes } =  await import('crypto');
+const argon2 = await import('argon2');
 
 const db = new Database(":memory:");
 let auth_service = new AuthService(db);
@@ -59,10 +68,10 @@ beforeEach(() => {
 
 
 test("sign_up_user: success", () => {
-    expect(() => auth_service.signup_user(new_user)).not.toThrow(Error);
+    expect(auth_service.signup_user(new_user)).resolves.not.toThrow(Error);
 });
 test("sign_up_user: throws UnavailableUsername", () => {
-    expect(() => auth_service.signup_user(preexisting_user)).toThrow(UnavailableUsername);
+    expect(auth_service.signup_user(preexisting_user)).rejects.toThrow(UnavailableUsername);
 });
 test.each([
     ["username", ""],
@@ -81,17 +90,16 @@ test.each([
         name: valid_name
     });
     user[property] = value;
-    expect(() => auth_service.signup_user(user)).toThrow(InvalidUser);
+    expect(auth_service.signup_user(user)).rejects.toThrow(InvalidUser);
 });
 
 
-test("sign_in_user: success", () => {
-    let session;
-    expect(() => session = auth_service.signin_user(preexisting_user)).not.toThrow(Error);
+test("sign_in_user: success", async () => {
+    let session = await auth_service.signin_user(preexisting_user);
     expect(session).toBe(preexisting_user_session);
 });
 test("sign_in_user: user_not_found", () => {
-    expect(() => auth_service.signin_user(new_user)).toThrow(UserNotFound);
+    expect(auth_service.signin_user(new_user)).rejects.toThrow(UserNotFound);
 });
 test("sign_in_user: invalid_password", () => {
     const preexisting_user_with_invalid_pwd = new User({
@@ -99,7 +107,7 @@ test("sign_in_user: invalid_password", () => {
         password: "not this password " + preexisting_user.password,
         name: preexisting_user.name
     })
-    expect(() => auth_service.signin_user(preexisting_user_with_invalid_pwd)).toThrow(InvalidPassword);
+    expect(auth_service.signin_user(preexisting_user_with_invalid_pwd)).rejects.toThrow(InvalidPassword);
 });
 
 

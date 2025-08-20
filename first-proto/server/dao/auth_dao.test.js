@@ -17,22 +17,22 @@ function set_up_db() {
 function reset_db(db) {
     db.prepare("DELETE FROM session").run();
     db.prepare("DELETE FROM user").run();
-    db.prepare("INSERT INTO user (username, password, name) VALUES (?, ?, ?)")
-    .run(preexisting_user.username, preexisting_user.password, preexisting_user.name);
+    db.prepare("INSERT INTO user (username, hash, name) VALUES (?, ?, ?)")
+    .run(preexisting_user.username, preexisting_user.hash, preexisting_user.name);
     db.prepare("INSERT INTO session (session, username) VALUES (?, ?)")
     .run(preexisting_user_session, preexisting_user.username);
 }
 
 const preexisting_user = new User({
     username: "jacob_username",
-    password: "pwd",
+    hash: "hash",
     name: "jacob"
 });
 const preexisting_user_session = "preexisting_user_session";
 
 const new_user = new User({
     username: "new_username",
-    password: "new_pwd",
+    hash: "new_hash",
     name: "new_name"
 });
 const new_user_session = "new_user_session";

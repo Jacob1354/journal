@@ -1,5 +1,5 @@
 import { validate_type } from "../../shared/clean_code/clean_code_enforcement";
-import { AuthDAO, UnavailableUsername } from "../dao/auth_dao";
+import { AuthDAO, InvalidSession, UnavailableUsername } from "../dao/auth_dao";
 import { randomBytes } from 'crypto';
 import { InvalidUser, User } from "../data/auth_data";
 import Database from "better-sqlite3";
@@ -94,9 +94,4 @@ export class InvalidPassword extends Error {
     }
 }
 
-export class InvalidSession extends Error {
-    constructor(msg) {
-        super(msg);
-        this.name = "InvalidSession";
-    }
-}
+

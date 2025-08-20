@@ -3,7 +3,8 @@ import Database from "better-sqlite3";
 import {readFileSync} from "fs";
 import { User } from "../data/auth_data";
 import { AuthDAO, UnavailableUsername } from "./auth_dao";
-import { InvalidSession } from "../services/auth_sevice";
+import { UserNotFound } from "../services/auth_sevice";
+import { InvalidSession } from "./auth_dao";
 jest.useFakeTimers();
 jest.spyOn(global, "setTimeout");
 
@@ -84,9 +85,14 @@ test("add_user: UnavailableUsername", () => {
 
 
 test("add_session: success", () => {
+    const returned_user = new User({
+        username: new_user.username,
+        name: new_user.name
+    });
+    auth_dao.add_user(new_user);
     expect(auth_dao.get_user_from_session(new_user_session)).toBe(null);
     expect(() => auth_dao.add_session(new_user, new_user_session)).not.toThrow(Error);
-    expect(auth_dao.get_user_from_session(new_user_session)).toEqual(new_user);
+    expect(auth_dao.get_user_from_session(new_user_session)).toEqual(returned_user);
     jest.runAllTimers();
     expect(auth_dao.get_user_from_session(new_user_session)).toBe(null);
 });

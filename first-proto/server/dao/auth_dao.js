@@ -76,10 +76,10 @@ export class UnavailableUsername extends Error {
         this.name = "UnavailableUsername";
     }
 }
-
-export class UnvailableSession extends Error {
+export class InvalidSession extends Error {
     constructor(msg) {
         super(msg);
-        this.name = "UnvailableSession";
+        this.name = "InvalidSession";
     }
 }
+

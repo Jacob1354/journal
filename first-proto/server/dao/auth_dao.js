@@ -5,6 +5,7 @@ import { InvalidUser } from "../data/auth_data";
 
 export class AuthDAO {
     #db;
+    #SESSION_MAX_AGE = 300_000;
     constructor(db) {
         validate_type(db, Database);
         this.#db = db;
@@ -64,9 +65,27 @@ export class AuthDAO {
         try {
             this.#db.prepare("INSERT INTO session (username, session) VALUES (?, ?)")
                 .run(user.username, session);
+            setTimeout(() => this._remove_session(session, user.username), this.#SESSION_MAX_AGE);
         } catch(err) {
-            throw err;
+            if(err instanceof Database.SqliteError 
+                && (err.code === "SQLITE_CONSTRAINT_UNIQUE"
+                    || err.code === "SQLITE_CONSTRAINT_PRIMARYKEY"))
+                throw new InvalidSession("Session already taken");
+            else
+                throw err;
         }
+    }
+
+    _remove_session(session, username) {
+        validate_type(session, "string");
+        validate_type(username, "string");
+        try {
+            this.#db.prepare("DELETE FROM session WHERE session = ? AND username = ?")
+                .run(session, username);
+        } catch(err) {
+            console.log(err); //TODO handle error
+        }
+
     }
 }
 

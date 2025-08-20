@@ -1,6 +1,7 @@
 import Database from "better-sqlite3";
 import { validate_type } from "../../shared/clean_code/clean_code_enforcement";
 import { User } from "../data/auth_data";
+import { InvalidUser } from "../services/auth_sevice";
 
 export class AuthDAO {
     #db;
@@ -40,7 +41,21 @@ export class AuthDAO {
     }
 
     add_user(user) {
-        throw new Error("Not implemented");
+        validate_type(user, User);
+        if(!user.username || !user.hash || !user.name)
+            throw new InvalidUser("auth_dao: Couldn't add_user, it is invalid");
+        try{
+            this.#db.prepare("INSERT INTO user (username, hash, name) VALUES (?, ?, ?)")
+                .run(user.username, user.hash, user.name);
+        } catch(err) {
+            if(err instanceof Database.SqliteError 
+                && (err.code === "SQLITE_CONSTRAINT_PRIMARYKEY" 
+                    || err.code === "SQLITE_CONSTRAINT_UNIQUE")) {
+                throw new UnavailableUsername("Unvailable unsername");
+            }
+            else
+                throw err;
+        }
     }
 
     add_session(user, session) {

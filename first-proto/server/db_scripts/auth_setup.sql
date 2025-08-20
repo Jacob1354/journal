@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS user(
 ) WITHOUT ROWID;
 
 CREATE TABLE IF NOT EXISTS session(
-    session TEXT,
+    session TEXT UNIQUE,
     username TEXT,
     PRIMARY KEY (session, username),
     FOREIGN KEY (username) REFERENCES user(username)

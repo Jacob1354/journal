@@ -59,7 +59,12 @@ export class AuthDAO {
     }
 
     add_session(user, session) {
-        throw new Error("Not implemented");
+        validate_type(user, User);
+        validate_type(session, "string");
+        try {
+            this.#db.prepare("INSERT INTO session (username, session) VALUES (?, ?)")
+                .run(user.username, session);
+        }
     }
 }
 

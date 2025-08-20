@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS user(
     username TEXT PRIMARY KEY,
-    password TEXT NOT NULL,
+    hash TEXT NOT NULL,
     name TEXT NOT NULL
 ) WITHOUT ROWID;
 

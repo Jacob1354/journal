@@ -24,7 +24,19 @@ export class AuthDAO {
     }
 
     get_user_from_session(session) {
-        throw new Error("Not implemented");
+        validate_type(session, "string");
+        let user;
+        let row = this.#db.prepare("SELECT * FROM session WHERE session = ?").get(session);
+        if(row) {
+            row = this.#db.prepare("SELECT * FROM user WHERE username = ?").get(row.username);
+            if(row) {
+                user = new User({
+                    username: row.username,
+                    name: row.name
+                })
+            } 
+        }
+        return user ? user : null;
     }
 
     add_user(user) {

@@ -1,5 +1,6 @@
 import Database from "better-sqlite3";
 import { validate_type } from "../../shared/clean_code/clean_code_enforcement";
+import { User } from "../data/auth_data";
 
 export class AuthDAO {
     #db;
@@ -9,7 +10,17 @@ export class AuthDAO {
     }
     
     get_user(username) {
-        throw new Error("Not implemented");
+        validate_type(username, "string");
+        let user;
+        const row = this.#db.prepare("SELECT * FROM user WHERE username = ?").get(username);
+        if(row) {
+            user = new User({
+                username: row.username,
+                hash: row.hash,
+                name: row.name
+            });
+        }
+        return user ? user : null;
     }
 
     get_user_from_session(session) {

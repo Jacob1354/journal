@@ -1,7 +1,9 @@
 import express from 'express';
-import { HTML_DAY_PATH, HTML_SIGNIN_PATH, HTML_SIGNUP_PATH, SERVER_HOST, SERVER_PORT } from './server_const.js';
+import { ERR_MSG_SERVER_ERR, ERR_MSG_UNAVAILABLE_USERNAME, HTML_DAY_PATH, HTML_SIGNIN_PATH, HTML_SIGNUP_PATH, SERVER_HOST, SERVER_PORT } from './server_const.js';
 import { JournalServer } from './journal_server.js';
 import cookieParser from 'cookie-parser';
+import { User } from '../shared/data/user.js';
+import { UnavailableUsername } from './dao/auth_dao.js';
 
 
 const app = express();
@@ -30,9 +32,16 @@ app.get('/signin', (req, res) => {
     }
 });
 
-app.post('/signup', (req, res) => {
-    console.log("sign in");
-
+app.post('/signup', async (req, res) => {
+    try {
+        await journal_srv.auth_service.signup_user(new User(req.body));
+        res.status(200).end();
+    } catch (err) {
+        if(err instanceof UnavailableUsername)
+            res.status(400).send(ERR_MSG_UNAVAILABLE_USERNAME);
+        else
+            res.status(500).send(ERR_MSG_SERVER_ERR);
+    }
 });
 
 app.post('/signin', (req, res) => {

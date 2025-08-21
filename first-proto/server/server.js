@@ -17,8 +17,11 @@ app.get('/', async (req, res, next) => {
     res.redirect("/signin");
 });
 
+app.get('/signup', (req, res) => {
+    res.redirect(HTML_SIGNUP_PATH);
+});
+
 app.get('/signin', (req, res) => {
-    console.log("here");
     if(req.cookies["session"]) {
         const user = journal_srv.auth_service.authenticate_session(req.cookies["session"]);
         res.redirect(HTML_DAY_PATH);
@@ -27,11 +30,16 @@ app.get('/signin', (req, res) => {
     }
 });
 
-app.get('/signup', (req, res) => {
-    res.redirect(HTML_SIGNUP_PATH);
+app.post('/signup', (req, res) => {
+    console.log("sign in");
+
 });
 
-app.use(express.static("public"));
+app.post('/signin', (req, res) => {
+    console.log("sign up");
+});
+
+
 
 
 const server = app.listen(SERVER_PORT, () => {

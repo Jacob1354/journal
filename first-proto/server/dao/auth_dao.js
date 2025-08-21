@@ -1,7 +1,7 @@
 import Database from "better-sqlite3";
-import { validate_type } from "../../shared/clean_code/clean_code_enforcement";
-import { User } from "../data/auth_data";
-import { InvalidUser } from "../data/auth_data";
+import { validate_type } from "../../shared/clean_code/clean_code_enforcement.js";
+import { User } from "../data/auth_data.js";
+import { InvalidUser } from "../data/auth_data.js";
 
 export class AuthDAO {
     #db;

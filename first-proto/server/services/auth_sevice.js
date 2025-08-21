@@ -1,7 +1,7 @@
-import { validate_type } from "../../shared/clean_code/clean_code_enforcement";
-import { AuthDAO, InvalidSession, UnavailableUsername } from "../dao/auth_dao";
+import { validate_type } from "../../shared/clean_code/clean_code_enforcement.js";
+import { AuthDAO, InvalidSession, UnavailableUsername } from "../dao/auth_dao.js";
 import { randomBytes } from 'crypto';
-import { InvalidUser, User } from "../data/auth_data";
+import { InvalidUser, User } from "../data/auth_data.js";
 import Database from "better-sqlite3";
 import * as argon2 from 'argon2';
 

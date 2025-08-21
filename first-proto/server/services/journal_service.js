@@ -1,6 +1,6 @@
 import Database from "better-sqlite3";
-import { validate_type } from "first-proto/shared/clean_code/clean_code_enforcement";
-import { JournalDAO } from "../dao/journal_dao";
+import { validate_type } from "../../shared/clean_code/clean_code_enforcement.js";
+import { JournalDAO } from "../dao/journal_dao.js";
 
 export class JournalService {
     #journal_dao;

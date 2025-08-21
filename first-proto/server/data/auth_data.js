@@ -1,4 +1,4 @@
-import { validate_type } from "../../shared/clean_code/clean_code_enforcement";
+import { validate_type } from "../../shared/clean_code/clean_code_enforcement.js";
 
 export class User {
     constructor({username, password = null, hash = null, name = null}) {

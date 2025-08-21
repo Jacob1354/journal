@@ -1,4 +1,4 @@
-import { User } from "first-proto/shared/data/user";
+import { User } from "../../data/user.js";
 
 function validate_form(form) {
     const inputs = form.getElementsByTagName("input");

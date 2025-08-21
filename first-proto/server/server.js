@@ -7,6 +7,8 @@ import cookieParser from 'cookie-parser';
 const app = express();
 const journal_srv = new JournalServer();
 
+app.use(express.static("public"));
+app.use(express.static("shared"));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(cookieParser());

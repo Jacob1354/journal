@@ -1,13 +1,14 @@
-import { validate_type } from "../../shared/clean_code/clean_code_enforcement.js";
+import { validate_type } from "../clean_code/clean_code_enforcement.js";
+
 
 export class User {
-    constructor({username, password = null, hash = null, name = null}) {
+    constructor({ username, password = null, hash = null, name = null }) {
         validate_type(username, "string");
-        if(password != null)
+        if (password != null)
             validate_type(password, "string");
-        if(hash != null)
+        if (hash != null)
             validate_type(hash, "string");
-        if(name != null)
+        if (name != null)
             validate_type(name, "string");
         this.username = username;
         this.password = password;
@@ -21,4 +22,3 @@ export class InvalidUser extends Error {
         this.name = "InvalidUser";
     }
 }
-

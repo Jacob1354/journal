@@ -1,7 +1,7 @@
 import { jest } from "@jest/globals";
 import Database from "better-sqlite3";
 import {readFileSync} from "fs";
-import { User } from "../data/auth_data";
+import { User } from "../../shared/data/user";
 import { AuthDAO, UnavailableUsername } from "./auth_dao";
 import { UserNotFound } from "../services/auth_sevice";
 import { InvalidSession } from "./auth_dao";

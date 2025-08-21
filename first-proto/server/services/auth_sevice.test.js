@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
 import Database from 'better-sqlite3';
-const { User } = await import("../data/auth_data");
+const { User } = await import("../../shared/data/user");
 import { UnavailableUsername, InvalidSession } from '../dao/auth_dao';
 
 const valid_username = "username";

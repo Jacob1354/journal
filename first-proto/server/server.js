@@ -1,16 +1,34 @@
-import Database from "better-sqlite3";
-import { AuthService } from "./services/auth_sevice";
-import { JournalService } from "./services/journal_service";
+import express from 'express';
+import { SERVER_HOST, SERVER_PORT } from './server_const.js';
+import { JournalServer } from './journal_server.js';
 
-export class JournalServer {
-    
-    constructor() {
-        this.db = new Database("journaldb.db");
-        this.auth_service = new AuthService(this.db);
-        this.journal_service = new JournalService(this.db);
-    }
 
-    close_server() {
-        this.db.close();
-    }
-}
+const app = express();
+const journal_srv = new JournalServer();
+
+app.get('/', async (req, res, next) => {
+    res.redirect("/html/signin.html");
+});
+
+app.post('/signin', (req, res) => {
+
+});
+
+app.post('/signup', (req, res) => {
+
+});
+
+app.use(express.static("public"));
+
+
+const server = app.listen(SERVER_PORT, () => {
+  console.log(`Server listening on http://${SERVER_HOST}:${SERVER_PORT}/`);
+})
+
+server.on("close", (err) => {
+  console.log("closing server");
+  if(err) console.log(err);
+  journal_srv.close();
+});
+
+process.on("SIGINT", () => server.close());

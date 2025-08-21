@@ -1,23 +1,6 @@
-DROP TABLE text_field;
-DROP TABLE number_field;
-DROP TABLE fraction_field;
-DROP TABLE slider_field;
-DROP VIEW activity_view;
-DROP TABLE activity;
-DROP TABLE mood_field;
-DROP TABLE day;
-
-
-
-
-CREATE TABLE day (
-    day_date DATE PRIMARY KEY
-);
-
-CREATE TABLE activity(
-    id SERIAL PRIMARY KEY,
-    day_date DATE 
-        REFERENCES day(day_date),
+CREATE TABLE IF NOT EXISTS activity(
+    username TEXT,
+    day_date TEXT,
     title TEXT 
         DEFAULT 'Activity' NOT NULL,
     content TEXT 
@@ -25,29 +8,43 @@ CREATE TABLE activity(
     start_time TIME 
         DEFAULT '10:00:00' NOT NULL,
     end_time TIME 
-        DEFAULT '14:00:00' NOT NULL
+        DEFAULT '14:00:00' NOT NULL,
+    PRIMARY KEY (username, date),
+    FOREIGN KEY (username) REFERENCES user(username)
 );
 
-CREATE TABLE mood_field(
-    id SERIAL PRIMARY KEY,
-    title TEXT NOT NULL
+CREATE TABLE mood_fields(
+    id PRIMARY KEY,
+    username NOT NULL,
+    date TEXT NOT NULL,
+    title TEXT NOT NULL,
+    UNIQUE (username, date),
+    FOREIGN KEY (usernmae) REFERENCES user(username) 
 );
 
 CREATE TABLE text_field(
-    id INTEGER PRIMARY KEY 
+    id INTEGER PRIMARY KEY,
+    mood_fields_id
+        NOT NULL
         REFERENCES mood_field(id),
     field_data TEXT 
         DEFAULT '' NOT NULL
 );
 
 CREATE TABLE number_field(
-    id INTEGER PRIMARY KEY REFERENCES mood_field(id),
+    id INTEGER PRIMARY KEY,
+    mood_fields_id INTEGER
+        NOT NULL
+        REFERENCES mood_field(id),
     field_data REAL 
         DEFAULT 0 NOT NULL
 );
 
 CREATE TABLE fraction_field(
-    id INTEGER PRIMARY KEY REFERENCES mood_field(id),
+    id INTEGER PRIMARY KEY,
+    mood_fields_id INTEGER
+        NOT NULL
+        REFERENCES mood_field(id),
     field_data REAL 
         DEFAULT 0 NOT NULL,
     denominator INTEGER 
@@ -55,7 +52,10 @@ CREATE TABLE fraction_field(
 ); 
 
 CREATE TABLE slider_field(
-    id INTEGER PRIMARY KEY REFERENCES mood_field(id),
+    id INTEGER PRIMARY KEY,
+    mood_fields_id INTEGER
+        NOT NULL
+        REFERENCES mood_field(id),
     field_data INTEGER 
         DEFAULT 0 NOT NULL
         CHECK (field_data BETWEEN 0 AND 100)

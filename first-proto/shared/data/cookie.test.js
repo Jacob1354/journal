@@ -1,4 +1,4 @@
-import { Cookie } from "./cookie";
+import { Cookie } from "./cookie.js";
 
 test("Cookie.toString", ()=> {
     let cookie = new Cookie({

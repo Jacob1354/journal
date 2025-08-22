@@ -1,4 +1,4 @@
-import { validate_type } from "../clean_code/clean_code_enforcement";
+import { validate_type } from "../clean_code/clean_code_enforcement.js";
 
 export class Cookie {
     constructor({name, value, path = null, http_only = true, secure = true, max_age = null}) {

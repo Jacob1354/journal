@@ -60,7 +60,7 @@ export class AuthDAO {
         try {
             this.#db.prepare("INSERT INTO session (username, session) VALUES (?, ?)")
                 .run(user.username, session);
-            setTimeout(() => this._remove_session(session, user.username), max_age);
+            setTimeout(() => this._remove_session(session, user.username), max_age * 1000);
         } catch(err) {
             if(err.code === "SQLITE_CONSTRAINT_UNIQUE" || err.code === "SQLITE_CONSTRAINT_PRIMARYKEY")
                 throw new InvalidSession("Session already taken");

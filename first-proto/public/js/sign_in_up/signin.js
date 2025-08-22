@@ -27,13 +27,12 @@ function handle_signin_response(res) {
                 document.getElementById("signin_success").innerText = "";
             })
     }
-    else {
-        res.json()
-        .then((obj) => {
-            document.getElementById("signin_success").innerText = 
-                "Welcome " + obj.name + "!";
-                document.getElementById("signin_err").innerText = "";
-            })
+    else {  
+        const date = new Date();
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+        window.location.href = "/day/" + day + "-" + month + "-" + year;
     }
 }
 

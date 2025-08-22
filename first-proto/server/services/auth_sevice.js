@@ -37,7 +37,7 @@ export class AuthService {
             throw new InvalidPassword("Invalid password");
 
         const session = randomBytes(32).toString("hex");
-        this.#auth_dao.add_session(user, session);
+        this.#auth_dao.add_session(user, session, this.#session_max_age);
         const session_cookie = new Cookie({
             name: "session",
             value: session,

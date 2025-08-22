@@ -4,7 +4,6 @@ import { User, InvalidUser } from "../../shared/data/user.js";
 
 export class AuthDAO {
     #db;
-    #SESSION_MAX_AGE = 10_000;
     constructor(db) {
         validate_type(db, Database);
         this.#db = db;
@@ -58,13 +57,13 @@ export class AuthDAO {
         }
     }
 
-    add_session(user, session) {
+    add_session(user, session, max_age) {
         validate_type(user, User);
         validate_type(session, "string");
         try {
             this.#db.prepare("INSERT INTO session (username, session) VALUES (?, ?)")
                 .run(user.username, session);
-            setTimeout(() => this._remove_session(session, user.username), this.#SESSION_MAX_AGE);
+            setTimeout(() => this._remove_session(session, user.username), max_age);
         } catch(err) {
             if(err instanceof Database.SqliteError 
                 && (err.code === "SQLITE_CONSTRAINT_UNIQUE"

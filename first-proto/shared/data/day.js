@@ -3,8 +3,9 @@ import { NumberField, FractionField, TextField } from "./mood_field.js";
 import { Schedule } from "./schedule.js";
 
 export class Day {
-    constructor() {
-        this.date = new Date();
+    constructor(date = new Date()) {
+        validate_type(date, Date);
+        this.date = new Date(date);
         this.schedule = new Schedule();
         this.mood_fields = [];
         this.mood_fields.push(new NumberField("Hours of sleep"));

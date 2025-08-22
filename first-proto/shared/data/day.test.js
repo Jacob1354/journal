@@ -3,11 +3,16 @@ import { NumberField } from "./mood_field";
 import { Activity, HoursAndMinutes } from "./schedule";
 
 test("Day.constructor", () => {
-    const valid_day = new Day();
-    expect(valid_day).toBeInstanceOf(Day);
-    expect(valid_day.date).toBeDefined();
-    expect(valid_day.mood_fields).toBeDefined();
-    expect(valid_day.schedule).toBeDefined();
+    let day = new Day();
+    expect(day.date.getDay).toBe(new Date().getDay);
+    expect(day.date.getMonth).toBe(new Date().getMonth);
+    expect(day.mood_fields.length).toBe(4);
+    expect(day.schedule.get_activities.length).toBe(0);
+    const custom_date = new Date();
+    custom_date.setDate(24);
+    custom_date.setFullYear(2000)
+    day = new Day(custom_date);
+    expect(day.date).toEqual(custom_date);
 });
 
 test("Day.from", () => {

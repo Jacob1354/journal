@@ -75,11 +75,11 @@ beforeEach(() => {
 })
 
 
-test("sign_up_user: success", () => {
-    expect(auth_service.signup_user(new_user)).resolves.not.toThrow(Error);
+test("sign_up_user: success", async () => {
+    await expect(auth_service.signup_user(new_user)).resolves.not.toThrow(Error);
 });
-test("sign_up_user: throws UnavailableUsername", () => {
-    expect(auth_service.signup_user(preexisting_user)).rejects.toThrow(UnavailableUsername);
+test("sign_up_user: throws UnavailableUsername", async () => {
+    await expect(auth_service.signup_user(preexisting_user)).rejects.toThrow(UnavailableUsername);
 });
 test.each([
     ["username", ""],
@@ -91,14 +91,14 @@ test.each([
     ["name", ""],
     ["name", null],
     ["name", undefined],
-])("sign_up_user: throws InvalidUser (%s)", (property, value) => {
+])("sign_up_user: throws InvalidUser (%s)", async (property, value) => {
     const user = new User({
         username: valid_username,
         password: valid_password,
         name: valid_name
     });
     user[property] = value;
-    expect(auth_service.signup_user(user)).rejects.toThrow(InvalidUser);
+    await expect(auth_service.signup_user(user)).rejects.toThrow(InvalidUser);
 });
 
 
@@ -107,16 +107,16 @@ test("sign_in_user: success", async () => {
     //This test should currently fail since the project is not using https yet
     expect(session_cookie).toEqual(preexisting_session_cookie);
 });
-test("sign_in_user: user_not_found", () => {
-    expect(auth_service.signin_user(new_user)).rejects.toThrow(UserNotFound);
+test("sign_in_user: user_not_found", async () => {
+    await expect(auth_service.signin_user(new_user)).rejects.toThrow(UserNotFound);
 });
-test("sign_in_user: invalid_password", () => {
+test("sign_in_user: invalid_password", async () => {
     const preexisting_user_with_invalid_pwd = new User({
         username: preexisting_user.username,
         password: "not this password " + preexisting_user.password,
         name: preexisting_user.name
     })
-    expect(auth_service.signin_user(preexisting_user_with_invalid_pwd)).rejects.toThrow(InvalidPassword);
+    await expect(auth_service.signin_user(preexisting_user_with_invalid_pwd)).rejects.toThrow(InvalidPassword);
 });
 
 

@@ -12,3 +12,6 @@ export const HTML_SIGNUP_PATH = HTML_PAGES_PATH + "signup.html";
 
 export const ERR_MSG_UNAVAILABLE_USERNAME = "Sorry, this username is already taken. Please choose another one";
 export const ERR_MSG_SERVER_ERR = "Sorry, an error occured. Please try again";
+export const ERR_MSG_SIGN_IN_INVALID_USER = 
+    "Oops, since like you've entered the wrong username or the wrong password."
+    + "Please try again";

@@ -1,9 +1,10 @@
 import express from 'express';
-import { ERR_MSG_SERVER_ERR, ERR_MSG_UNAVAILABLE_USERNAME, HTML_DAY_PATH, HTML_SIGNIN_PATH, HTML_SIGNUP_PATH, SERVER_HOST, SERVER_PORT } from './server_const.js';
+import { ERR_MSG_SERVER_ERR, ERR_MSG_SIGN_IN_INVALID_USER, ERR_MSG_UNAVAILABLE_USERNAME, HTML_DAY_PATH, HTML_SIGNIN_PATH, HTML_SIGNUP_PATH, SERVER_HOST, SERVER_PORT } from './server_const.js';
 import { JournalServer } from './journal_server.js';
 import cookieParser from 'cookie-parser';
 import { User } from '../shared/data/user.js';
 import { UnavailableUsername } from './dao/auth_dao.js';
+import { InvalidPassword, UserNotFound } from './services/auth_sevice.js';
 
 
 const app = express();
@@ -44,10 +45,19 @@ app.post('/signup', async (req, res) => {
     }
 });
 
-app.post('/signin', (req, res) => {
-    console.log("sign up");
+app.post('/signin', async (req, res) => {
+    try {
+        const session_cookie = await journal_srv.auth_service.signin_user(new User(req.body));
+        res.setHeader("Set-Cookie", String(session_cookie));
+        res.status(200).end();
+    } catch (err) {
+        if(err instanceof UserNotFound || err instanceof InvalidPassword)
+            res.status(400).send(ERR_MSG_SIGN_IN_INVALID_USER);
+        else
+            res.status(500).send(ERR_MSG_SERVER_ERR);
+    }
 });
-
+//TODO cookie class, change page once signed in
 
 
 

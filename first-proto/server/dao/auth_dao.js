@@ -47,11 +47,8 @@ export class AuthDAO {
             this.#db.prepare("INSERT INTO user (username, hash, name) VALUES (?, ?, ?)")
                 .run(user.username, user.hash, user.name);
         } catch(err) {
-            if(err instanceof Database.SqliteError 
-                && (err.code === "SQLITE_CONSTRAINT_PRIMARYKEY" 
-                    || err.code === "SQLITE_CONSTRAINT_UNIQUE")) {
+            if(err.code === "SQLITE_CONSTRAINT_PRIMARYKEY" || err.code === "SQLITE_CONSTRAINT_UNIQUE")
                 throw new UnavailableUsername("Unvailable unsername");
-            }
             else
                 throw err;
         }
@@ -65,9 +62,7 @@ export class AuthDAO {
                 .run(user.username, session);
             setTimeout(() => this._remove_session(session, user.username), max_age);
         } catch(err) {
-            if(err instanceof Database.SqliteError 
-                && (err.code === "SQLITE_CONSTRAINT_UNIQUE"
-                    || err.code === "SQLITE_CONSTRAINT_PRIMARYKEY"))
+            if(err.code === "SQLITE_CONSTRAINT_UNIQUE" || err.code === "SQLITE_CONSTRAINT_PRIMARYKEY")
                 throw new InvalidSession("Session already taken");
             else
                 throw err;

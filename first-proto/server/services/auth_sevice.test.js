@@ -2,6 +2,7 @@ import { jest } from '@jest/globals';
 import Database from 'better-sqlite3';
 const { User } = await import("../../shared/data/user");
 import { UnavailableUsername, InvalidSession } from '../dao/auth_dao';
+import { Cookie } from '../../shared/data/cookie';
 
 const valid_username = "username";
 const valid_password = "pwd";
@@ -23,6 +24,12 @@ const preexisting_user = new User({
     name: preexisting_name
 });
 const preexisting_user_session = "this is the session";
+const preexisting_session_cookie = new Cookie({
+    name: "session",
+    value: preexisting_user_session,
+    path: "/",
+    max_age: 3600
+});
 const invalid_user_session = "this is not the session";
 
 
@@ -96,8 +103,9 @@ test.each([
 
 
 test("sign_in_user: success", async () => {
-    let session = await auth_service.signin_user(preexisting_user);
-    expect(session).toBe(preexisting_user_session);
+    let session_cookie = await auth_service.signin_user(preexisting_user);
+    //This test should currently fail since the project is not using https yet
+    expect(session_cookie).toEqual(preexisting_session_cookie);
 });
 test("sign_in_user: user_not_found", () => {
     expect(auth_service.signin_user(new_user)).rejects.toThrow(UserNotFound);

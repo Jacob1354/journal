@@ -4,7 +4,7 @@ import { User, InvalidUser } from "../../shared/data/user.js";
 
 export class AuthDAO {
     #db;
-    #SESSION_MAX_AGE = 300_000;
+    #SESSION_MAX_AGE = 10_000;
     constructor(db) {
         validate_type(db, Database);
         this.#db = db;

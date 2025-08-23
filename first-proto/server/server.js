@@ -3,8 +3,10 @@ import { ERR_MSG_SERVER_ERR, ERR_MSG_SIGN_IN_INVALID_USER, ERR_MSG_UNAVAILABLE_U
 import { JournalServer } from './journal_server.js';
 import cookieParser from 'cookie-parser';
 import { User } from '../shared/data/user.js';
-import { UnavailableUsername } from './dao/auth_dao.js';
+import { InvalidSession, UnavailableUsername } from './dao/auth_dao.js';
 import { InvalidPassword, UserNotFound } from './services/auth_sevice.js';
+import path from 'node:path';
+const __dirname = import.meta.dirname;
 
 
 const app = express();
@@ -57,7 +59,21 @@ app.post('/signin', async (req, res) => {
             res.status(500).send(ERR_MSG_SERVER_ERR);
     }
 });
-//TODO cookie class, change page once signed in
+
+app.get('/day/:day-:month-:year', (req, res) => {
+    let user;
+    try {
+        user = journal_srv.auth_service.authenticate_session(req.cookies["session"]);
+        res.sendFile(path.join(__dirname, "..", "public", "html", "day.html"));
+    } catch(err) {
+        console.log(err);
+        if(err instanceof InvalidSession)
+            res.status(400).send("Seems like you're trying to access data for which you must be logged");
+        else 
+            res.status(500).send(ERR_MSG_SERVER_ERR);
+    }
+    
+})
 
 
 

@@ -17,34 +17,33 @@ CREATE TABLE mood_fields(
     id PRIMARY KEY,
     username NOT NULL,
     date TEXT NOT NULL,
-    title TEXT NOT NULL,
     UNIQUE (username, date),
-    FOREIGN KEY (usernmae) REFERENCES user(username) 
+    FOREIGN KEY (username) REFERENCES user(username) 
 );
 
 CREATE TABLE text_field(
-    id INTEGER PRIMARY KEY,
     mood_fields_id
         NOT NULL
         REFERENCES mood_field(id),
+    title TEXT PRIMARY KEY,
     field_data TEXT 
         DEFAULT '' NOT NULL
 );
 
 CREATE TABLE number_field(
-    id INTEGER PRIMARY KEY,
     mood_fields_id INTEGER
         NOT NULL
         REFERENCES mood_field(id),
+    title TEXT PRIMARY KEY,
     field_data REAL 
         DEFAULT 0 NOT NULL
 );
 
 CREATE TABLE fraction_field(
-    id INTEGER PRIMARY KEY,
     mood_fields_id INTEGER
         NOT NULL
         REFERENCES mood_field(id),
+    title TEXT PRIMARY KEY,
     field_data REAL 
         DEFAULT 0 NOT NULL,
     denominator INTEGER 
@@ -52,10 +51,10 @@ CREATE TABLE fraction_field(
 ); 
 
 CREATE TABLE slider_field(
-    id INTEGER PRIMARY KEY,
     mood_fields_id INTEGER
         NOT NULL
         REFERENCES mood_field(id),
+    title TEXT PRIMARY KEY,
     field_data INTEGER 
         DEFAULT 0 NOT NULL
         CHECK (field_data BETWEEN 0 AND 100)

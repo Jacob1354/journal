@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS activity(
     username TEXT,
-    day_date TEXT,
+    date TEXT,
     title TEXT 
         DEFAULT 'Activity' NOT NULL,
     content TEXT 

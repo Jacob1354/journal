@@ -3,11 +3,15 @@ import { Day } from "../../shared/data/day.js";
 import {  } from "./dom/schedule.js";
 import { DomDay } from "./dom/dom_day.js"
 
-function get_day() {
-    return new Day();
+function get_day_from_url() {
+
 }
 
-let dom_day = new DomDay(get_day());
+function fetch_day(day) {
+    
+}
+
+let dom_day = new DomDay(new Day());
 
 dom_day.render_day();
 

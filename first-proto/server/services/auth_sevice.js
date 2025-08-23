@@ -49,7 +49,11 @@ export class AuthService {
     }
 
     authenticate_session(session) {
-        validate_type(session, "string");
+        try {
+            validate_type(session, "string");
+        } catch(err) {
+            throw new InvalidSession("Invalid Session");
+        }
         const user = this.#auth_dao.get_user_from_session(session);
         if(user == null) 
             throw new InvalidSession("Invalid Session");

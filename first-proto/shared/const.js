@@ -1,0 +1,1 @@
+export const STATUS_INVALID_AUTH = 401;

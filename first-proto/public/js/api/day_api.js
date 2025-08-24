@@ -18,7 +18,7 @@ export function get_date_from_url(url) {
     return date;
 }
 
-export function fetch_day(day) {
+export async function fetch_day(day) {
     return new Day();
 }
 
@@ -27,5 +27,19 @@ export class InvalidDateURL extends Error {
     constructor(msg) {
         super(msg);
         this.name = "InvalidDateURL";
+    }
+}
+
+export class InvalidAuth extends Error {
+    constructor(msg) {
+        super(msg);
+        this.name = "InvalidAuth";
+    }
+}
+
+export class ServerErr extends Error {
+    constructor(msg) {
+        super(msg);
+        this.name = "ServerErr";
     }
 }

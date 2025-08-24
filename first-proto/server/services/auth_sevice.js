@@ -9,7 +9,7 @@ import { Cookie } from "../../shared/data/cookie.js";
 
 export class AuthService {
     #auth_dao;
-    #session_max_age = 10; //TODO change this to 3600(1h). It currently is shorter for test purposes
+    #session_max_age = 3600; //TODO change this to 3600(1h). It currently is shorter for test purposes
     constructor(db) {
         validate_type(db, Database);
         this.#auth_dao = new AuthDAO(db);

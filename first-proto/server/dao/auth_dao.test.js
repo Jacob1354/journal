@@ -89,12 +89,12 @@ test("add_session: success", () => {
         username: new_user.username,
         name: new_user.name
     });
-    const time_before_removal = 10;
+    const ms_before_removal = 10;
     auth_dao.add_user(new_user);
     expect(auth_dao.get_user_from_session(new_user_session)).toBe(null);
-    auth_dao.add_session(new_user, new_user_session, time_before_removal);
+    auth_dao.add_session(new_user, new_user_session, ms_before_removal);
     expect(auth_dao.get_user_from_session(new_user_session)).toEqual(returned_user);
-    jest.advanceTimersByTime(time_before_removal-1);
+    jest.advanceTimersByTime(ms_before_removal-1);
     expect(auth_dao.get_user_from_session(new_user_session)).toEqual(returned_user);
     jest.advanceTimersByTime(1);
     expect(auth_dao.get_user_from_session(new_user_session)).toBe(null);

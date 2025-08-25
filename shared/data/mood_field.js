@@ -1,4 +1,5 @@
 import { AbstractClassInstanciated, AbstractFunctionNotOverriden, validate_type, validate_integer, InvalidDataType} from "../clean_code/clean_code_enforcement.js";
+import { FIELD_TYPE_TEXT } from "../const.js";
 
 export class AbstractMoodField {
     #field_name;
@@ -35,6 +36,17 @@ export class AbstractMoodField {
     update_from_input(value) {
         this.set_data(this.parse_input(value));
     }
+
+    prepare_json_obj() {
+        return {
+            title: this.#field_name,
+            data: this._data
+        };
+    }
+
+    toJSON() {
+        return JSON.stringify(this.prepare_json_obj());
+    }
 }
 
 export class TextField extends AbstractMoodField {
@@ -51,7 +63,14 @@ export class TextField extends AbstractMoodField {
     parse_input(value) {
         return String(value);
     }
+
+    prepare_json_obj() {
+        const obj = super.prepare_json_obj();
+        obj.type = FIELD_TYPE_TEXT
+        return obj;
+    }
 }
+
 
 export class NumberField extends AbstractMoodField {
         constructor(field_name, data=0) {
@@ -119,6 +138,12 @@ export class FractionField extends AbstractMoodField {
     
     parse_input(value) {
         return Number(value);
+    }
+
+    prepare_json_obj() {
+        const obj = super.prepare_json_obj();
+        obj.denom = this.#denom;
+        return obj;
     }
 }
 

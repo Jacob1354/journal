@@ -22,6 +22,18 @@ export class Day {
         copy.mood_fields = [...other.mood_fields];
         return copy;
     }
+
+    toJSON() {
+        const parsed_mood_fields = [];
+        this.mood_fields.forEach(field => {
+            parsed_mood_fields.push(field.prepare_json_obj());
+        });
+        return JSON.stringify({
+            date: this.date,
+            activities: this.schedule.toJSON(),
+            mood_fields: parsed_mood_fields
+        });
+    }
 }
 
 

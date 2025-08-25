@@ -6,6 +6,7 @@ import { User } from '../shared/data/user.js';
 import { InvalidSession, UnavailableUsername } from './dao/auth_dao.js';
 import { InvalidPassword, UserNotFound } from './services/auth_sevice.js';
 import path from 'node:path';
+import { Day } from '../shared/data/day.js';
 const __dirname = import.meta.dirname;
 
 
@@ -75,7 +76,7 @@ app.get('/day', (req, res) => {
 });
 
 app.get('/day/:day-:month-:year', (req, res) => {
-    
+    res.send(JSON.stringify(new Day()));
 });
 
 app.post('/day/:day-:month-:year', (req, res) => {

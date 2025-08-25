@@ -68,6 +68,10 @@ export class Schedule {
         this.#activities.splice(index, 1);
     }
 
+    toJSON() {
+        return JSON.stringify(this.#activities);
+    }
+
     _sort_activities() {
         this.#activities.sort((a1, a2) => {
             let ret_val = 0;

@@ -3,6 +3,33 @@ import { FractionField, NumberField, SliderField, TextField } from "./mood_field
 import { Activity, HoursAndMinutes } from "./schedule";
 import { FIELD_TYPE_FRACTION, FIELD_TYPE_NUMBER, FIELD_TYPE_TEXT, FIELD_TYPE_SLIDER } from "../const.js"
 
+const day_for_json = new Day();
+const activity_for_json = new Activity(new HoursAndMinutes(10, 20), new HoursAndMinutes(12, 40), "title", "content");
+day_for_json.schedule.add_activity(activity_for_json);
+const nb_field_for_json = new NumberField("nb_field", 10);
+const text_field_for_json = new TextField("text_field", "text");
+const fraction_field_for_json = new FractionField("fraction_field", 9, 10);
+const slider_field_for_json = new SliderField("slider_field", 10);
+day_for_json.mood_fields = [nb_field_for_json, text_field_for_json, fraction_field_for_json, slider_field_for_json];
+const day_json_obj = {
+    date: day_for_json.date.toJSON(), //JSON parse doesn't actually parse into a date
+    activities: [
+        {
+            start_time: {hours: 10, minutes: 20}, 
+            end_time: {hours: 12, minutes: 40}, 
+            title: "title", 
+            content: "content"
+        }
+    ],
+    mood_fields: [
+        {type: FIELD_TYPE_NUMBER, title: "nb_field", data: 10},
+        {type: FIELD_TYPE_TEXT, title: "text_field", data: "text"},
+        {type: FIELD_TYPE_FRACTION, title: "fraction_field", data: 9, denom: 10},
+        {type: FIELD_TYPE_SLIDER, title: "slider_field", data: 10},
+    ]
+};
+
+
 test("Day.constructor", () => {
     let day = new Day();
     expect(day.date.getDay).toBe(new Date().getDay);
@@ -35,32 +62,10 @@ test("Day.from", () => {
 });
 
 test("Day.toJSON", () => {
-    const day = new Day();
-    const activity = new Activity(new HoursAndMinutes(10, 20), new HoursAndMinutes(12, 40), "title", "content");
-    day.schedule.add_activity(activity);
-    const nb_field = new NumberField("nb_field", 10);
-    const text_field = new TextField("text_field", "text");
-    const fraction_field = new FractionField("fraction_field", 9, 10);
-    const slider_field = new SliderField("slider_field", 10);
-    day.mood_fields = [nb_field, text_field, fraction_field, slider_field];
-    const expected = {
-        date: day.date.toJSON(), //JSON parse doesn't actually parse into a date
-        activities: [
-            {
-                start_time: {hours: 10, minutes: 20}, 
-                end_time: {hours: 12, minutes: 40}, 
-                title: "title", 
-                content: "content"
-            }
-        ],
-        mood_fields: [
-            {type: FIELD_TYPE_NUMBER, title: "nb_field", data: 10},
-            {type: FIELD_TYPE_TEXT, title: "text_field", data: "text"},
-            {type: FIELD_TYPE_FRACTION, title: "fraction_field", data: 9, denom: 10},
-            {type: FIELD_TYPE_SLIDER, title: "slider_field", data: 10},
-        ]
-    };
-
-    const stringfied = day.toJSON();
+    const stringfied = day_for_json.toJSON();
     expect(JSON.parse(stringfied)).toEqual(expected);
 })
+
+test("static Day.from_json_obj", () => {
+    expect(Day.from_json_obj(day_json_obj)).toEqual(day_for_json);
+});

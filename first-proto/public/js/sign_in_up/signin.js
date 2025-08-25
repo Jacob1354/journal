@@ -28,11 +28,7 @@ function handle_signin_response(res) {
             })
     }
     else {  
-        const date = new Date();
-        const day = date.getDate();
-        const month = date.getMonth() + 1;
-        const year = date.getFullYear();
-        window.location.href = "/day/" + day + "-" + month + "-" + year;
+        window.location.href = "/day";
     }
 }
 

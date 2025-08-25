@@ -2,6 +2,10 @@ import { TextField, NumberField, FractionField, SliderField, AbstractMoodField, 
 import {AbstractClassInstanciated, AbstractFunctionNotOverriden, InvalidDataType, OutOfBoundInteger} from "../clean_code/clean_code_enforcement";
 import { FIELD_TYPE_FRACTION, FIELD_TYPE_NUMBER, FIELD_TYPE_SLIDER, FIELD_TYPE_TEXT } from "../const";
 
+const nb_json_obj = {type: FIELD_TYPE_NUMBER, title: "nb", data: 1};
+const txt_json_obj = {type: FIELD_TYPE_TEXT, title: "txt", data: "dasfm"};
+const fraction_json_obj = {type: FIELD_TYPE_FRACTION, title: "fraction", data: 1, denom: 10};
+const slider_json_obj = {type: FIELD_TYPE_SLIDER, title: "slider", data: 91};
 
 /*
  * AbstractMoodField tests
@@ -18,16 +22,18 @@ test("AbstractMoodFieldChild without set_data overriding", () => {
 });
 
 test("MoodField.prepare_json_obj", () => {
-    const nb = {type: FIELD_TYPE_NUMBER, title: "nb", data: 1};
-    const txt = {type: FIELD_TYPE_TEXT, title: "txt", data: "dasfm"};
-    const fraction = {type: FIELD_TYPE_FRACTION, title: "fraction", data: 1, denom: 10};
-    const slider = {type: FIELD_TYPE_SLIDER, title: "slider", data: 91};
-    expect(new NumberField("nb", 1).prepare_json_obj()).toEqual(nb);
-    expect(new TextField("txt", "dasfm").prepare_json_obj()).toEqual(txt);
-    expect(new FractionField("fraction", 1, 10).prepare_json_obj()).toEqual(fraction);
-    expect(new SliderField("slider", 91).prepare_json_obj()).toEqual(slider);
+    expect(new NumberField("nb", 1).prepare_json_obj()).toEqual(nb_json_obj);
+    expect(new TextField("txt", "dasfm").prepare_json_obj()).toEqual(txt_json_obj);
+    expect(new FractionField("fraction", 1, 10).prepare_json_obj()).toEqual(fraction_json_obj);
+    expect(new SliderField("slider", 91).prepare_json_obj()).toEqual(slider_json_obj);
 })
 
+test("static MoodField.from_json_obj", () => {
+    expect(NumberField.from_json_obj(nb_json_obj)).toEqual(new NumberField("nb", 1));
+    expect(TextField.from_json_obj(txt_json_obj)).toEqual(new TextField("txt", "dasfm"));
+    expect(FractionField.from_json_obj(fraction_json_obj)).toEqual(new FractionField("fraction", 1, 10));
+    expect(SliderField.from_json_obj(slider_json_obj)).toEqual(new SliderField("slider", 91));
+});
 
 /*
  * Children classes tests

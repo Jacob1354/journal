@@ -207,6 +207,7 @@ test("Activity.prepare_json_obj", () => {
 });
 
 
+
 test("HoursAndMinutes.from_string", () => {
     const valid_time_strings = ["00:00", "19:00", "23:59"];
     const invalid_time_strings = ["a", "5:1", "04:1", "4:19", "30:10", "24:00", "20:60"];
@@ -251,4 +252,9 @@ test("HoursAndMinutes.prepare_json_object", () => {
         minutes: start_time1.minutes
     };
     expect(start_time1.prepare_json_object()).toEqual(time_obj);
+});
+
+test("static HoursAndMinutes.from_json_obj", () => {
+    const obj = {hours: 10, minutes: 10};
+    expect(HoursAndMinutes.from_json_obj(obj)).toEqual(new HoursAndMinutes(10, 10));
 });

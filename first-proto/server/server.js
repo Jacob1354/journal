@@ -60,7 +60,7 @@ app.post('/signin', async (req, res) => {
     }
 });
 
-app.get('/day/:day-:month-:year', (req, res) => {
+app.get('/day', (req, res) => {
     let user;
     try {
         user = journal_srv.auth_service.authenticate_session(req.cookies["session"]);
@@ -72,8 +72,15 @@ app.get('/day/:day-:month-:year', (req, res) => {
         else 
             res.status(500).send(ERR_MSG_SERVER_ERR);
     }
+});
+
+app.get('/day/:day-:month-:year', (req, res) => {
     
-})
+});
+
+app.post('/day/:day-:month-:year', (req, res) => {
+    
+});
 
 
 

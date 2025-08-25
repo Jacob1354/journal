@@ -49,6 +49,10 @@ export class AbstractMoodField {
     toJSON() {
         return JSON.stringify(this.prepare_json_obj());
     }
+
+    static fromJSON(obj) {
+        throw new Error("Abstract class");
+    }
 }
 
 export class TextField extends AbstractMoodField {
@@ -65,6 +69,10 @@ export class TextField extends AbstractMoodField {
     
     parse_input(value) {
         return String(value);
+    }
+
+    static from_json_obj(json_obj) {
+        return new TextField(json_obj.title, json_obj.data);
     }
 }
 
@@ -83,6 +91,10 @@ export class NumberField extends AbstractMoodField {
     parse_input(value) {
         return Number(value);
     }
+    
+    static from_json_obj(json_obj) {
+        return new NumberField(json_obj.title, json_obj.data);
+    }
 }
 
 export class SliderField extends AbstractMoodField {
@@ -99,6 +111,10 @@ export class SliderField extends AbstractMoodField {
     
     parse_input(value) {
         return Number(value);
+    }
+
+    static from_json_obj(json_obj) {
+        return new SliderField(json_obj.title, json_obj.data);
     }
 }
 
@@ -143,6 +159,10 @@ export class FractionField extends AbstractMoodField {
         const obj = super.prepare_json_obj();
         obj.denom = this.#denom;
         return obj;
+    }
+    
+    static from_json_obj(json_obj) {
+        return new FractionField(json_obj.title, json_obj.data, json_obj.denom);
     }
 }
 

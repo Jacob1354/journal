@@ -167,6 +167,14 @@ test("Schedule.prepare_json_obj", () => {
     expect(new Schedule([a1, a2]).prepare_json_obj()).toEqual(schedule_obj);
 });
 
+test("static Schedule.from_json_obj", () => {
+    const schedule_obj = [
+        a1.prepare_json_obj(),
+        a2.prepare_json_obj()
+    ];
+    expect(Schedule.from_json_obj(schedule_obj)).toEqual(new Schedule([a1, a2]));
+});
+
 test("Activity construction", () => {
     const valid_start_time = new HoursAndMinutes(10, 10);
     const valid_end_time = new HoursAndMinutes(20, 25);

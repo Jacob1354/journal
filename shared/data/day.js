@@ -30,7 +30,7 @@ export class Day {
         });
         return JSON.stringify({
             date: this.date,
-            activities: this.schedule.toJSON(),
+            activities: this.schedule.prepare_json_obj(),
             mood_fields: parsed_mood_fields
         });
     }

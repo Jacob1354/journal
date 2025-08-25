@@ -150,7 +150,15 @@ test("Schedule._sort_activities()", () => {
     expect(schedule.get_activities()[2].equal_to(sorted_activities[2])).toBeTruthy();
     expect(schedule.get_activities()[3].equal_to(sorted_activities[3])).toBeTruthy();
     expect(schedule.get_activities()[4].equal_to(sorted_activities[4])).toBeTruthy();
-}); 
+});
+
+test("Schedule.prepare_json_obj", () => {
+    const schedule_obj = [
+        a1.prepare_json_obj(),
+        a2.prepare_json_obj()
+    ];
+    expect(new Schedule([a1, a2]).prepare_json_obj()).toEqual(schedule_obj);
+});
 
 test("Activity construction", () => {
     const valid_start_time = new HoursAndMinutes(10, 10);
@@ -185,6 +193,17 @@ test("Activity construction", () => {
     expect(() => new Activity(valid_start_time, valid_end_time, invalid_title)).toThrow(InvalidDataType);
     // @ts-expect-error
     expect(() => new Activity(valid_start_time, valid_end_time, valid_title, invalid_content)).toThrow(InvalidDataType);
+});
+
+test("Activity.prepare_json_obj", () => {
+    const a1_obj = {
+        start_time: a1.start_time.prepare_json_object(),
+        end_time: a1.end_time.prepare_json_object(),
+        title: a1.title,
+        content: a1.content
+    };
+
+    expect(a1.prepare_json_obj()).toEqual(a1_obj);
 });
 
 
@@ -224,4 +243,12 @@ test("HoursAndMinutes equal_to", () => {
     expect(start_time1.equal_to(start_time1)).toBe(true);
     expect(start_time1.equal_to(start_time1_copy)).toBe(true);
     expect(start_time1.equal_to(start_time2)).toBe(false);
+});
+
+test("HoursAndMinutes.prepare_json_object", () => {
+    const time_obj = {
+        hours: start_time1.hours,
+        minutes: start_time1.minutes
+    };
+    expect(start_time1.prepare_json_object()).toEqual(time_obj);
 });

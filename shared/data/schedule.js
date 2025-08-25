@@ -68,8 +68,16 @@ export class Schedule {
         this.#activities.splice(index, 1);
     }
 
+    prepare_json_obj() {
+        const activities = [];
+        this.#activities.forEach((activity) => {
+            activities.push(activity.prepare_json_obj());
+        })
+        return activities;
+    }
+
     toJSON() {
-        return JSON.stringify(this.#activities);
+        return JSON.stringify(this.prepare_json_obj());
     }
 
     _sort_activities() {
@@ -125,6 +133,15 @@ export class Activity {
             && this.start_time.equal_to(other.start_time)
             && this.end_time.equal_to(other.end_time);
     }
+
+    prepare_json_obj() {
+        return {
+            start_time: this.start_time.prepare_json_object(),
+            end_time: this.end_time.prepare_json_object(),
+            title: this.title,
+            content: this.content
+        };
+    }
 }
 
 
@@ -165,6 +182,13 @@ export class HoursAndMinutes {
     equal_to(other) {
         validate_type(other, HoursAndMinutes);
         return this.hours == other.hours && this.minutes == other.minutes; 
+    }
+
+    prepare_json_object() {
+        return {
+            hours: this.hours,
+            minutes: this.minutes
+        }
     }
 }
 

@@ -14,6 +14,13 @@ let a3 = new Activity(start_time3, end_time3, "A3", "a3");
 let activities_arr_of_3_ordered = [a3, a1, a2];
 let activities_arr_of_3_unordered = [a1, a2, a3];
 
+const a1_obj = {
+    start_time: a1.start_time.prepare_json_object(),
+    end_time: a1.end_time.prepare_json_object(),
+    title: a1.title,
+    content: a1.content
+};
+
 beforeEach(() => {
     a1 = new Activity(start_time1, end_time1, "A1", "a1");
     a2 = new Activity(start_time2, end_time2, "A2", "a2");
@@ -196,16 +203,12 @@ test("Activity construction", () => {
 });
 
 test("Activity.prepare_json_obj", () => {
-    const a1_obj = {
-        start_time: a1.start_time.prepare_json_object(),
-        end_time: a1.end_time.prepare_json_object(),
-        title: a1.title,
-        content: a1.content
-    };
-
     expect(a1.prepare_json_obj()).toEqual(a1_obj);
 });
 
+test("static Activitiy.from_json_obj", () => {
+    expect(Activity.from_json_obj(a1_obj)).toEqual(a1);
+})
 
 
 test("HoursAndMinutes.from_string", () => {

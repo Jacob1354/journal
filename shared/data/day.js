@@ -1,5 +1,6 @@
 import { validate_type } from "../clean_code/clean_code_enforcement.js";
-import { NumberField, FractionField, TextField } from "./mood_field.js";
+import { FIELD_TYPE_FRACTION, FIELD_TYPE_NUMBER, FIELD_TYPE_SLIDER, FIELD_TYPE_TEXT } from "../const.js";
+import { NumberField, FractionField, TextField, SliderField } from "./mood_field.js";
 import { Schedule } from "./schedule.js";
 
 export class Day {
@@ -30,7 +31,7 @@ export class Day {
         });
         return JSON.stringify({
             date: this.date,
-            activities: this.schedule.prepare_json_obj(),
+            schedule: this.schedule.prepare_json_obj(),
             mood_fields: parsed_mood_fields
         });
     }

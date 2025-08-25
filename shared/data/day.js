@@ -35,6 +35,31 @@ export class Day {
             mood_fields: parsed_mood_fields
         });
     }
+
+    static from_json_obj(obj) {
+        const day = new Day(new Date(obj.date));
+        day.schedule = Schedule.from_json_obj(obj.schedule);
+        day.mood_fields = [];
+        obj.mood_fields.forEach(json_field => {
+            let field
+            switch(json_field.type) {
+                case FIELD_TYPE_FRACTION:
+                    field = FractionField.from_json_obj(json_field);
+                    break;
+                case FIELD_TYPE_NUMBER:
+                    field = NumberField.from_json_obj(json_field);
+                    break;
+                case FIELD_TYPE_TEXT:
+                    field = TextField.from_json_obj(json_field);
+                    break;
+                case FIELD_TYPE_SLIDER:
+                    field = SliderField.from_json_obj(json_field);
+                    break;
+            }
+            day.mood_fields.push(field);
+        });
+        return day;
+    }
 }
 
 

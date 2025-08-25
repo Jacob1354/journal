@@ -60,6 +60,9 @@ export class Day {
         });
         return day;
     }
+    static fromJSON(json) {
+        return Day.from_json_obj(JSON.parse(json));
+    }
 }
 
 

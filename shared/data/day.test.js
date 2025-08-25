@@ -44,7 +44,7 @@ test("Day.toJSON", () => {
     const slider_field = new SliderField("slider_field", 10);
     day.mood_fields = [nb_field, text_field, fraction_field, slider_field];
     const expected = {
-        date: day.date,
+        date: day.date.toJSON(), //JSON parse doesn't actually parse into a date
         activities: [
             {
                 start_time: {hours: 10, minutes: 20}, 
@@ -62,7 +62,5 @@ test("Day.toJSON", () => {
     };
 
     const stringfied = day.toJSON();
-    console.log(JSON.parse(stringfied));
-    console.log(expected);
     expect(JSON.parse(stringfied)).toEqual(expected);
 })

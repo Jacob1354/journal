@@ -1,5 +1,6 @@
 import { TextField, NumberField, FractionField, SliderField, AbstractMoodField, InvalidDenom } from "./mood_field";
 import {AbstractClassInstanciated, AbstractFunctionNotOverriden, InvalidDataType, OutOfBoundInteger} from "../clean_code/clean_code_enforcement";
+import { FIELD_TYPE_FRACTION, FIELD_TYPE_NUMBER, FIELD_TYPE_SLIDER, FIELD_TYPE_TEXT } from "../const";
 
 
 /*
@@ -15,6 +16,17 @@ test("AbstractMoodFieldChild without set_data overriding", () => {
     let test_field = new TestField("Test");
     expect(() => test_field.set_data("")).toThrow(AbstractFunctionNotOverriden);
 });
+
+test("MoodField.prepare_json_obj", () => {
+    const nb = {type: FIELD_TYPE_NUMBER, title: "nb", data: 1};
+    const txt = {type: FIELD_TYPE_TEXT, title: "txt", data: "dasfm"};
+    const fraction = {type: FIELD_TYPE_FRACTION, title: "fraction", data: 1, denom: 10};
+    const slider = {type: FIELD_TYPE_SLIDER, title: "slider", data: 91};
+    expect(new NumberField("nb", 1).prepare_json_obj()).toEqual(nb);
+    expect(new TextField("txt", "dasfm").prepare_json_obj()).toEqual(txt);
+    expect(new FractionField("fraction", 1, 10).prepare_json_obj()).toEqual(fraction);
+    expect(new SliderField("slider", 91).prepare_json_obj()).toEqual(slider);
+})
 
 
 /*

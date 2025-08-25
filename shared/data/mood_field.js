@@ -1,9 +1,10 @@
 import { AbstractClassInstanciated, AbstractFunctionNotOverriden, validate_type, validate_integer, InvalidDataType} from "../clean_code/clean_code_enforcement.js";
-import { FIELD_TYPE_TEXT } from "../const.js";
+import { FIELD_TYPE_FRACTION, FIELD_TYPE_NUMBER, FIELD_TYPE_SLIDER, FIELD_TYPE_TEXT } from "../const.js";
 
 export class AbstractMoodField {
     #field_name;
     _data;
+    _field_type;
 
     constructor(field_name) {
         if(new.target === AbstractMoodField) {
@@ -39,6 +40,7 @@ export class AbstractMoodField {
 
     prepare_json_obj() {
         return {
+            type: this._field_type,
             title: this.#field_name,
             data: this._data
         };
@@ -53,6 +55,7 @@ export class TextField extends AbstractMoodField {
     constructor(field_name, data="Write here") {
         super(field_name);
         this.set_data(data);
+        this._field_type = FIELD_TYPE_TEXT; 
     }
 
     set_data(new_data) {
@@ -63,19 +66,13 @@ export class TextField extends AbstractMoodField {
     parse_input(value) {
         return String(value);
     }
-
-    prepare_json_obj() {
-        const obj = super.prepare_json_obj();
-        obj.type = FIELD_TYPE_TEXT
-        return obj;
-    }
 }
-
 
 export class NumberField extends AbstractMoodField {
         constructor(field_name, data=0) {
         super(field_name);
         this.set_data(data);
+        this._field_type = FIELD_TYPE_NUMBER;
     }
 
     set_data(new_data) {
@@ -92,6 +89,7 @@ export class SliderField extends AbstractMoodField {
     constructor(field_name, data=0) {
         super(field_name);
         this.set_data(data);
+        this._field_type = FIELD_TYPE_SLIDER;
     }
     
     set_data(new_data) {
@@ -110,6 +108,7 @@ export class FractionField extends AbstractMoodField {
         super(field_name);
         this.set_denominator(denominator);
         this.set_data(data);
+        this._field_type = FIELD_TYPE_FRACTION;
     }
     
     set_data(new_data) {

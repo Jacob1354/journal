@@ -142,6 +142,15 @@ export class Activity {
             content: this.content
         };
     }
+
+    static from_json_obj(obj) {
+        return new Activity(
+            HoursAndMinutes.from_json_obj(obj.start_time),
+            HoursAndMinutes.from_json_obj(obj.end_time),
+            obj.title,
+            obj.content
+        );
+    } 
 }
 
 

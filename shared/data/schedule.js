@@ -76,6 +76,14 @@ export class Schedule {
         return activities;
     }
 
+    static from_json_obj(obj) {
+        const activities = [];
+        obj.forEach((activity) => {
+            activities.push(Activity.from_json_obj(activity));
+        })
+        return new Schedule(activities);
+    }
+
     toJSON() {
         return JSON.stringify(this.prepare_json_obj());
     }

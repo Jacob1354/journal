@@ -21,7 +21,7 @@ export function get_date_from_url(url) {
     const date_array = date_matches[0].match(/\d+/g);
     const date = new Date();
     date.setFullYear(Number(date_array[2]));
-    date.setMonth(Number(date_array[1]) - 1); //-1 because jan is 0 for a weird reason
+    date.setMonth(Number(date_array[1]) - 1); //-1 because jan is 0, but I use the actual numbers affiliated to the months
     date.setDate(Number(date_array[0]));
     return date;
 }

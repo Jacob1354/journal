@@ -190,6 +190,10 @@ export class HoursAndMinutes {
             minutes: this.minutes
         }
     }
+
+    static from_json_obj(obj) {
+        return new HoursAndMinutes(obj.hours, obj.minutes);
+    }
 }
 
 export class InvalidTimeFormat extends Error {

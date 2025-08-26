@@ -11,7 +11,7 @@ export async function fetch_day(date = new Date()) {
         error_pop_up("An error occured, sorry :/");
     }
     if(response.status == 200)
-        return Day.from(await response.json());
+        return Day.from_json_obj(await response.json());
     else if(response.status == 401)
         throw new InvalidAuth("You must be logged to access this data");
     else if(response.status == 500)

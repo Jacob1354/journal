@@ -4,12 +4,7 @@ import { error_pop_up } from "../dom/dom_utils.js";
 //TODO handle case where the promise is never settled
 export async function fetch_day(date = new Date()) {
     const day_path = "/day/" + date.getDate() +"-"+ date.getMonth() +"-"+ date.getFullYear();
-    let response;
-    try {
-        response = await fetch(day_path);
-    } catch(err) {
-        error_pop_up("An error occured, sorry :/");
-    }
+    let response = await fetch(day_path);
     if(response.status == 200)
         return Day.from_json_obj(await response.json());
     else if(response.status == 401)

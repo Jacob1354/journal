@@ -24,16 +24,20 @@ export class Day {
         return copy;
     }
 
-    toJSON() {
+    prepare_json_obj(){
         const parsed_mood_fields = [];
         this.mood_fields.forEach(field => {
             parsed_mood_fields.push(field.prepare_json_obj());
         });
-        return JSON.stringify({
+        return {
             date: this.date,
             schedule: this.schedule.prepare_json_obj(),
             mood_fields: parsed_mood_fields
-        });
+        };
+    }
+
+    toJSON() {
+        return JSON.stringify(this.prepare_json_obj());
     }
 
     static from_json_obj(obj) {

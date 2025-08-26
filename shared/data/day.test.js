@@ -12,7 +12,7 @@ const fraction_field_for_json = new FractionField("fraction_field", 9, 10);
 const slider_field_for_json = new SliderField("slider_field", 10);
 day_for_json.mood_fields = [nb_field_for_json, text_field_for_json, fraction_field_for_json, slider_field_for_json];
 const day_json_obj = {
-    date: day_for_json.date.toJSON(), //JSON parse doesn't actually parse into a date
+    date: day_for_json.date,
     schedule: [
         {
             start_time: {hours: 10, minutes: 20}, 
@@ -61,9 +61,8 @@ test("Day.from", () => {
     expect(copy.schedule.get_activities()[0].title).toBe("A1");
 });
 
-test("Day.toJSON", () => {
-    const stringfied = day_for_json.toJSON();
-    expect(JSON.parse(stringfied)).toEqual(day_json_obj);
+test("Day.prepare_json_obj", () => {
+    expect(day_for_json.prepare_json_obj()).toEqual(day_json_obj);
 })
 
 test("static Day.from_json_obj", () => {

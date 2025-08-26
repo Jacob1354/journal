@@ -1,10 +1,12 @@
 import { Day } from "../../../shared/data/day.js";
 import { error_pop_up } from "../dom/dom_utils.js";
 
-//TODO handle case where the promise is never settled
+export const FETCH_TIMEOUT = 5000;
+
+
 export async function fetch_day(date = new Date()) {
     const day_path = "/day/" + date.getDate() +"-"+ date.getMonth() +"-"+ date.getFullYear();
-    let response = await fetch(day_path);
+    let response = await fetch(day_path, {signal: AbortSignal.timeout(FETCH_TIMEOUT)});
     if(response.status == 200)
         return Day.from_json_obj(await response.json());
     else if(response.status == 401)

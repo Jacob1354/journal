@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
 import { Day } from "../../../shared/data/day.js";
-import { fetch_day, InvalidAuth, ServerErr } from "./day_api";
+import { fetch_day, FETCH_TIMEOUT, InvalidAuth, ServerErr } from "./day_api";
 import { Activity } from "../../../shared/data/schedule.js";
 import { json } from "express";
 
@@ -35,3 +35,10 @@ test("fectch_day: Server internal error", async () => {
     })));
     await expect(fetch_day(valid_date)).rejects.toThrow(ServerErr);
 });
+
+test("fetch day: TimedOut", () => {
+    global.fetch = jest.fn(() => new Promise(resolve => setTimeout(resolve, FETCH_TIMEOUT + 1)));
+    jest.useFakeTimers();
+    expect(() => fetch_day(valid_date)).rejects.toThrow(DOMException);
+    jest.advanceTimersByTime(FETCH_TIMEOUT);
+})

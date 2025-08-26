@@ -76,7 +76,7 @@ app.get('/day', (req, res) => {
 });
 
 app.get('/day/:day-:month-:year', (req, res) => {
-    res.send(JSON.stringify(new Day()));
+    res.send(JSON.stringify(new Day().prepare_json_obj()));
 });
 
 app.post('/day/:day-:month-:year', (req, res) => {
@@ -92,7 +92,11 @@ const server = app.listen(SERVER_PORT, () => {
 server.on("close", (err) => {
     console.log("closing server");
     if(err) console.log(err);
-    journal_srv.close();
+    try {
+        journal_srv.close();
+    } catch(err) {
+        console.log(err);
+    }
 });
 
 process.on("SIGINT", () => server.close());

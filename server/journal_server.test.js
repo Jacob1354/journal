@@ -22,13 +22,19 @@ jest.unstable_mockModule("../shared/clean_code/clean_code_enforcement", () => ({
     validate_type: mockValidateType
 }));
 const {validate_type} = await import("../shared/clean_code/clean_code_enforcement");
+const {InvalidSession} = await import("./dao/auth_dao");
 const {JournalServer} = await import("./journal_server");
 
 const journal_srv = new JournalServer();
 
 beforeAll(() => {
     jest.spyOn(AuthService.prototype, 'authenticate_session').mockImplementation(
-        (session) => session === valid_session ? user : null 
+        (session) => {
+            if(session === valid_session)
+                return user;
+            else
+                throw new InvalidSession();
+        } 
     );
 })
 

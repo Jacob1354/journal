@@ -9,7 +9,7 @@ export class JournalService {
         this.#journal_dao = new JournalDAO(db);
     }
 
-    get_json_day_obj(user, {date, month, year}) {
+    async get_json_day_obj(user, {date, month, year}) {
 
     }
 }

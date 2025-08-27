@@ -75,7 +75,7 @@ app.get('/day', (req, res) => {
 app.get('/day/:day-:month-:year', (req, res) => {
     const user = journal_srv.authenticate_session(req.cookies["session"], res);
     if(user != null) {
-        res.send(journal_srv.journal_service.get_sendable_day());
+        res.json(journal_srv.journal_service.get_json_day_obj(user, req.params));
     }
 });
 

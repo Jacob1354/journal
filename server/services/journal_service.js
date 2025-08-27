@@ -8,6 +8,10 @@ export class JournalService {
         validate_type(db, Database);
         this.#journal_dao = new JournalDAO(db);
     }
+
+    get_json_day_obj(user, {date, month, year}) {
+
+    }
 }
 
 export class InvalidDate extends Error {

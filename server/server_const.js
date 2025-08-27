@@ -16,3 +16,10 @@ export const ERR_MSG_SIGN_IN_INVALID_USER =
     "Oops, since like you've entered the wrong username or the wrong password."
     + "Please try again";
 export const ERR_MSG_MUST_BE_LOGGED = "Seems like you're trying to access data for which you must be logged";
+
+export class InternalServerError extends Error {
+    constructor(msg) {
+        super(msg);
+        this.name = "InternalServerError";
+    }
+}

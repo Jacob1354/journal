@@ -11,8 +11,36 @@ export class JournalService {
     }
 
     get_json_day_obj(user, decomposed_date = {date, month, year}) {
+        const date = this._date_from_decomposed(decomposed_date);
+        let day;
+        try {
+            day = this.#journal_dao.get_day(user, date);
+        } catch(err) {
+            throw new InternalServerError("Couldn't get day\n" + err);
+        }
+        if(day == null) {
+            try {
+                this.#journal_dao.create_day(user, date);
+            } catch(err) {
+                throw new InternalServerError("Couldn't create new day\n" + err);
+            }
+            return this.get_json_day_obj(user, decomposed_date);
+        } else {
+            return day.prepare_json_obj();
+        }
     }
 
+    _date_from_decomposed({date, month, year}) {
+        const date_obj = new Date();
+        try {
+            date_obj.setDate(date);
+            date_obj.setMonth(month);
+            date_obj.setFullYear(year);
+        } catch(err) {
+            throw new CouldntCreateDate(err);
+        }
+        return date_obj;
+    }
 }
 
 export class InvalidDate extends Error {
@@ -22,4 +50,10 @@ export class InvalidDate extends Error {
     }
 }
 
+export class CouldntCreateDate extends Error {
+    constructor(msg) {
+        super(msg);
+        this.name = "CouldntCreateDate";
+    }
+}
 

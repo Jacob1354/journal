@@ -2,7 +2,10 @@ import Database from "better-sqlite3";
 import { AuthService } from "./services/auth_sevice.js";
 import { JournalService } from "./services/journal_service.js";
 import {readFileSync} from 'fs';
-import { SQL_AUTH_SETUP_PATH, SQL_JOURNAL_SETUP_PATH } from "./server_const.js";
+import { ERR_MSG_MUST_BE_LOGGED, ERR_MSG_SERVER_ERR, SQL_AUTH_SETUP_PATH, SQL_JOURNAL_SETUP_PATH } from "./server_const.js";
+import { validate_type } from "../shared/clean_code/clean_code_enforcement.js";
+import Response from "express";
+import { InvalidSession } from "./dao/auth_dao.js";
 
 export class JournalServer {
     
@@ -14,6 +17,21 @@ export class JournalServer {
 
     close() {
         this.db.close();
+    }
+
+    authenticate_session(session, res) {
+        validate_type(session, "string");
+        validate_type(res, Response);
+        let user;
+        try {
+            user = this.auth_service.authenticate_session(session);
+        } catch(err) {
+            if(err instanceof InvalidSession)
+                res.status(401).send(ERR_MSG_MUST_BE_LOGGED);
+            else 
+                res.status(500).send(ERR_MSG_SERVER_ERR);
+        }
+        return user;
     }
 
     _setup_db() {

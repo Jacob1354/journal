@@ -62,16 +62,13 @@ app.post('/signin', async (req, res) => {
 });
 
 app.get('/day', (req, res) => {
-    let user;
-    try {
-        user = journal_srv.auth_service.authenticate_session(req.cookies["session"]);
-        res.sendFile(path.join(__dirname, "..", "public", "html", "day.html"));
-    } catch(err) {
-        console.log(err);
-        if(err instanceof InvalidSession)
-            res.status(400).send("Seems like you're trying to access data for which you must be logged");
-        else 
+    const user = journal_srv.authenticate_session(req.cookies["session"], res);
+    if(user == null) {
+        try {
+            res.sendFile(path.join(__dirname, "..", "public", "html", "day.html"));
+        } catch(err) {
             res.status(500).send(ERR_MSG_SERVER_ERR);
+        }
     }
 });
 

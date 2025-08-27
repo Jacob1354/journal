@@ -31,14 +31,14 @@ const journal_service = new JournalService(new Database());
 test.each([
     [existing_day_decomposed_date, existing_day_json], 
     [new_day_decomposed_date, new_day_json]
-])("JournalService.get_json_day_obj: success", async (decomposed_date, day) => {
-    await expect(journal_service.get_json_day_obj(user, decomposed_date)).resolves.toEqual(day);
+])("JournalService.get_json_day_obj: success", (decomposed_date, day) => {
+    expect(journal_service.get_json_day_obj(user, decomposed_date)).resolves.toEqual(day);
 });
 
-test("JournalService.get_json_day_obj: Invalid user", async () => {
-    await expect(journal_service.get_json_day_obj(invalid_user, existing_day)).rejects.toThrow(InvalidUser);
+test("JournalService.get_json_day_obj: Invalid user", () => {
+    expect(journal_service.get_json_day_obj(invalid_user, existing_day)).rejects.toThrow(InvalidUser);
 });
 
-test("JournalService.get_json_day_obj: InternalServerError", async () => {
-    await expect(journal_service.get_json_day_obj(user, existing_day)).rejects.toThrow(InternalServerError);
+test("JournalService.get_json_day_obj: InternalServerError", () => {
+    expect(journal_service.get_json_day_obj(user, existing_day)).rejects.toThrow(InternalServerError);
 });

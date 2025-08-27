@@ -1,6 +1,7 @@
 import Database from "better-sqlite3";
 import { validate_type } from "../../shared/clean_code/clean_code_enforcement.js";
 import { JournalDAO } from "../dao/journal_dao.js";
+import { InternalServerError } from "../server_const.js";
 
 export class JournalService {
     #journal_dao;
@@ -9,9 +10,9 @@ export class JournalService {
         this.#journal_dao = new JournalDAO(db);
     }
 
-    async get_json_day_obj(user, {date, month, year}) {
-
+    get_json_day_obj(user, decomposed_date = {date, month, year}) {
     }
+
 }
 
 export class InvalidDate extends Error {
@@ -20,4 +21,5 @@ export class InvalidDate extends Error {
         this.name = "InvalidDate";
     }
 }
+
 

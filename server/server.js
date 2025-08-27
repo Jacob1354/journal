@@ -72,10 +72,10 @@ app.get('/day', (req, res) => {
     }
 });
 
-app.get('/day/:day-:month-:year', async (req, res) => {
+app.get('/day/:day-:month-:year', (req, res) => {
     const user = journal_srv.authenticate_session(req.cookies["session"], res);
     if(user != null) {
-        res.json(await journal_srv.journal_service.get_json_day_obj(user, req.params));
+        res.json(journal_srv.journal_service.get_json_day_obj(user, req.params));
     }
 });
 

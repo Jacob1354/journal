@@ -33,7 +33,7 @@ beforeAll(() => {
 })
 
 
-test("JournalServer.authenticate_session: sucess", () => {
+test("JournalServer.authenticate_session: success", () => {
     const res = MockResponse();
     expect(journal_srv.authenticate_session(valid_sesion, res)).toEqual(user);
 });

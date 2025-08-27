@@ -17,11 +17,6 @@ const MockResponse = jest.fn(() => ({
     send: mockSend
 }));
 
-const mockValidateType = jest.fn(() => true);
-jest.unstable_mockModule("../shared/clean_code/clean_code_enforcement", () => ({
-    validate_type: mockValidateType
-}));
-const {validate_type} = await import("../shared/clean_code/clean_code_enforcement");
 const {InvalidSession} = await import("./dao/auth_dao");
 const {JournalServer} = await import("./journal_server");
 
@@ -36,11 +31,11 @@ beforeAll(() => {
                 throw new InvalidSession();
         } 
     );
-})
+});
 
 beforeEach(() => {
     received.status = null;
-})
+});
 
 test("JournalServer.authenticate_session: success", () => {
     const res = MockResponse();

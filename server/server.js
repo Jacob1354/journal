@@ -73,7 +73,10 @@ app.get('/day', (req, res) => {
 });
 
 app.get('/day/:day-:month-:year', (req, res) => {
-    res.send(JSON.stringify(new Day().prepare_json_obj()));
+    const user = journal_srv.authenticate_session(req.cookies["session"], res);
+    if(user != null) {
+        res.send(journal_srv.journal_service.get_sendable_day());
+    }
 });
 
 app.post('/day/:day-:month-:year', (req, res) => {

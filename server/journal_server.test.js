@@ -1,5 +1,4 @@
 import { jest } from "@jest/globals";
-import { JournalServer } from "./journal_server";
 import { User } from "../shared/data/user";
 import { AuthService } from "./services/auth_sevice";
 
@@ -23,6 +22,7 @@ jest.unstable_mockModule("../shared/clean_code/clean_code_enforcement", () => ({
     validate_type: mockValidateType
 }));
 const {validate_type} = await import("../shared/clean_code/clean_code_enforcement");
+const {JournalServer} = await import("./journal_server");
 
 const journal_srv = new JournalServer();
 
@@ -35,7 +35,7 @@ beforeAll(() => {
 
 test("JournalServer.authenticate_session: success", () => {
     const res = MockResponse();
-    expect(journal_srv.authenticate_session(valid_sesion, res)).toEqual(user);
+    expect(journal_srv.authenticate_session(valid_session, res)).toEqual(user);
 });
 
 test("JournalServer.authenticate_session: InvalidSession", () => {
@@ -47,7 +47,7 @@ test("JournalServer.authenticate_session: InvalidSession", () => {
 });
 
 test("JournalServer.authenticate_session: InternalServerError", () => {
-    const res = MockResponse();s
+    const res = MockResponse();
     journal_srv.authenticate_session(valid_session, res);
     expect(received).toEqual({status: 500});
 });

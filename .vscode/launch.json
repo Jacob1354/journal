@@ -5,11 +5,11 @@
       "name": "Debug Jest Tests",
       "type": "node",
       "request": "launch",
-      "cwd" : "${workspaceFolder}/first-proto",
+      "cwd" : "${workspaceFolder}",
       "runtimeArgs": [
         "--inspect-brk",
         "--experimental-vm-modules",
-        "${workspaceRoot}/first-proto/node_modules/jest/bin/jest.js",
+        "${workspaceRoot}/node_modules/jest/bin/jest.js",
         "--runInBand"
       ],
       "console": "integratedTerminal",

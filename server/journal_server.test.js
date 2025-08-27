@@ -57,6 +57,9 @@ test.each([undefined, invalid_session])
     );
 
 test("JournalServer.authenticate_session: InternalServerError", () => {
+    jest.spyOn(AuthService.prototype, 'authenticate_session').mockImplementation(
+        (session) => {throw new Error("InternalServerError")} 
+    );
     const res = MockResponse();
     journal_srv.authenticate_session(valid_session, res);
     expect(received).toEqual({status: 500});

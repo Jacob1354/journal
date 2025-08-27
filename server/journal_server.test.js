@@ -38,19 +38,23 @@ beforeAll(() => {
     );
 })
 
+beforeEach(() => {
+    received.status = null;
+})
 
 test("JournalServer.authenticate_session: success", () => {
     const res = MockResponse();
     expect(journal_srv.authenticate_session(valid_session, res)).toEqual(user);
 });
 
-test("JournalServer.authenticate_session: InvalidSession", () => {
-    const res = MockResponse();
-    journal_srv.authenticate_session(undefined, res);
-    expect(received).toEqual({status: 401});
-    journal_srv.authenticate_session(invalid_session, res);
-    expect(received).toEqual({status: 401});
-});
+test.each([undefined, invalid_session])
+    ("JournalServer.authenticate_session: InvalidSession (session = %i)", 
+        (session) => {
+            const res = MockResponse();
+            journal_srv.authenticate_session(session, res);
+            expect(received).toEqual({status: 401});
+        }
+    );
 
 test("JournalServer.authenticate_session: InternalServerError", () => {
     const res = MockResponse();

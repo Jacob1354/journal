@@ -36,7 +36,7 @@ const journal_service = new JournalService(new Database());
 beforeEach(() => {
     const db = new Database(":memory:");
     const db_auth_script = readFileSync("./server/db_scripts/auth_setup.sql", "utf8");
-    const db_journal_script = readFileSync("./server/db_scripts/auth_setup.sql", "utf8");
+    const db_journal_script = readFileSync("./server/db_scripts/journal_setup.sql", "utf8");
     db.exec(db_auth_script);
     db.exec(db_journal_script);
     const journal_dao = new JournalDAO(db);

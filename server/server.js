@@ -63,7 +63,7 @@ app.post('/signin', async (req, res) => {
 
 app.get('/day', (req, res) => {
     const user = journal_srv.authenticate_session(req.cookies["session"], res);
-    if(user == null) {
+    if(user != null) {
         try {
             res.sendFile(path.join(__dirname, "..", "public", "html", "day.html"));
         } catch(err) {

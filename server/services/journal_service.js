@@ -41,6 +41,10 @@ export class JournalService {
         }
         return date_obj;
     }
+
+    _set_dao_for_tests(new_dao) {
+        this.#journal_dao = new_dao;
+    }
 }
 
 export class InvalidDate extends Error {

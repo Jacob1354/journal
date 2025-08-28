@@ -3,8 +3,12 @@ import { JournalService } from "./journal_service";
 import { Day } from "../../shared/data/day";
 import { InvalidUser, User } from "../../shared/data/user";
 import { InternalServerError } from "../server_const";
+import { JournalDAO } from "../dao/journal_dao";
+import { jest } from "@jest/globals";
+import { AuthDAO } from "../dao/auth_dao";
+import { readFileSync } from 'fs';
 
-const user = new User({username: "user"});
+const user = new User({username: "user", hash: "hash", name: "name"});
 const invalid_user = new User({username: "invalid_user"});
 const existing_day = new Day();
 const existing_day_decomposed_date = {
@@ -27,6 +31,21 @@ const new_day_decomposed_date = {
 const new_day_json = new_day.prepare_json_obj();
 
 const journal_service = new JournalService(new Database());
+
+
+beforeEach(() => {
+    const db = new Database(":memory:");
+    const db_auth_script = readFileSync("./server/db_scripts/auth_setup.sql", "utf8");
+    const db_journal_script = readFileSync("./server/db_scripts/auth_setup.sql", "utf8");
+    db.exec(db_auth_script);
+    db.exec(db_journal_script);
+    const journal_dao = new JournalDAO(db);
+    const auth_dao = new AuthDAO(db);
+    auth_dao.add_user(user);
+    journal_dao.create_day(user, existing_day.date);
+    journal_service._set_dao_for_tests(journal_dao);
+});
+
 
 test.each([
     [existing_day_decomposed_date, existing_day_json], 

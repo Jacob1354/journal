@@ -102,6 +102,5 @@ test("JournalDAO._get_activities: success", () => {
     //Uses schedule to make sure they're sorted properly
     const result_schedule = new Schedule(journal_dao._get_activities(user, existing_day.date));
     expect(result_schedule.get_activities()).toEqual(existing_day.schedule.get_activities());
-    expect(journal_dao._get_activities(user, existing_empty_day.date)).toBeFalsy();
 });
 

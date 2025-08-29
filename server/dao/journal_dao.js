@@ -34,7 +34,9 @@ export class JournalDAO {
         return user_result ? true : false;
     }
     _get_mood_fields_id(user, date) {
-
+        const mood_fields = this.#db.prepare("SELECT id FROM mood_fields WHERE username = ? AND date = ?")
+            .get(user.username, String(date));
+        return mood_fields ? mood_fields.id : null;
     }
     _get_mood_fields(user, mood_fields_id) {
 

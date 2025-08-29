@@ -12,13 +12,11 @@ export class JournalDAO {
         this.#db = db;
     }
 
-    create_day(user, date) {
+    create_day(user, day) {
         validate_type(user, User);
-        validate_type(date, Date);
+        validate_type(day, Day);
         if(!this._check_if_user_exists(user)) throw new InvalidUser();
-        if(this._get_mood_fields_id(user, date)) throw new DayAlreadyExists();// Every day, even without mood_fields has a mood_fields_id
-        const day = new Day(date);
-        this._create_activities(user, day);
+        if(this._get_mood_fields_id(user, day.date)) throw new DayAlreadyExists();// Every day, even without mood_fields has a mood_fields_id        this._create_activities(user, day);
         this._create_mood_fields(user, day);
     }
 

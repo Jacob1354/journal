@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS activity(
 );
 
 CREATE TABLE mood_fields(
-    id PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     username NOT NULL,
     date TEXT NOT NULL,
     UNIQUE (username, date),
@@ -21,7 +21,7 @@ CREATE TABLE mood_fields(
 );
 
 CREATE TABLE text_field(
-    mood_fields_id
+    mood_fields_id INTEGER
         NOT NULL
         REFERENCES mood_field(id),
     title TEXT PRIMARY KEY,

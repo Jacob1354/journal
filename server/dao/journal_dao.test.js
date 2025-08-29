@@ -23,7 +23,7 @@ existing_day.schedule.add_activity(existing_activity);
 existing_day.mood_fields = [...fields];
 
 const existing_empty_day = new Day();
-existing_date.setFullYear(1990);
+existing_empty_day.date.setFullYear(1990);
 existing_empty_day.mood_fields = [];
 
 const new_date = new Date();
@@ -71,7 +71,7 @@ test("JournalDAO.get_day: success", () => {
 });
 
 test("JournalDAO.get_day: no data found (null)", () => {
-    expect(journal_dao.get_day(user, existing_day.date)).toBe(null);
+    expect(journal_dao.get_day(user, new_day.date)).toBe(null);
 });
 
 test("JournalDAO.get_day: InvalidUser", () => {
@@ -83,16 +83,18 @@ test("JournalDAO._check_if_user_exists: success", () => {
     expect(journal_dao._check_if_user_exists(invalid_user)).toBeFalsy();
 });
 test("JournalDAO._get_mood_fields_id: success", () => {
-    expect(journal_dao._check_if_user_exists(user, existing_day.date)).toBeTruthy();
-    expect(journal_dao._check_if_user_exists(user, new_day.date)).toBeFalsy();
+    expect(journal_dao._get_mood_fields_id(user, existing_day.date)).toBeTruthy();
+    expect(journal_dao._get_mood_fields_id(user, new_day.date)).toBeFalsy();
 });
 test("JournalDAO._get_mood_fields: success", () => {
-    const result = journal_dao._get_mood_fields(user, existing_day.date)
+    const mood_fields_id = journal_dao._get_mood_fields_id(user, existing_day.date);
+    const result = journal_dao._get_mood_fields(user, mood_fields_id)
                                 .sort((a, b) => a.get_field_name().localCompare(b.get_field_name()));
     const expected = existing_day.mood_fields
                                 .sort((a, b) => a.get_field_name().localCompare(b.get_field_name()));
     expect(mood_fields).toEqual(expected);
-    expect(journal_dao._get_mood_fields(user, existing_empty_day.date)).toBeFalsy();
+                                        //Only one mood_fields row, thus makes sure it's invalid
+    expect(journal_dao._get_mood_fields(user, mood_fields_id + 1)).toBeFalsy();
 });
 test("JournalDAO._get_activities: success", () => {
     //Uses schedule to make sure they're sorted properly

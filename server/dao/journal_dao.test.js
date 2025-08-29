@@ -4,7 +4,7 @@ import { AuthDAO } from "./auth_dao";
 import {readFileSync} from 'fs';
 import { InvalidUser, User } from "../../shared/data/user";
 import { Day } from "../../shared/data/day";
-import { Activity, HoursAndMinutes } from "../../shared/data/schedule";
+import { Activity, HoursAndMinutes, Schedule } from "../../shared/data/schedule";
 import { FractionField, NumberField, SliderField, TextField } from "../../shared/data/mood_field";
 
 const nb_field = new NumberField("nb_field", 10);
@@ -21,6 +21,10 @@ const existing_day = new Day(existing_date);
 const existing_activity = new Activity();
 existing_day.schedule.add_activity(existing_activity);
 existing_day.mood_fields = [...fields];
+
+const existing_empty_day = new Day();
+existing_date.setFullYear(1990);
+existing_empty_day.mood_fields = [];
 
 const new_date = new Date();
 const new_day = new Day(new_date);
@@ -57,6 +61,8 @@ beforeAll(() => {
         .run(mood_id, fraction_field.get_field_name(), fraction_field.get_data(), fraction_field.get_denominator());
     db.prepare("INSERT INTO slider_field (mood_fields_id, title, data) VALUES (?, ?, ?)")
         .run(mood_id, slider_field.get_field_name(), slider_field.get_data());
+    db.prepare("INSERT INTO mood_fields (username, date) VALUES (?, ?)")
+        .run(user.username, String(existing_empty_day.date));
 });
 
 
@@ -71,3 +77,27 @@ test("JournalDAO.get_day: no data found (null)", () => {
 test("JournalDAO.get_day: InvalidUser", () => {
     expect(() => journal_dao.get_day(invalid_user, existing_day.date)).toThrow(InvalidUser);
 });
+
+test("JournalDAO._check_if_user_exists: success", () => {
+    expect(journal_dao._check_if_user_exists(user)).toBeTruthy();
+    expect(journal_dao._check_if_user_exists(invalid_user)).toBeFalsy();
+});
+test("JournalDAO._get_mood_fields_id: success", () => {
+    expect(journal_dao._check_if_user_exists(user, existing_day.date)).toBeTruthy();
+    expect(journal_dao._check_if_user_exists(user, new_day.date)).toBeFalsy();
+});
+test("JournalDAO._get_mood_fields: success", () => {
+    const result = journal_dao._get_mood_fields(user, existing_day.date)
+                                .sort((a, b) => a.get_field_name().localCompare(b.get_field_name()));
+    const expected = existing_day.mood_fields
+                                .sort((a, b) => a.get_field_name().localCompare(b.get_field_name()));
+    expect(mood_fields).toEqual(expected);
+    expect(journal_dao._get_mood_fields(user, existing_empty_day.date)).toBeFalsy();
+});
+test("JournalDAO._get_activities: success", () => {
+    //Uses schedule to make sure they're sorted properly
+    const result_schedule = new Schedule(journal_dao._get_activities(user, existing_day.date));
+    expect(result_schedule.get_activities()).toEqual(existing_day.schedule.get_activities());
+    expect(journal_dao._get_activities(user, existing_empty_day.date)).toBeFalsy();
+});
+

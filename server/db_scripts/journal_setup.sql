@@ -24,37 +24,42 @@ CREATE TABLE text_field(
     mood_fields_id INTEGER
         NOT NULL
         REFERENCES mood_field(id),
-    title TEXT PRIMARY KEY NOT NULL,
+    title TEXT NOT NULL,
     field_data TEXT 
-        DEFAULT '' NOT NULL
+        DEFAULT '' NOT NULL,
+    PRIMARY KEY (mood_fields_id, title)
 );
 
 CREATE TABLE number_field(
     mood_fields_id INTEGER
         NOT NULL
         REFERENCES mood_field(id),
-    title TEXT PRIMARY KEY NOT NULL,
+    title TEXT NOT NULL,
     field_data REAL 
-        DEFAULT 0 NOT NULL
+        DEFAULT 0 NOT NULL,
+    PRIMARY KEY (mood_fields_id, title)
+    
 );
 
 CREATE TABLE fraction_field(
     mood_fields_id INTEGER
         NOT NULL
         REFERENCES mood_field(id),
-    title TEXT PRIMARY KEY NOT NULL,
+    title TEXT NOT NULL,
     field_data REAL 
         DEFAULT 0 NOT NULL,
     denominator INTEGER 
-        DEFAULT 10 NOT NULL
+        DEFAULT 10 NOT NULL,
+    PRIMARY KEY (mood_fields_id, title)
 ); 
 
 CREATE TABLE slider_field(
     mood_fields_id INTEGER
         NOT NULL
         REFERENCES mood_field(id),
-    title TEXT PRIMARY KEY NOT NULL,
+    title TEXT NOT NULL,
     field_data INTEGER 
         DEFAULT 0 NOT NULL
-        CHECK (field_data BETWEEN 0 AND 100)
+        CHECK (field_data BETWEEN 0 AND 100),
+    PRIMARY KEY (mood_fields_id, title)
 );

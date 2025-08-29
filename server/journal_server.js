@@ -20,7 +20,6 @@ export class JournalServer {
 
     authenticate_session(session, res) {
         let user;
-        console.log("here");
         try {
             user = this.auth_service.authenticate_session(session);
         } catch(err) {
@@ -29,7 +28,6 @@ export class JournalServer {
             else 
                 res.status(500).send(ERR_MSG_SERVER_ERR);
         }
-        console.log("done");
         return user;
     }
 

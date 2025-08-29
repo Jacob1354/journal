@@ -2,6 +2,7 @@ import Database from "better-sqlite3";
 import { validate_type } from "../../shared/clean_code/clean_code_enforcement.js";
 import { Day } from "../../shared/data/day.js";
 import { InvalidUser, User } from "../../shared/data/user.js";
+import { FractionField, NumberField, SliderField, TextField } from "../../shared/data/mood_field.js";
 
 export class JournalDAO {
     #db;
@@ -21,7 +22,7 @@ export class JournalDAO {
         const mood_fields_id = this._get_mood_fields_id(user, date); 
         if(mood_fields_id != null) { // If a day exists, it always has a mood_fields row, even without mood fields
             const day = new Day(date);
-            day.mood_fields = this._get_mood_fields(user, mood_fields_id);
+            day.mood_fields = this._get_mood_fields(mood_fields_id);
             day.schedule.add_activities(this._get_activities(user, date));
             return day;
         } else {
@@ -38,8 +39,61 @@ export class JournalDAO {
             .get(user.username, String(date));
         return mood_fields ? mood_fields.id : null;
     }
-    _get_mood_fields(user, mood_fields_id) {
-
+    _get_mood_fields(mood_fields_id) {
+        let fields = [];
+        const nb_fields = this._get_number_fields(mood_fields_id);
+        if(nb_fields) fields = fields.concat(nb_fields);
+        const text_fields = this._get_text_fields(mood_fields_id);
+        if(text_fields) fields = fields.concat(text_fields);
+        const fraction_fields = this._get_fraction_fields(mood_fields_id);
+        if(fraction_fields) fields = fields.concat(fraction_fields);
+        const slider_fields = this._get_slider_fields(mood_fields_id);
+        if(slider_fields) fields = fields.concat(slider_fields);
+        return fields;
+    }
+    _get_number_fields(mood_fields_id) {
+        const fields = this.#db.prepare("SELECT * FROM number_field WHERE mood_fields_id = ?")
+                                    .all(mood_fields_id);
+        const result = [];
+        if(fields) {
+            fields.forEach(field => {
+                result.push(new NumberField(field.title, Number(field.data)));
+            });
+        }
+        return result;
+    }
+    _get_text_fields(mood_fields_id) {
+        const fields = this.#db.prepare("SELECT * FROM text_field WHERE mood_fields_id = ?")
+                                    .all(mood_fields_id);
+        const result = [];
+        if(fields) {
+            fields.forEach(field => {
+                result.push(new TextField(field.title, field.data));
+            });
+        }
+        return result;
+    }
+    _get_fraction_fields(mood_fields_id) {
+        const fields = this.#db.prepare("SELECT * FROM fraction_field WHERE mood_fields_id = ?")
+                                    .all(mood_fields_id);
+        const result = [];
+        if(fields) {
+            fields.forEach(field => {
+                result.push(new FractionField(field.title, Number(field.data), Number(field.denominator)));
+            });
+        }
+        return result;
+    }
+    _get_slider_fields(mood_fields_id) {
+        const fields = this.#db.prepare("SELECT * FROM slider_field WHERE mood_fields_id = ?")
+                                    .all(mood_fields_id);
+        const result = [];
+        if(fields) {
+            fields.forEach(field => {
+                result.push(new SliderField(field.title, Number(field.data)));
+            });
+        }
+        return result;
     }
     _get_activities(user, date) {
 

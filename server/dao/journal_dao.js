@@ -13,7 +13,13 @@ export class JournalDAO {
     }
 
     create_day(user, date) {
-
+        validate_type(user, User);
+        validate_type(date, Date);
+        if(!this._check_if_user_exists(user)) throw new InvalidUser();
+        if(this._get_mood_fields_id(user, date)) throw new DayAlreadyExists();// Every day, even without mood_fields has a mood_fields_id
+        const day = new Day(date);
+        this._create_activities(user, day);
+        this._create_mood_fields(user, day);
     }
 
     get_day(user, date) {
@@ -111,5 +117,19 @@ export class JournalDAO {
             })
         }
         return result;
+    }
+
+    _create_activities(user, day) {
+
+    }
+    _create_mood_fields(user, day) {
+        
+    }
+}
+
+export class DayAlreadyExists extends Error {
+    constructor(msg) {
+        super(msg);
+        this.name = "DayAlreadyExists";
     }
 }

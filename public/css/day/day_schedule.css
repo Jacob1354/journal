@@ -1,9 +1,12 @@
 #schedule {
+    min-height: 200px;
     display: flex;
     flex-direction: column;
     height: 100%;
     grid-column: 1 / 2;
     grid-row: 2;
+    border: solid black 1px;
+    border-radius: 10px;
     background-color: rgb(118, 236, 236);   
 }
 

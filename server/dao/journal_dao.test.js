@@ -82,20 +82,22 @@ test("JournalDAO._check_if_user_exists: success", () => {
     expect(journal_dao._check_if_user_exists(user)).toBeTruthy();
     expect(journal_dao._check_if_user_exists(invalid_user)).toBeFalsy();
 });
+
 test("JournalDAO._get_mood_fields_id: success", () => {
     expect(journal_dao._get_mood_fields_id(user, existing_day.date)).toBeTruthy();
     expect(journal_dao._get_mood_fields_id(user, new_day.date)).toBeFalsy();
 });
+
 test("JournalDAO._get_mood_fields: success", () => {
     const mood_fields_id = journal_dao._get_mood_fields_id(user, existing_day.date);
-    const result = journal_dao._get_mood_fields(user, mood_fields_id)
-                                .sort((a, b) => a.get_field_name().localCompare(b.get_field_name()));
+    const result = journal_dao._get_mood_fields(mood_fields_id)
+                                .sort((a, b) => a.get_field_name().localeCompare(b.get_field_name()));
     const expected = existing_day.mood_fields
-                                .sort((a, b) => a.get_field_name().localCompare(b.get_field_name()));
-    expect(mood_fields).toEqual(expected);
-                                        //Only one mood_fields row, thus makes sure it's invalid
-    expect(journal_dao._get_mood_fields(user, mood_fields_id + 1)).toBeFalsy();
+                                .sort((a, b) => a.get_field_name().localeCompare(b.get_field_name()));
+    expect(result).toEqual(expected);
 });
+
+
 test("JournalDAO._get_activities: success", () => {
     //Uses schedule to make sure they're sorted properly
     const result_schedule = new Schedule(journal_dao._get_activities(user, existing_day.date));

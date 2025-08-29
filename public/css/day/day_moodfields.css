@@ -1,8 +1,13 @@
 .mood_fields {
-    background-color: rgb(242, 126, 240);
+    background-color: #CCBDFC;
+    border: solid black 1px;
+    border-radius: 10px;
     display: grid;
+    align-items: center;
     grid-template-columns: 1fr 1fr;
     flex: 1;
+    box-sizing: border-box;
+    padding: 10px;
 }
 @media (max-width: 992px) {
     .mood_fields {

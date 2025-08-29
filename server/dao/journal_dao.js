@@ -21,7 +21,7 @@ export class JournalDAO {
         const mood_fields_id = this._get_mood_fields_id(user, date); 
         if(mood_fields_id != null) { // If a day exists, it always has a mood_fields row, even without mood fields
             const day = new Day(date);
-            day.mood_fields = this._get_mood_fields(user, date);
+            day.mood_fields = this._get_mood_fields(user, mood_fields_id);
             day.schedule.add_activities(this._get_activities(user, date));
             return day;
         } else {
@@ -30,12 +30,13 @@ export class JournalDAO {
     }
 
     _check_if_user_exists(user) {
-
+        const user_result = this.#db.prepare("SELECT username FROM user WHERE username = ?").get(user.username);
+        return user_result ? true : false;
     }
     _get_mood_fields_id(user, date) {
 
     }
-    _get_mood_fields(user, date) {
+    _get_mood_fields(user, mood_fields_id) {
 
     }
     _get_activities(user, date) {

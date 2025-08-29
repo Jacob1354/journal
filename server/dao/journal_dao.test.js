@@ -1,5 +1,5 @@
 import Database from "better-sqlite3";
-import { JournalDAO } from "./journal_dao";
+import { DayAlreadyExists, JournalDAO } from "./journal_dao";
 import { AuthDAO } from "./auth_dao";
 import {readFileSync} from 'fs';
 import { InvalidUser, User } from "../../shared/data/user";
@@ -105,5 +105,17 @@ describe("Journal.get_day", () => {
         });
     })
 
-})
+});
 
+describe("Journal.create_day", () => {
+    test("create_day: success", () => {
+        journal_dao.create_day(user, new_day.date);
+        expect(journal_dao.get_day(user, new_day.date)).toEqual(new_day);
+    });
+    test("create_day: InvalidUser", () => {
+        expect(() => journal_dao.create_day(invalid_user, new_day.date)).toThrow(InvalidUser);
+    });
+    test("create_day: DayAlreadyExists", () => {
+        expect(() => journal_dao.create_day(user, existing_day.date)).toThrow(DayAlreadyExists);
+    });
+});

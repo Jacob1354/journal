@@ -25,7 +25,7 @@ CREATE TABLE text_field(
         NOT NULL
         REFERENCES mood_field(id),
     title TEXT NOT NULL,
-    field_data TEXT 
+    data TEXT 
         DEFAULT '' NOT NULL,
     PRIMARY KEY (mood_fields_id, title)
 );
@@ -35,7 +35,7 @@ CREATE TABLE number_field(
         NOT NULL
         REFERENCES mood_field(id),
     title TEXT NOT NULL,
-    field_data REAL 
+    data REAL 
         DEFAULT 0 NOT NULL,
     PRIMARY KEY (mood_fields_id, title)
     
@@ -46,7 +46,7 @@ CREATE TABLE fraction_field(
         NOT NULL
         REFERENCES mood_field(id),
     title TEXT NOT NULL,
-    field_data REAL 
+    data REAL 
         DEFAULT 0 NOT NULL,
     denominator INTEGER 
         DEFAULT 10 NOT NULL,
@@ -58,8 +58,8 @@ CREATE TABLE slider_field(
         NOT NULL
         REFERENCES mood_field(id),
     title TEXT NOT NULL,
-    field_data INTEGER 
+    data INTEGER 
         DEFAULT 0 NOT NULL
-        CHECK (field_data BETWEEN 0 AND 100),
+        CHECK (data BETWEEN 0 AND 100),
     PRIMARY KEY (mood_fields_id, title)
 );

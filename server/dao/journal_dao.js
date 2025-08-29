@@ -118,10 +118,63 @@ export class JournalDAO {
     }
 
     _create_activities(user, day) {
-
+        validate_type(user, User);
+        validate_type(day, Day);
+        day.schedule.get_activities().forEach(activity => {
+            this.#db.prepare("INSERT INTO activity (username, date, title, content, start_time, end_time)" 
+                + "VALUES (?, ?, ?, ?, ?, ?)").run(
+                    user.username,
+                    String(day.date),
+                    activity.title,
+                    activity.content,
+                    String(activity.start_time),
+                    String(activity.end_time)
+                );
+        });
     }
     _create_mood_fields(user, day) {
+        validate_type(user, User);
+        validate_type(day, Day);
+        this.#db.prepare("INSERT INTO mood_fields (username, date) VALUES (?, ?)").run(user.username, String(day.date));
+        const mood_fields_id = this._get_mood_fields_id(user, day.date);
+        if(!mood_fields_id) throw new Error("Couldn't create day because created mood_fields_id is" + mood_fields_id);
+        day.mood_fields.forEach(field => {
+            if(field instanceof NumberField)
+                this._create_number_field(mood_fields_id, field);
+            else if(field instanceof TextField)
+                this._create_text_field(mood_fields_id, field);
+            else if(field instanceof FractionField)
+                this._create_fraction_field(mood_fields_id, field);
+            else if(field instanceof SliderField)
+                this._create_slider_field(mood_fields_id, field);
+        })
+    }
+
+    _create_number_field(mood_fields_id, field) {
+        validate_type(mood_fields_id, "number");
+        validate_type(field, NumberField);
+        this.#db.prepare("INSERT INTO number_field (mood_fields_id, title, data) VALUES (?, ?, ?)")
+            .run(mood_fields_id, field.get_field_name(), field.get_data());
+        }
+    _create_text_field(mood_fields_id, field) {
+        validate_type(mood_fields_id, "number");
+        validate_type(field, TextField);
+        this.#db.prepare("INSERT INTO text_field (mood_fields_id, title, data) VALUES (?, ?, ?)")
+            .run(mood_fields_id, field.get_field_name(), field.get_data());
         
+    }
+    _create_fraction_field(mood_fields_id, field) {
+        validate_type(mood_fields_id, "number");
+        validate_type(field, FractionField);
+        this.#db.prepare("INSERT INTO fraction_field (mood_fields_id, title, data, denominator) VALUES (?, ?, ?, ?)")
+            .run(mood_fields_id, field.get_field_name(), field.get_data(), field.get_denominator());
+        
+    }
+    _create_slider_field(mood_fields_id, field) {
+        validate_type(mood_fields_id, "number");
+        validate_type(field, SliderField);
+        this.#db.prepare("INSERT INTO slider_field (mood_fields_id, title, data) VALUES (?, ?, ?)")
+            .run(mood_fields_id, field.get_field_name(), field.get_data());
     }
 }
 

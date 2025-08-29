@@ -12,8 +12,8 @@ const user = new User({username: "user", hash: "hash", name: "name"});
 const invalid_user = new User({username: "invalid_user"});
 const existing_day = new Day();
 const existing_day_decomposed_date = {
-    date: existing_day.date.getDate(), 
-    month: existing_day.date.getMonth(), 
+    date: existing_day.date.getDate(),
+    month: existing_day.date.getMonth(),
     year: existing_day.date.getFullYear()
 };
 const existing_day_json = existing_day.prepare_json_obj();
@@ -42,7 +42,7 @@ beforeEach(() => {
     const journal_dao = new JournalDAO(db);
     const auth_dao = new AuthDAO(db);
     auth_dao.add_user(user);
-    journal_dao.create_day(user, existing_day.date);
+    journal_dao.create_day(user, existing_day);
     journal_service._set_dao_for_tests(journal_dao);
 });
 

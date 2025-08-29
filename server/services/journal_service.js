@@ -2,6 +2,7 @@ import Database from "better-sqlite3";
 import { validate_type } from "../../shared/clean_code/clean_code_enforcement.js";
 import { JournalDAO } from "../dao/journal_dao.js";
 import { InternalServerError } from "../server_const.js";
+import { Day } from "../../shared/data/day.js";
 
 export class JournalService {
     #journal_dao;
@@ -20,7 +21,7 @@ export class JournalService {
         }
         if(day == null) {
             try {
-                this.#journal_dao.create_day(user, date);
+                this.#journal_dao.create_day(user, new Day(date));
             } catch(err) {
                 throw new InternalServerError("Couldn't create new day\n" + err);
             }

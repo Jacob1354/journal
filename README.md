@@ -10,3 +10,4 @@ Future improvements
  - Being able to remove an account
  - Server logs
  - Server commands (rest db, shutdown, etc.)
+ - Make tests fully independant

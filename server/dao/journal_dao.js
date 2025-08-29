@@ -3,6 +3,7 @@ import { validate_type } from "../../shared/clean_code/clean_code_enforcement.js
 import { Day } from "../../shared/data/day.js";
 import { InvalidUser, User } from "../../shared/data/user.js";
 import { FractionField, NumberField, SliderField, TextField } from "../../shared/data/mood_field.js";
+import { Activity, HoursAndMinutes } from "../../shared/data/schedule.js";
 
 export class JournalDAO {
     #db;
@@ -96,6 +97,19 @@ export class JournalDAO {
         return result;
     }
     _get_activities(user, date) {
-
+        const activities = this.#db.prepare("SELECT * FROM activity WHERE username = ? AND date = ?")
+            .all(user.username, String(date));
+        const result = [];
+        if(activities) {
+            activities.forEach(activity => {
+                result.push(new Activity(
+                    HoursAndMinutes.from_string(activity.start_time),
+                    HoursAndMinutes.from_string(activity.end_time),
+                    activity.title,
+                    activity.content
+                ));
+            })
+        }
+        return result;
     }
 }

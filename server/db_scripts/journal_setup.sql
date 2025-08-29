@@ -23,7 +23,7 @@ CREATE TABLE mood_fields(
 CREATE TABLE text_field(
     mood_fields_id INTEGER
         NOT NULL
-        REFERENCES mood_field(id),
+        REFERENCES mood_fields(id),
     title TEXT NOT NULL,
     data TEXT 
         DEFAULT '' NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE text_field(
 CREATE TABLE number_field(
     mood_fields_id INTEGER
         NOT NULL
-        REFERENCES mood_field(id),
+        REFERENCES mood_fields(id),
     title TEXT NOT NULL,
     data REAL 
         DEFAULT 0 NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE number_field(
 CREATE TABLE fraction_field(
     mood_fields_id INTEGER
         NOT NULL
-        REFERENCES mood_field(id),
+        REFERENCES mood_fields(id),
     title TEXT NOT NULL,
     data REAL 
         DEFAULT 0 NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE fraction_field(
 CREATE TABLE slider_field(
     mood_fields_id INTEGER
         NOT NULL
-        REFERENCES mood_field(id),
+        REFERENCES mood_fields(id),
     title TEXT NOT NULL,
     data INTEGER 
         DEFAULT 0 NOT NULL

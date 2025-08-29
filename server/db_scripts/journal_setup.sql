@@ -5,10 +5,10 @@ CREATE TABLE IF NOT EXISTS activity(
         DEFAULT 'Activity' NOT NULL,
     content TEXT 
         DEFAULT 'Content' NOT NULL,
-    start_time TIME 
-        DEFAULT '10:00:00' NOT NULL,
-    end_time TIME 
-        DEFAULT '14:00:00' NOT NULL,
+    start_time TEXT 
+        DEFAULT '10:00' NOT NULL,
+    end_time TEXT 
+        DEFAULT '14:00' NOT NULL,
     PRIMARY KEY (username, date),
     FOREIGN KEY (username) REFERENCES user(username)
 );

@@ -2,7 +2,7 @@ import Database from "better-sqlite3";
 import { JournalDAO } from "./journal_dao";
 import { AuthDAO } from "./auth_dao";
 import {readFileSync} from 'fs';
-import { User } from "../../shared/data/user";
+import { InvalidUser, User } from "../../shared/data/user";
 import { Day } from "../../shared/data/day";
 import { Activity, HoursAndMinutes } from "../../shared/data/schedule";
 import { FractionField, NumberField, SliderField, TextField } from "../../shared/data/mood_field";
@@ -31,6 +31,7 @@ new_day.mood_fields = [...fields];
 const db = new Database(":memory:");
 const journal_dao = new JournalDAO(db);
 const user = new User({username: "user", hash: "hash", name: "name"});
+const invalid_user = new User({username: "invalid_user"});
 
 beforeAll(() => {
     const auth_script = readFileSync("./server/db_scripts/auth_setup.sql", "utf8");
@@ -59,10 +60,14 @@ beforeAll(() => {
 });
 
 
-test("JournalDAO.create_day: success", () => {
-
+test("JournalDAO.get_day: success", () => {
+    expect(journal_dao.get_day(user, existing_day.date)).toEqual(existing_day);
 });
 
-test("JournalDAO.create_day: no data found (null)", () => {
+test("JournalDAO.get_day: no data found (null)", () => {
+    expect(journal_dao.get_day(user, existing_day.date)).toBe(null);
+});
 
+test("JournalDAO.get_day: InvalidUser", () => {
+    expect(() => journal_dao.get_day(invalid_user, existing_day.date)).toThrow(InvalidUser);
 });

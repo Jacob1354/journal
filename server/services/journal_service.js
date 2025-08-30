@@ -11,8 +11,7 @@ export class JournalService {
         this.#journal_dao = new JournalDAO(db);
     }
 
-    get_json_day_obj(user, decomposed_date = {date, month, year}) {
-        const date = this._date_from_decomposed(decomposed_date);
+    get_json_day_obj(user, date) {
         let day;
         try {
             day = this.#journal_dao.get_day(user, date);
@@ -25,7 +24,7 @@ export class JournalService {
             } catch(err) {
                 throw new InternalServerError("Couldn't create new day\n" + err);
             }
-            return this.get_json_day_obj(user, decomposed_date);
+            return this.get_json_day_obj(user, date);
         } else {
             return day.prepare_json_obj();
         }

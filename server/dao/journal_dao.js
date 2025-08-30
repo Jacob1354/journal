@@ -46,14 +46,18 @@ export class JournalDAO {
     }
     _get_mood_fields(mood_fields_id) {
         let fields = [];
-        const nb_fields = this._get_number_fields(mood_fields_id);
-        if(nb_fields) fields = fields.concat(nb_fields);
-        const text_fields = this._get_text_fields(mood_fields_id);
-        if(text_fields) fields = fields.concat(text_fields);
-        const fraction_fields = this._get_fraction_fields(mood_fields_id);
-        if(fraction_fields) fields = fields.concat(fraction_fields);
-        const slider_fields = this._get_slider_fields(mood_fields_id);
-        if(slider_fields) fields = fields.concat(slider_fields);
+        this._get_number_fields(mood_fields_id).forEach(field_wrapper => {
+            fields[field_wrapper.index] = field_wrapper.field;
+        });
+        this._get_text_fields(mood_fields_id).forEach(field_wrapper => {
+            fields[field_wrapper.index] = field_wrapper.field;
+        });
+        this._get_fraction_fields(mood_fields_id).forEach(field_wrapper => {
+            fields[field_wrapper.index] = field_wrapper.field;
+        });
+        this._get_slider_fields(mood_fields_id).forEach(field_wrapper => {
+            fields[field_wrapper.index] = field_wrapper.field;
+        });
         return fields;
     }
     _get_number_fields(mood_fields_id) {
@@ -62,7 +66,10 @@ export class JournalDAO {
         const result = [];
         if(fields) {
             fields.forEach(field => {
-                result.push(new NumberField(field.title, Number(field.data)));
+                result.push({
+                    index: field.arr_index,
+                    field: new NumberField(field.title, Number(field.data))
+                });
             });
         }
         return result;
@@ -73,7 +80,10 @@ export class JournalDAO {
         const result = [];
         if(fields) {
             fields.forEach(field => {
-                result.push(new TextField(field.title, field.data));
+                result.push({
+                    index: field.arr_index,
+                    field: new TextField(field.title, field.data)
+                });
             });
         }
         return result;
@@ -84,7 +94,10 @@ export class JournalDAO {
         const result = [];
         if(fields) {
             fields.forEach(field => {
-                result.push(new FractionField(field.title, Number(field.data), Number(field.denominator)));
+                result.push({
+                    index: field.arr_index,
+                    field: new FractionField(field.title, Number(field.data), Number(field.denominator))
+                });
             });
         }
         return result;
@@ -95,7 +108,10 @@ export class JournalDAO {
         const result = [];
         if(fields) {
             fields.forEach(field => {
-                result.push(new SliderField(field.title, Number(field.data)));
+                result.push({
+                    index: field.arr_index,
+                    field: new SliderField(field.title, Number(field.data))
+                });
             });
         }
         return result;

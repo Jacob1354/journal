@@ -22,6 +22,7 @@ const new_day = new Day(new_date);
 const new_day_json = new_day.prepare_json_obj();
 
 const journal_service = new JournalService(new Database());
+let journal_dao;
 
 
 beforeEach(() => {
@@ -30,7 +31,7 @@ beforeEach(() => {
     const db_journal_script = readFileSync("./server/db_scripts/journal_setup.sql", "utf8");
     db.exec(db_auth_script);
     db.exec(db_journal_script);
-    const journal_dao = new JournalDAO(db);
+    journal_dao = new JournalDAO(db);
     const auth_dao = new AuthDAO(db);
     auth_dao.add_user(user);
     journal_dao.create_day(user, existing_day);
@@ -50,5 +51,6 @@ test("JournalService.get_json_day_obj: InvalidUser", () => {
 });
 
 test("JournalService.get_json_day_obj: InternalServerError", () => {
+    journal_dao.get_day = jest.fn(() => {throw new Error();});
     expect(() => journal_service.get_json_day_obj(user, existing_day.date)).toThrow(InternalServerError);
 });

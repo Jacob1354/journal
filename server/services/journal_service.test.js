@@ -45,10 +45,10 @@ test.each([
     expect(journal_service.get_json_day_obj(user, date)).toEqual(day);
 });
 
-test("JournalService.get_json_day_obj: Invalid user", () => {
-    expect(journal_service.get_json_day_obj(invalid_user, existing_day)).toThrow(InvalidUser);
+test("JournalService.get_json_day_obj: InvalidUser", () => {
+    expect(() => journal_service.get_json_day_obj(invalid_user, existing_day.date)).toThrow(InvalidUser);
 });
 
 test("JournalService.get_json_day_obj: InternalServerError", () => {
-    expect(journal_service.get_json_day_obj(user, existing_day)).toThrow(InternalServerError);
+    expect(() => journal_service.get_json_day_obj(user, existing_day.date)).toThrow(InternalServerError);
 });

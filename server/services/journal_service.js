@@ -3,6 +3,7 @@ import { validate_type } from "../../shared/clean_code/clean_code_enforcement.js
 import { JournalDAO } from "../dao/journal_dao.js";
 import { InternalServerError } from "../server_const.js";
 import { Day } from "../../shared/data/day.js";
+import { InvalidUser } from "../../shared/data/user.js";
 
 export class JournalService {
     #journal_dao;
@@ -16,6 +17,8 @@ export class JournalService {
         try {
             day = this.#journal_dao.get_day(user, date);
         } catch(err) {
+            if(err instanceof InvalidUser)
+                throw err;
             throw new InternalServerError("Couldn't get day\n" + err);
         }
         if(day == null) {

@@ -28,10 +28,10 @@ app.get('/signup', (req, res) => {
 });
 
 app.get('/signin', (req, res) => {
-    if(req.cookies["session"]) {
+    try {
         const user = journal_srv.auth_service.authenticate_session(req.cookies["session"]);
         res.redirect(HTML_DAY_PATH);
-    } else {
+    } catch(err) {
         res.redirect(HTML_SIGNIN_PATH);
     }
 });

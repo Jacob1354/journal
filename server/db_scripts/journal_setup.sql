@@ -24,20 +24,24 @@ CREATE TABLE text_field(
     mood_fields_id INTEGER
         NOT NULL
         REFERENCES mood_fields(id),
+    arr_index INTEGER NOT NULL,
     title TEXT NOT NULL,
     data TEXT 
         DEFAULT '' NOT NULL,
-    PRIMARY KEY (mood_fields_id, title)
+    PRIMARY KEY (mood_fields_id, title),
+    UNIQUE (mood_fields_id, arr_index)
 );
 
 CREATE TABLE number_field(
     mood_fields_id INTEGER
         NOT NULL
         REFERENCES mood_fields(id),
+    arr_index INTEGER NOT NULL,
     title TEXT NOT NULL,
     data REAL 
         DEFAULT 0 NOT NULL,
-    PRIMARY KEY (mood_fields_id, title)
+    PRIMARY KEY (mood_fields_id, title),
+    UNIQUE (mood_fields_id, arr_index)
     
 );
 
@@ -45,21 +49,25 @@ CREATE TABLE fraction_field(
     mood_fields_id INTEGER
         NOT NULL
         REFERENCES mood_fields(id),
+    arr_index INTEGER NOT NULL,
     title TEXT NOT NULL,
     data REAL 
         DEFAULT 0 NOT NULL,
     denominator INTEGER 
         DEFAULT 10 NOT NULL,
-    PRIMARY KEY (mood_fields_id, title)
+    PRIMARY KEY (mood_fields_id, title),
+    UNIQUE (mood_fields_id, arr_index)
 ); 
 
 CREATE TABLE slider_field(
     mood_fields_id INTEGER
         NOT NULL
         REFERENCES mood_fields(id),
+    arr_index INTEGER NOT NULL,
     title TEXT NOT NULL,
     data INTEGER 
         DEFAULT 0 NOT NULL
         CHECK (data BETWEEN 0 AND 100),
-    PRIMARY KEY (mood_fields_id, title)
+    PRIMARY KEY (mood_fields_id, title),
+    UNIQUE (mood_fields_id, arr_index)
 );

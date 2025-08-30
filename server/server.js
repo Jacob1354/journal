@@ -74,9 +74,14 @@ app.get('/day', (req, res) => {
 
 app.get('/day/:day-:month-:year', (req, res) => {
     const user = journal_srv.authenticate_session(req.cookies["session"], res);
-    if(user != null) {
-        res.json(journal_srv.journal_service.get_json_day_obj(user, req.params));
-    }
+    try {
+        const date = new Date(Number(req.params.year), Number(req.params.month), Number(req.params.day));
+        const day_json = journal_srv.journal_service.get_json_day_obj(user, date);
+        res.json(day_json);
+    } catch(err) {
+        console.log(err);
+        res.status(500).send(ERR_MSG_SERVER_ERR);
+    } 
 });
 
 app.post('/day/:day-:month-:year', (req, res) => {

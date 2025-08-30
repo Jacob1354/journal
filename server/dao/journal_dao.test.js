@@ -8,10 +8,11 @@ import { Activity, HoursAndMinutes, Schedule } from "../../shared/data/schedule"
 import { FractionField, NumberField, SliderField, TextField } from "../../shared/data/mood_field";
 
 const nb_field = new NumberField("nb_field", 10);
-const text_field = new TextField("text_field", "text");
+const text_field1 = new TextField("text_field1", "text");
+const text_field2 = new TextField("text_field2", "text");
 const fraction_field = new FractionField("fraction_field", 9, 10);
 const slider_field = new SliderField("slider_field", 10);
-const fields = [nb_field, text_field, fraction_field, slider_field];
+const fields = [nb_field, text_field1, fraction_field, slider_field, text_field2];
 
 const existing_date = new Date();
 existing_date.setDate(1);
@@ -56,11 +57,13 @@ beforeAll(() => {
     db.prepare("INSERT INTO number_field (mood_fields_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
         .run(mood_id, 0, nb_field.get_field_name(), nb_field.get_data());
     db.prepare("INSERT INTO text_field (mood_fields_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
-        .run(mood_id, 1, text_field.get_field_name(), text_field.get_data());
+        .run(mood_id, 1, text_field1.get_field_name(), text_field1.get_data());
     db.prepare("INSERT INTO fraction_field (mood_fields_id, arr_index, title, data, denominator) VALUES (?, ?, ?, ?, ?)")
         .run(mood_id, 2, fraction_field.get_field_name(), fraction_field.get_data(), fraction_field.get_denominator());
     db.prepare("INSERT INTO slider_field (mood_fields_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
         .run(mood_id, 3, slider_field.get_field_name(), slider_field.get_data());
+    db.prepare("INSERT INTO text_field (mood_fields_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
+        .run(mood_id, 4, text_field2.get_field_name(), text_field2.get_data());
     db.prepare("INSERT INTO mood_fields (username, date) VALUES (?, ?)")
         .run(user.username, String(existing_empty_day.date));
 });

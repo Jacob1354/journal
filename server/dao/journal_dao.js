@@ -138,43 +138,43 @@ export class JournalDAO {
         this.#db.prepare("INSERT INTO mood_fields (username, date) VALUES (?, ?)").run(user.username, String(day.date));
         const mood_fields_id = this._get_mood_fields_id(user, day.date);
         if(!mood_fields_id) throw new Error("Couldn't create day because created mood_fields_id is" + mood_fields_id);
-        day.mood_fields.forEach(field => {
+        day.mood_fields.forEach((field, index) => {
             if(field instanceof NumberField)
-                this._create_number_field(mood_fields_id, field);
+                this._create_number_field(mood_fields_id, field, index);
             else if(field instanceof TextField)
-                this._create_text_field(mood_fields_id, field);
+                this._create_text_field(mood_fields_id, field, index);
             else if(field instanceof FractionField)
-                this._create_fraction_field(mood_fields_id, field);
+                this._create_fraction_field(mood_fields_id, field, index);
             else if(field instanceof SliderField)
-                this._create_slider_field(mood_fields_id, field);
+                this._create_slider_field(mood_fields_id, field, index);
         })
     }
 
-    _create_number_field(mood_fields_id, field) {
+    _create_number_field(mood_fields_id, field, index) {
         validate_type(mood_fields_id, "number");
         validate_type(field, NumberField);
-        this.#db.prepare("INSERT INTO number_field (mood_fields_id, title, data) VALUES (?, ?, ?)")
-            .run(mood_fields_id, field.get_field_name(), field.get_data());
+        this.#db.prepare("INSERT INTO number_field (mood_fields_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
+            .run(mood_fields_id, index, field.get_field_name(), field.get_data());
         }
-    _create_text_field(mood_fields_id, field) {
+    _create_text_field(mood_fields_id, field, index) {
         validate_type(mood_fields_id, "number");
         validate_type(field, TextField);
-        this.#db.prepare("INSERT INTO text_field (mood_fields_id, title, data) VALUES (?, ?, ?)")
-            .run(mood_fields_id, field.get_field_name(), field.get_data());
+        this.#db.prepare("INSERT INTO text_field (mood_fields_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
+            .run(mood_fields_id, index, field.get_field_name(), field.get_data());
         
     }
-    _create_fraction_field(mood_fields_id, field) {
+    _create_fraction_field(mood_fields_id, field, index) {
         validate_type(mood_fields_id, "number");
         validate_type(field, FractionField);
-        this.#db.prepare("INSERT INTO fraction_field (mood_fields_id, title, data, denominator) VALUES (?, ?, ?, ?)")
-            .run(mood_fields_id, field.get_field_name(), field.get_data(), field.get_denominator());
+        this.#db.prepare("INSERT INTO fraction_field (mood_fields_id, arr_index, title, data, denominator) VALUES (?, ?, ?, ?, ?)")
+            .run(mood_fields_id, index, field.get_field_name(), field.get_data(), field.get_denominator());
         
     }
-    _create_slider_field(mood_fields_id, field) {
+    _create_slider_field(mood_fields_id, field, index) {
         validate_type(mood_fields_id, "number");
         validate_type(field, SliderField);
-        this.#db.prepare("INSERT INTO slider_field (mood_fields_id, title, data) VALUES (?, ?, ?)")
-            .run(mood_fields_id, field.get_field_name(), field.get_data());
+        this.#db.prepare("INSERT INTO slider_field (mood_fields_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
+            .run(mood_fields_id, index, field.get_field_name(), field.get_data());
     }
 }
 

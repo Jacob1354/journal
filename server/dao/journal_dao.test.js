@@ -53,14 +53,14 @@ beforeAll(() => {
         .run(user.username, String(existing_day.date));
     const mood_id = db.prepare("SELECT id FROM mood_fields WHERE username = ? AND date = ?")
         .get(user.username, String(existing_day.date)).id;
-    db.prepare("INSERT INTO number_field (mood_fields_id, title, data) VALUES (?, ?, ?)")
-        .run(mood_id, nb_field.get_field_name(), nb_field.get_data());
-    db.prepare("INSERT INTO text_field (mood_fields_id, title, data) VALUES (?, ?, ?)")
-        .run(mood_id, text_field.get_field_name(), text_field.get_data());
-    db.prepare("INSERT INTO fraction_field (mood_fields_id, title, data, denominator) VALUES (?, ?, ?, ?)")
-        .run(mood_id, fraction_field.get_field_name(), fraction_field.get_data(), fraction_field.get_denominator());
-    db.prepare("INSERT INTO slider_field (mood_fields_id, title, data) VALUES (?, ?, ?)")
-        .run(mood_id, slider_field.get_field_name(), slider_field.get_data());
+    db.prepare("INSERT INTO number_field (mood_fields_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
+        .run(mood_id, 0, nb_field.get_field_name(), nb_field.get_data());
+    db.prepare("INSERT INTO text_field (mood_fields_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
+        .run(mood_id, 1, text_field.get_field_name(), text_field.get_data());
+    db.prepare("INSERT INTO fraction_field (mood_fields_id, arr_index, title, data, denominator) VALUES (?, ?, ?, ?, ?)")
+        .run(mood_id, 2, fraction_field.get_field_name(), fraction_field.get_data(), fraction_field.get_denominator());
+    db.prepare("INSERT INTO slider_field (mood_fields_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
+        .run(mood_id, 3, slider_field.get_field_name(), slider_field.get_data());
     db.prepare("INSERT INTO mood_fields (username, date) VALUES (?, ?)")
         .run(user.username, String(existing_empty_day.date));
 });

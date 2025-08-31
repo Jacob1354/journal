@@ -13,7 +13,7 @@ const fetched_day = new Day(valid_date);
 fetched_day.schedule.add_activity(new Activity());
 
 describe("fetch_day", () => {
-    test("fetch_day: success", async () => {
+    test("success", async () => {
         global.fetch = jest.fn(() => Promise.resolve(({
             status: 200, 
             json: () => Promise.resolve(fetched_day.prepare_json_obj())
@@ -23,21 +23,21 @@ describe("fetch_day", () => {
     
     //  Technically, any valid date would work, the ones used for the errors are simply used
     //  in the mocked functions to create those specific errors
-    test("fetch_day: Can't access data when not logged in", async () => {
+    test("Can't access data when not logged in", async () => {
         global.fetch = jest.fn(() => Promise.resolve(({
             status: 401
         })));
         await expect(fetch_day(valid_date)).rejects.toThrow(InvalidAuth);
     });
     
-    test("fectch_day: Server internal error", async () => {
+    test("Server internal error", async () => {
         global.fetch = jest.fn(() => Promise.resolve(({
             status: 500
         })));
         await expect(fetch_day(valid_date)).rejects.toThrow(ServerErr);
     });
 
-    test("fetch day: TimedOut", () => {
+    test("TimedOut", () => {
         global.fetch = jest.fn(() => new Promise(resolve => setTimeout(resolve, FETCH_TIMEOUT + 1)));
         jest.useFakeTimers();
         expect(() => fetch_day(valid_date)).rejects.toThrow(DOMException);

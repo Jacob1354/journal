@@ -68,7 +68,7 @@ export class DOMSchedule {
         const title = document.createElement("h3");
         title.innerText = activity.title;
         title.classList.add(ACTIVITIY_TITLE_CLASS);
-        title.addEventListener("input", this.#update_title);
+        title.addEventListener("blur", this.#update_title);
     
         return title;
     }
@@ -81,7 +81,7 @@ export class DOMSchedule {
         start_time.classList.add(ACTIVITIY_STARTTIME_CLASS);
         start_time.type = "time";
         start_time.value = String(activity.start_time);
-        start_time.addEventListener("input", this.#update_start_time);
+        start_time.addEventListener("blur", this.#update_start_time);
     
         const to = document.createElement("p");
         to.innerText = "to";
@@ -90,7 +90,7 @@ export class DOMSchedule {
         end_time.classList.add(ACTIVITIY_ENDTIME_CLASS);
         end_time.type = "time";
         end_time.value = String(activity.end_time);
-        end_time.addEventListener("input", this.#update_end_time);
+        end_time.addEventListener("blur", this.#update_end_time);
         
         interval.appendChild(start_time);
         interval.appendChild(to);
@@ -115,7 +115,7 @@ export class DOMSchedule {
         content.classList.add(ACTIVITIY_CONTENT_CLASS);
         content.type = "text";
         content.value = activity.content;
-        content.addEventListener("input", this.#update_content);
+        content.addEventListener("blur", this.#update_content);
     
         wrapper.appendChild(content);
         return wrapper;

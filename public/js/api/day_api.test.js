@@ -36,7 +36,7 @@ describe("fetch_day", () => {
         })));
         await expect(fetch_day(valid_date)).rejects.toThrow(ServerErr);
     });
-    
+
     test("fetch day: TimedOut", () => {
         global.fetch = jest.fn(() => new Promise(resolve => setTimeout(resolve, FETCH_TIMEOUT + 1)));
         jest.useFakeTimers();
@@ -45,3 +45,10 @@ describe("fetch_day", () => {
     })
 });
 
+describe("post_mood_fields", () => {
+
+});
+
+describe("post_schedule", () => {
+
+});

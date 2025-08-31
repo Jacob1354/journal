@@ -15,6 +15,13 @@ export async function fetch_day(date = new Date()) {
         throw new ServerErr("Couldn't retrieve data due to a serer error");
 }
 
+export async function post_mood_field(mood_field, index) {
+    
+}
+export async function post_schedule(schedule, index) {
+
+}
+
 
 export class InvalidAuth extends Error {
     constructor(msg) {

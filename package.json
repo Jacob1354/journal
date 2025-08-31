@@ -11,8 +11,7 @@
         "@jest/types": "^30.0.5",
         "@types/jest": "^30.0.0",
         "jest": "^30.0.5",
-        "jest-environment-jsdom": "^30.0.4",
-        "why-is-node-running": "^3.2.2"
+        "jest-environment-jsdom": "^30.0.4"
     },
     "dependencies": {
         "@types/argon2": "^0.14.1",

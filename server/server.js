@@ -1,4 +1,3 @@
-import whyIsNodeRunning from 'why-is-node-running';
 import express from 'express';
 import { ERR_MSG_SERVER_ERR, ERR_MSG_SIGN_IN_INVALID_USER, ERR_MSG_UNAVAILABLE_USERNAME, HTML_DAY_PATH, HTML_SIGNIN_PATH, HTML_SIGNUP_PATH, SERVER_HOST, SERVER_PORT } from './server_const.js';
 import { JournalServer } from './journal_server.js';
@@ -103,7 +102,6 @@ server.on("close", (err) => {
     } catch(err) {
         console.log(err);
     }
-    setImmediate(() => whyIsNodeRunning());
 });
 
 process.on("SIGINT", () => server.close());

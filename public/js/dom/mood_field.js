@@ -55,7 +55,7 @@ export class DOMMoodField {
         const input = document.createElement("input");
         input.type = "number";
         input.value = field.get_data();
-        input.addEventListener("blur", this.#update);
+        input.addEventListener("input", this.#update);
         nb_field.appendChild(input);
         mood_field_wrapper.appendChild(nb_field);
         
@@ -72,7 +72,7 @@ export class DOMMoodField {
         input.classList.add(MOOD_FIELD_INPUT_CLASS);
         input.name = MOOD_FIELD_TEXT_NAME;
         input.value = field.get_data();
-        input.addEventListener("blur", this.#update);
+        input.addEventListener("input", this.#update);
         text_field.appendChild(input);
         mood_field_wrapper.appendChild(text_field);
         
@@ -90,7 +90,7 @@ export class DOMMoodField {
         input.type = "number";
 
         input.value = field.get_data();
-        input.addEventListener("blur", this.#update);
+        input.addEventListener("input", this.#update);
         const denominator = document.createElement("p");
         denominator.innerText = "/" + String(field.get_denominator());
         fraction_field.appendChild(input);
@@ -110,7 +110,7 @@ export class DOMMoodField {
         input.classList.add(MOOD_FIELD_INPUT_CLASS);
         input.type = "range";
         input.value = field.get_data();
-        input.addEventListener("blur", this.#update);
+        input.addEventListener("input", this.#update);
         nb_field.appendChild(input);
         mood_field_wrapper.appendChild(nb_field);
 

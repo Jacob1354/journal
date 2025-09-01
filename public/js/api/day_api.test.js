@@ -58,4 +58,10 @@ describe("post_day", () => {
         global.fetch = jest.fn(() => Promise.resolve(({status: 500})));
         await expect(post_day(fetched_day)).rejects.toThrow(CouldntSaveData);
     });
+    test("TimedOut", () => {
+        global.fetch = jest.fn(() => new Promise(resolve => setTimeout(resolve, FETCH_TIMEOUT + 1)));
+        jest.useFakeTimers();
+        expect(() => post_day(fetched_day)).rejects.toThrow(DOMException);
+        jest.advanceTimersByTime(FETCH_TIMEOUT);
+    });
 });

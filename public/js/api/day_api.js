@@ -24,7 +24,8 @@ export async function post_day(day) {
         method: "POST",
         headers: {
                 "Content-type": "application/json"
-        }
+        },
+        signal: AbortSignal.timeout(FETCH_TIMEOUT)
     }
     return fetch(url, info)
         .then((res) => {

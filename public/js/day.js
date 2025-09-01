@@ -1,7 +1,7 @@
 import { DomDay } from "./dom/dom_day.js"
-import { fetch_day } from "./api/day_api.js";
+import { get_day } from "./api/day_api.js";
 
-let dom_day = new DomDay(await fetch_day());
+let dom_day = new DomDay(await get_day());
 
 dom_day.render_day();
 

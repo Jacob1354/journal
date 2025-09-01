@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
 import { Day } from "../../../shared/data/day.js";
-import { CouldntSaveData, fetch_day, FETCH_TIMEOUT, InvalidAuth, post_day, ServerErr } from "./day_api";
+import { CouldntSaveData, get_day, FETCH_TIMEOUT, InvalidAuth, post_day, ServerErr } from "./day_api";
 import { Activity } from "../../../shared/data/schedule.js";
 import { json } from "express";
 
@@ -18,7 +18,7 @@ describe("fetch_day", () => {
             status: 200, 
             json: () => Promise.resolve(fetched_day.prepare_json_obj())
         })));
-        await expect(fetch_day(valid_date)).resolves.toEqual(fetched_day);
+        await expect(get_day(valid_date)).resolves.toEqual(fetched_day);
     });
     
     //  Technically, any valid date would work, the ones used for the errors are simply used
@@ -27,20 +27,20 @@ describe("fetch_day", () => {
         global.fetch = jest.fn(() => Promise.resolve(({
             status: 401
         })));
-        await expect(fetch_day(valid_date)).rejects.toThrow(InvalidAuth);
+        await expect(get_day(valid_date)).rejects.toThrow(InvalidAuth);
     });
     
     test("Server internal error", async () => {
         global.fetch = jest.fn(() => Promise.resolve(({
             status: 500
         })));
-        await expect(fetch_day(valid_date)).rejects.toThrow(ServerErr);
+        await expect(get_day(valid_date)).rejects.toThrow(ServerErr);
     });
 
     test("TimedOut", () => {
         global.fetch = jest.fn(() => new Promise(resolve => setTimeout(resolve, FETCH_TIMEOUT + 1)));
         jest.useFakeTimers();
-        expect(() => fetch_day(valid_date)).rejects.toThrow(DOMException);
+        expect(() => get_day(valid_date)).rejects.toThrow(DOMException);
         jest.advanceTimersByTime(FETCH_TIMEOUT);
     })
 });

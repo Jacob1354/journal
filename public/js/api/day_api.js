@@ -5,7 +5,7 @@ import { error_pop_up } from "../dom/dom_utils.js";
 export const FETCH_TIMEOUT = 5000;
 
 
-export async function fetch_day(date = new Date()) {
+export async function get_day(date = new Date()) {
     const day_path = "/day/" + date.getDate() +"-"+ date.getMonth() +"-"+ date.getFullYear();
     let response = await fetch(day_path, {signal: AbortSignal.timeout(FETCH_TIMEOUT)});
     if(response.status == 200)

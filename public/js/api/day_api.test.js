@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
 import { Day } from "../../../shared/data/day.js";
-import { fetch_day, FETCH_TIMEOUT, InvalidAuth, post_schedule, ServerErr } from "./day_api";
+import { CouldntSaveData, fetch_day, FETCH_TIMEOUT, InvalidAuth, post_day, ServerErr } from "./day_api";
 import { Activity } from "../../../shared/data/schedule.js";
 import { json } from "express";
 
@@ -45,10 +45,17 @@ describe("fetch_day", () => {
     })
 });
 
-describe("post_mood_fields", () => {
-
-});
-
-describe("post_schedule", () => {
-
+describe("post_day", () => {
+    test("Success", async () => {
+        global.fetch = jest.fn(() => Promise.resolve({status: 200}));        
+        await expect(post_day(fetched_day)).resolves.toBeUndefined();
+    });
+    test("SignInRequired", async () => {
+        global.fetch = jest.fn(() => Promise.resolve(({status: 401})));
+        await expect(post_day(fetched_day)).rejects.toThrow(InvalidAuth);
+    });
+    test("CouldntSaveData", async () => {
+        global.fetch = jest.fn(() => Promise.resolve(({status: 500})));
+        await expect(post_day(fetched_day)).rejects.toThrow(CouldntSaveData);
+    });
 });

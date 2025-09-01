@@ -15,11 +15,8 @@ export async function fetch_day(date = new Date()) {
         throw new ServerErr("Couldn't retrieve data due to a serer error");
 }
 
-export async function post_mood_field(mood_field, index) {
+export async function post_day(day) {
     
-}
-export async function post_schedule(schedule, index) {
-
 }
 
 
@@ -34,5 +31,19 @@ export class ServerErr extends Error {
     constructor(msg) {
         super(msg);
         this.name = "ServerErr";
+    }
+}
+
+export class CouldntSaveData extends Error {
+    constructor(msg) {
+        super(msg);
+        this.name = "CouldntSaveData";
+    }
+}
+
+export class SignInRequired extends Error {
+    constructor(msg) {
+        super(msg);
+        this.name = "SignInRequired";
     }
 }

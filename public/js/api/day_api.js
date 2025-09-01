@@ -1,3 +1,4 @@
+import { validate_type } from "../../../shared/clean_code/clean_code_enforcement.js";
 import { Day } from "../../../shared/data/day.js";
 import { error_pop_up } from "../dom/dom_utils.js";
 
@@ -16,7 +17,28 @@ export async function fetch_day(date = new Date()) {
 }
 
 export async function post_day(day) {
-    
+    validate_type(day, Day);
+    const url = "/day" + day.date.getDate() + "-" + day.date.getMonth + "-" + day.date.getFullYear;
+    const info = {
+        body: day.prepare_json_obj(),
+        method: "POST",
+        headers: {
+                "Content-type": "application/json"
+        }
+    }
+    return fetch(url, info)
+        .then((res) => {
+            if(res.status == 401)
+                throw new InvalidAuth("Couldn't save day");
+            else if(res.status < 200 || res.status > 299)
+                throw new CouldntSaveData("Couldn't save day");
+        })
+        .catch((err) => {
+            if(err instanceof InvalidAuth || err instanceof CouldntSaveData)
+                throw err;
+            else
+                throw new CouldntSaveData("Couldn't save day");
+        })
 }
 
 
@@ -38,12 +60,5 @@ export class CouldntSaveData extends Error {
     constructor(msg) {
         super(msg);
         this.name = "CouldntSaveData";
-    }
-}
-
-export class SignInRequired extends Error {
-    constructor(msg) {
-        super(msg);
-        this.name = "SignInRequired";
     }
 }

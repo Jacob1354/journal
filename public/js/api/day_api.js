@@ -20,7 +20,7 @@ export async function post_day(day) {
     validate_type(day, Day);
     const url = "/day/" + day.date.getDate() + "-" + day.date.getMonth() + "-" + day.date.getFullYear();
     const info = {
-        body: day.prepare_json_obj(),
+        body: JSON.stringify(day.prepare_json_obj()),   
         method: "POST",
         headers: {
                 "Content-type": "application/json"

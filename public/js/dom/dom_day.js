@@ -1,6 +1,7 @@
 import { validate_type } from "../../../shared/clean_code/clean_code_enforcement.js";
 import { Day } from "../../../shared/data/day.js";
 import { Activity } from "../../../shared/data/schedule.js";
+import { post_day } from "../api/day_api.js";
 import { MOOD_FIELD_CLASS, ACTIVITY_CLASS } from "./constants.js";
 import { error_pop_up, get_parent_attribute } from "./dom_utils.js";
 import { DOMMoodField } from "./mood_field.js";
@@ -10,6 +11,7 @@ export class DomDay {
     #day;
     #dom_moodfields;
     #dom_schedule;
+    #SAVE_INTERVAL = 5000;
     constructor(day = new Day()) {
         validate_type(day, Day);
         this.#day = Day.from(day);
@@ -23,6 +25,7 @@ export class DomDay {
             update_end_time : (event) => this._update_activity_end_time(event),
             remove_activity : (event) => this._remove_activity(event)
         });
+        setInterval(() => {this._save();},  this.#SAVE_INTERVAL);
     }
 
 
@@ -44,6 +47,20 @@ export class DomDay {
         this.#dom_moodfields.render(this.#day.mood_fields);
     }
 
+    
+    close() {
+        
+    }
+    
+    async _save() {
+        post_day(this.#day)
+            .then((res) => {
+                console.log("status :" + res.status);
+            })
+            .catch((err) => {
+                console.log("Couldn't save day : " + err);
+            })
+    }
     
     _update_activity_title(event) {
         validate_type(event, Event);
@@ -114,4 +131,5 @@ export class DomDay {
     _get_day_copy_for_test() {
         return Day.from(this.#day);
     }
+
 }

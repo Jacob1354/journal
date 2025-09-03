@@ -38,19 +38,23 @@ beforeEach(() => {
     journal_service._set_dao_for_tests(journal_dao);
 });
 
+describe("JournalService", () => {
+    describe("get_json_day_obj", () => {
+        test.each([
+            [existing_day.date, existing_day_json], 
+            [new_day.date, new_day_json]
+        ])("Success", (date, day) => {
+            expect(journal_service.get_json_day_obj(user, date)).toEqual(day);
+        });
+        
+        test("InvalidUser", () => {
+            expect(() => journal_service.get_json_day_obj(invalid_user, existing_day.date)).toThrow(InvalidUser);
+        });
+        
+        test("InternalServerError", () => {
+            journal_dao.get_day = jest.fn(() => {throw new Error();});
+            expect(() => journal_service.get_json_day_obj(user, existing_day.date)).toThrow(InternalServerError);
+        });
+    });
+})
 
-test.each([
-    [existing_day.date, existing_day_json], 
-    [new_day.date, new_day_json]
-])("JournalService.get_json_day_obj: success", (date, day) => {
-    expect(journal_service.get_json_day_obj(user, date)).toEqual(day);
-});
-
-test("JournalService.get_json_day_obj: InvalidUser", () => {
-    expect(() => journal_service.get_json_day_obj(invalid_user, existing_day.date)).toThrow(InvalidUser);
-});
-
-test("JournalService.get_json_day_obj: InternalServerError", () => {
-    journal_dao.get_day = jest.fn(() => {throw new Error();});
-    expect(() => journal_service.get_json_day_obj(user, existing_day.date)).toThrow(InternalServerError);
-});

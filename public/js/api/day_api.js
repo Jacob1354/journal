@@ -33,6 +33,7 @@ export async function post_day(day) {
                 throw new InvalidAuth("Couldn't save day");
             else if(res.status < 200 || res.status > 299)
                 throw new CouldntSaveData("Couldn't save day");
+            return Promise.resolve({status: 200});
         })
         .catch((err) => {
             if(err instanceof InvalidAuth || err instanceof CouldntSaveData)

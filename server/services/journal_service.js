@@ -33,6 +33,10 @@ export class JournalService {
         }
     }
 
+    update_day(user, day) {
+
+    }
+
     _date_from_decomposed({date, month, year}) {
         const date_obj = new Date();
         try {
@@ -57,10 +61,16 @@ export class InvalidDate extends Error {
     }
 }
 
+export class CouldntUpdateDay extends Error {
+    constructor(msg) {
+        super(msg);
+        this.name = "CouldntUpdateDay";
+    }
+}
+
 export class CouldntCreateDate extends Error {
     constructor(msg) {
         super(msg);
         this.name = "CouldntCreateDate";
     }
 }
-

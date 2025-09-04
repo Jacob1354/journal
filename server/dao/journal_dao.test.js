@@ -45,6 +45,9 @@ beforeAll(() => {
     db.exec(auth_script);
     db.exec(journal_script);
     auth_dao.add_user(user);
+});
+
+beforeEach(() => {
     db.prepare("INSERT INTO activity(username, date, title, content, start_time,end_time) VALUES (?, ?, ?, ?, ?, ?)")
         .run(user.username, String(existing_date), 
             existing_activity.title, existing_activity.content,
@@ -66,6 +69,18 @@ beforeAll(() => {
         .run(mood_id, 4, text_field2.get_field_name(), text_field2.get_data());
     db.prepare("INSERT INTO mood_fields (username, date) VALUES (?, ?)")
         .run(user.username, String(existing_empty_day.date));
+});
+
+afterEach(() => {
+    const reset_script = `
+        DELETE FROM activity;
+        DELETE FROM number_field;
+        DELETE FROM fraction_field;
+        DELETE FROM text_field;
+        DELETE FROM slider_field;
+        DELETE FROM mood_fields;
+    `;
+    db.exec(reset_script);
 });
 
 describe("JournalDAO", () => {
@@ -123,4 +138,8 @@ describe("JournalDAO", () => {
             expect(() => journal_dao.create_day(user, existing_day)).toThrow(DayAlreadyExists);
         });
     });
+
+    describe("update_day", () => {
+
+    })
 })

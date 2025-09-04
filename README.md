@@ -1,7 +1,11 @@
 # journal
 This project combines an hourly schedule and a mood journal
 
-Future improvements
+## Important notes
+========================
+ - No race condition protection if a user opens multiple sessions
+
+## Future improvements
 ========================
  - Add db migration
  - More robust session token creation

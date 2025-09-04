@@ -1,4 +1,5 @@
 CREATE TABLE IF NOT EXISTS activity(
+    id INTEGER PRIMARY KEY,
     username TEXT,
     date TEXT,
     title TEXT 

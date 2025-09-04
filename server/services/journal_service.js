@@ -34,7 +34,11 @@ export class JournalService {
     }
 
     update_day(user, day) {
-
+        try {
+            this.#journal_dao.update_day(user, day);
+        } catch(err) {
+            throw new CouldntUpdateDay(err);
+        }
     }
 
     _date_from_decomposed({date, month, year}) {

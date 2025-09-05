@@ -71,7 +71,7 @@ describe("JournalService", () => {
             existing_day.mood_fields[0].set_data(existing_day.mood_fields[0].get_data() + 1);
             journal_service.update_day(user, existing_day);
 
-            expect(journal_service.get_json_day_obj()).toEqual(existing_day.prepare_json_obj());
+            expect(journal_service.get_json_day_obj(user, existing_day.date)).toEqual(existing_day.prepare_json_obj());
         });
         test("CouldntUpdateDay", () => {
             journal_dao.update_day = () => {throw new Error()};

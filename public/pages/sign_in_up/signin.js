@@ -1,4 +1,4 @@
-import { User } from "../../../shared/data/user.js";
+import { User } from "../../../../../shared/data/user.js";
 
 function validate_form(form) {
     const inputs = form.getElementsByTagName("input");

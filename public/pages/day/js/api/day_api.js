@@ -1,6 +1,5 @@
-import { validate_type } from "../../../shared/clean_code/clean_code_enforcement.js";
-import { Day } from "../../../shared/data/day.js";
-import { error_pop_up } from "../dom/dom_utils.js";
+import { validate_type } from "../../../../../shared/clean_code/clean_code_enforcement.js";
+import { Day } from "../../../../../shared/data/day.js";
 
 export const FETCH_TIMEOUT = 5000;
 

@@ -1,7 +1,7 @@
 import { jest } from '@jest/globals';
-import { Day } from "../../../shared/data/day.js";
+import { Day } from "../../../../../shared/data/day.js";
 import { CouldntSaveData, get_day, FETCH_TIMEOUT, InvalidAuth, post_day, ServerErr } from "./day_api";
-import { Activity } from "../../../shared/data/schedule.js";
+import { Activity } from "../../../../../shared/data/schedule.js";
 import { json } from "express";
 
 const valid_date_path = "/day/1-1-2004";

@@ -1,6 +1,6 @@
-import { validate_type } from "../../../shared/clean_code/clean_code_enforcement.js";
-import { Day } from "../../../shared/data/day.js";
-import { Activity } from "../../../shared/data/schedule.js";
+import { validate_type } from "../../../../../shared/clean_code/clean_code_enforcement.js";
+import { Day } from "../../../../../shared/data/day.js";
+import { Activity } from "../../../../../shared/data/schedule.js";
 import { post_day } from "../api/day_api.js";
 import { MOOD_FIELD_CLASS, ACTIVITY_CLASS, ACTIVITY_ADDER_BTN_ID, DAY_NAV_DATE_ID, DAY_NAMES, MONTH_NAMES } from "./constants.js";
 import { error_pop_up, get_parent_attribute } from "./dom_utils.js";

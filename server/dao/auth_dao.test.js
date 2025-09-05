@@ -51,55 +51,68 @@ beforeEach(() => {
     reset_db(db);
 })
 
-
-
-test("get_user: success", () => {
-    expect(auth_dao.get_user(preexisting_user.username)).toEqual(preexisting_user);
-});
-test("get_user: notfound", () => {
-    expect(auth_dao.get_user(new_user.username)).toBe(null);
-});
-
-
-test("get_user_from_session: success", () => {
-    //The hash isn't returned when getting user from session
-    const returned_user = new User({
-        username: preexisting_user.username,
-        name: preexisting_user.name
+describe("AuthDAO", () => {
+    describe("get_user", () => {
+        test("Success", () => {
+            expect(auth_dao.get_user(preexisting_user.username)).toEqual(preexisting_user);
+        });
+        test("Not found", () => {
+            expect(auth_dao.get_user(new_user.username)).toBe(null);
+        });
     });
-    expect(auth_dao.get_user_from_session(preexisting_user_session)).toEqual(returned_user);
-});
-test("get_user_from_session: not_found", () => {
-    expect(auth_dao.get_user_from_session(new_user_session)).toBe(null);
-});
 
-
-test("add_user: success", () => {
-    expect(auth_dao.get_user(new_user.username)).toBe(null);
-    expect(() => auth_dao.add_user(new_user)).not.toThrow(Error);
-    expect(auth_dao.get_user(new_user.username)).toEqual(new_user);
-});
-test("add_user: UnavailableUsername", () => {
-    expect(() => auth_dao.add_user(preexisting_user)).toThrow(UnavailableUsername);
-});
-
-
-test("add_session: success", () => {
-    const returned_user = new User({
-        username: new_user.username,
-        name: new_user.name
+    describe("get_user_from_session", () => {
+        test("Success", () => {
+            //The hash isn't returned when getting user from session
+            const returned_user = new User({
+                username: preexisting_user.username,
+                name: preexisting_user.name
+            });
+            expect(auth_dao.get_user_from_session(preexisting_user_session)).toEqual(returned_user);
+        });
+        test("Not found", () => {
+            expect(auth_dao.get_user_from_session(new_user_session)).toBe(null);
+        });
     });
-    const ms_before_removal = 10;
-    auth_dao.add_user(new_user);
-    expect(auth_dao.get_user_from_session(new_user_session)).toBe(null);
-    auth_dao.add_session(new_user, new_user_session, ms_before_removal);
-    expect(auth_dao.get_user_from_session(new_user_session)).toEqual(returned_user);
-    jest.advanceTimersByTime(ms_before_removal-1);
-    expect(auth_dao.get_user_from_session(new_user_session)).toEqual(returned_user);
-    jest.advanceTimersByTime(1);
-    expect(auth_dao.get_user_from_session(new_user_session)).toBe(null);
+
+    describe("add_user", () => {
+        test("Success", () => {
+            expect(auth_dao.get_user(new_user.username)).toBe(null);
+            expect(() => auth_dao.add_user(new_user)).not.toThrow(Error);
+            expect(auth_dao.get_user(new_user.username)).toEqual(new_user);
+        });
+        test("UnavailableUsername", () => {
+            expect(() => auth_dao.add_user(preexisting_user)).toThrow(UnavailableUsername);
+        });
+    });
+
+    describe("add_session", () => {
+        test("Success", () => {
+            const returned_user = new User({
+                username: new_user.username,
+                name: new_user.name
+            });
+            const ms_before_removal = 10;
+            auth_dao.add_user(new_user);
+            expect(auth_dao.get_user_from_session(new_user_session)).toBe(null);
+            auth_dao.add_session(new_user, new_user_session, ms_before_removal);
+            expect(auth_dao.get_user_from_session(new_user_session)).toEqual(returned_user);
+            jest.advanceTimersByTime(ms_before_removal-1);
+            expect(auth_dao.get_user_from_session(new_user_session)).toEqual(returned_user);
+            jest.advanceTimersByTime(1);
+            expect(auth_dao.get_user_from_session(new_user_session)).toBe(null);
+        });
+        test("Session key already taken", () => {
+            expect(() => auth_dao.add_session(preexisting_user, preexisting_user_session)).toThrow(InvalidSession);
+        });
+    });
 });
-test("add_session: session key already taken", () => {
-    expect(() => auth_dao.add_session(preexisting_user, preexisting_user_session)).toThrow(InvalidSession);
-});
+
+
+
+
+
+
+
+
 

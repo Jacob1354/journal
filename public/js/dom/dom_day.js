@@ -52,6 +52,7 @@ export class DomDay {
         
     }
     
+    //TODO properly handle the response/error
     async _save() {
         post_day(this.#day)
             .then((res) => {

@@ -4,8 +4,9 @@ body {
     flex-direction: column;
     padding: 10%;
     font-family:  "Century Gothic", "Cambria", serif;
-    font-weight: lighter;
+    font-size: max(19px, 1.2em);
 }
+
 nav {
     border: solid black 1px;
     border-radius: 10px;
@@ -58,7 +59,8 @@ form p {
 
 form input {
     border: 0px;
-    background-color: rgb(236, 147, 247);
+    background-color: rgb(255, 255, 255);
+    border-radius: 8px;
 }
 
 form button {

@@ -2,7 +2,7 @@ import { validate_type } from "../../../shared/clean_code/clean_code_enforcement
 import { Day } from "../../../shared/data/day.js";
 import { Activity } from "../../../shared/data/schedule.js";
 import { post_day } from "../api/day_api.js";
-import { MOOD_FIELD_CLASS, ACTIVITY_CLASS, ACTIVITY_ADDER_BTN_ID } from "./constants.js";
+import { MOOD_FIELD_CLASS, ACTIVITY_CLASS, ACTIVITY_ADDER_BTN_ID, DAY_NAV_DATE_ID, DAY_NAMES, MONTH_NAMES } from "./constants.js";
 import { error_pop_up, get_parent_attribute } from "./dom_utils.js";
 import { DOMMoodField } from "./mood_field.js";
 import { DOMSchedule } from "./schedule.js";
@@ -28,6 +28,7 @@ export class DomDay {
         });
         this.start();
         this._init_listeners();
+        this._render_date();
     }
 
 
@@ -40,6 +41,17 @@ export class DomDay {
             }
         };
         document.getElementById(ACTIVITY_ADDER_BTN_ID).addEventListener("click", () => this.add_activity());
+    }
+
+    _render_date() {
+        const date = this.#day.date;
+        document.getElementById(DAY_NAV_DATE_ID).innerText = 
+            DAY_NAMES[date.getDay()] + ", " 
+            + date.getDate() + " " 
+            + MONTH_NAMES[date.getMonth()] + " " 
+            + date.getFullYear();
+
+        document.title = date.getDay() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear(); 
     }
 
     render_day() {

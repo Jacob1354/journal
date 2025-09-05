@@ -4,5 +4,3 @@ import { get_day } from "./api/day_api.js";
 let dom_day = new DomDay(await get_day());
 
 dom_day.render_day();
-
-document.getElementById().addEventListener("click", () => dom_day.add_activity());

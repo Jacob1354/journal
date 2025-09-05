@@ -1,3 +1,9 @@
+export const DAY_NAV_DATE_ID = "day_nav_date";
+export const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+export const MONTH_NAMES = [
+    "January", "Frebruary", "March", "April", "May", "June", "July", 
+    "August", "September", "October", "November", "December"
+];
 //Schedule
 export const ACTIVITIES_ID = "scheduled_activities";
 export const ACTIVITY_CLASS = "scheduled_activity";

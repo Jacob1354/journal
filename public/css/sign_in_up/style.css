@@ -3,6 +3,8 @@ body {
     display: flex;
     flex-direction: column;
     padding: 10%;
+    font-family:  "Century Gothic", "Cambria", serif;
+    font-weight: lighter;
 }
 nav {
     border: solid black 1px;
@@ -46,6 +48,10 @@ form {
     width: 50%;
 }
 
+form h2 {
+    margin-top: 5px;
+}
+
 form p {
     margin-bottom: 5px;
 }
@@ -62,6 +68,7 @@ form button {
     padding: 5px;
     text-decoration: none;
     color: black;
+    font-family: inherit;
 }
 
 #user_getter_box {

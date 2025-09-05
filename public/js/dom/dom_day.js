@@ -27,16 +27,20 @@ export class DomDay {
             remove_activity : (event) => this._remove_activity(event)
         });
         this.start();
+        this._init_listeners();
+    }
+
+
+    _init_listeners() {
         document.onvisibilitychange = () => {
-            if(document.hidden) {
+            if (document.hidden) {
                 this.stop();
             } else {
                 this.start();
             }
-        }
+        };
         document.getElementById(ACTIVITY_ADDER_BTN_ID).addEventListener("click", () => this.add_activity());
     }
-
 
     render_day() {
         this.render_schedule();

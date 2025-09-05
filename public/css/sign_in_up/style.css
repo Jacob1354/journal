@@ -46,6 +46,24 @@ form {
     width: 50%;
 }
 
+form p {
+    margin-bottom: 5px;
+}
+
+form input {
+    border: 0px;
+    background-color: rgb(236, 147, 247);
+}
+
+form button {
+    border: solid black 1px;
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+    padding: 5px;
+    text-decoration: none;
+    color: black;
+}
+
 #user_getter_box {
     border: solid black 1px;
     background-color: rgb(202, 155, 246);

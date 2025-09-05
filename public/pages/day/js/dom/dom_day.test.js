@@ -4,7 +4,7 @@
 
 import { Day } from "../../../../../shared/data/day.js";
 import { Activity, HoursAndMinutes } from "../../../../../shared/data/schedule.js";
-import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_TITLE_CLASS, MOOD_FIELDS_WRAPPER_CLASS, MOOD_FIELDS_WRAPPER_ID, ACTIVITIES_ID, ACTIVITY_CLASS, ACTIVITIY_STARTTIME_CLASS, ACTIVITIY_ENDTIME_CLASS, MOOD_FIELD_INPUT_CLASS } from "./constants.js";
+import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_TITLE_CLASS, MOOD_FIELDS_WRAPPER_CLASS, MOOD_FIELDS_WRAPPER_ID, ACTIVITIES_ID, ACTIVITY_CLASS, ACTIVITIY_STARTTIME_CLASS, ACTIVITIY_ENDTIME_CLASS, MOOD_FIELD_INPUT_CLASS, ACTIVITY_ADDER_BTN_ID, DAY_NAMES, DAY_NAV_DATE_ID } from "./constants.js";
 import { DomDay } from "./dom_day.js";
 
 const start_time1 = new HoursAndMinutes(10, 0);
@@ -20,19 +20,25 @@ const clean_dom = document.body.innerHTML;
 
 beforeEach(() => {
     document.body.innerHTML = clean_dom;
-    day = new Day();
-    day.schedule.add_activity(a1);
-    day.schedule.add_activity(a2);
-    dom_day = new DomDay(day);
 
     const activities = document.createElement("div");
     const mood_fields = document.createElement("div");
     activities.id = ACTIVITIES_ID;
     mood_fields.id = MOOD_FIELDS_WRAPPER_ID;
     mood_fields.classList.add(MOOD_FIELDS_WRAPPER_CLASS);
+    const activity_adder_btn = document.createElement("button");
+    activity_adder_btn.id = ACTIVITY_ADDER_BTN_ID;
+    const day_nav_date = document.createElement("h1");
+    day_nav_date.id = DAY_NAV_DATE_ID;
     document.body.appendChild(activities);
     document.body.appendChild(mood_fields);
+    document.body.appendChild(activity_adder_btn); //Not relevant wether it's actually at the right place or not
+    document.body.appendChild(day_nav_date); //Not relevant wether it's actually at the right place or not
 
+    day = new Day();
+    day.schedule.add_activity(a1);
+    day.schedule.add_activity(a2);
+    dom_day = new DomDay(day);
     dom_day.render_day();
 
 });

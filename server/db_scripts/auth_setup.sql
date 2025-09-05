@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS user(
 CREATE TABLE IF NOT EXISTS session(
     session TEXT UNIQUE  NOT NULL,
     username TEXT NOT NULL,
+    delete_time INTEGER NOT NULL,
     PRIMARY KEY (session, username),
     FOREIGN KEY (username) REFERENCES user(username)
 );

@@ -28,13 +28,18 @@ export class AuthDAO {
         let user;
         let row = this.#db.prepare("SELECT * FROM session WHERE session = ?").get(session);
         if(row) {
-            row = this.#db.prepare("SELECT * FROM user WHERE username = ?").get(row.username);
-            if(row) {
-                user = new User({
-                    username: row.username,
-                    name: row.name
-                })
-            } 
+            if(row.delete_time > Date.now()) {
+                row = this.#db.prepare("SELECT * FROM user WHERE username = ?").get(row.username);
+                if(row) {
+                    user = new User({
+                        username: row.username,
+                        name: row.name
+                    })
+                } 
+            } else {
+                this.#db.prepare("DELETE FROM session WHERE session = ? AND username = ?")
+                    .run(session, row.username);
+            }
         }
         return user ? user : null;
     }
@@ -58,27 +63,14 @@ export class AuthDAO {
         validate_type(user, User);
         validate_type(session, "string");
         try {
-            this.#db.prepare("INSERT INTO session (username, session) VALUES (?, ?)")
-                .run(user.username, session);
-            setTimeout(() => this._remove_session(session, user.username), ms_before_removal);
+            this.#db.prepare("INSERT INTO session (username, session, delete_time) VALUES (?, ?, ?)")
+                .run(user.username, session, Date.now() + ms_before_removal);
         } catch(err) {
             if(err.code === "SQLITE_CONSTRAINT_UNIQUE" || err.code === "SQLITE_CONSTRAINT_PRIMARYKEY")
                 throw new InvalidSession("Session already taken");
             else
                 throw err;
         }
-    }
-
-    _remove_session(session, username) {
-        validate_type(session, "string");
-        validate_type(username, "string");
-        try {
-            this.#db.prepare("DELETE FROM session WHERE session = ? AND username = ?")
-                .run(session, username);
-        } catch(err) {
-            console.log(err); //TODO handle error
-        }
-
     }
 }
 

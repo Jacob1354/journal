@@ -5,8 +5,6 @@ import { User } from "../../shared/data/user";
 import { AuthDAO, UnavailableUsername } from "./auth_dao";
 import { UserNotFound } from "../services/auth_sevice";
 import { InvalidSession } from "./auth_dao";
-jest.useFakeTimers();
-jest.spyOn(global, "setTimeout");
 
 function set_up_db() {
     const db = new Database(":memory:");
@@ -19,9 +17,9 @@ function reset_db(db) {
     db.prepare("DELETE FROM session").run();
     db.prepare("DELETE FROM user").run();
     db.prepare("INSERT INTO user (username, hash, name) VALUES (?, ?, ?)")
-    .run(preexisting_user.username, preexisting_user.hash, preexisting_user.name);
-    db.prepare("INSERT INTO session (session, username) VALUES (?, ?)")
-    .run(preexisting_user_session, preexisting_user.username);
+        .run(preexisting_user.username, preexisting_user.hash, preexisting_user.name);
+    db.prepare("INSERT INTO session (session, username, delete_time) VALUES (?, ?, ?)")
+        .run(preexisting_user_session, preexisting_user.username, 1000);
 }
 
 const preexisting_user = new User({
@@ -38,8 +36,15 @@ const new_user = new User({
 });
 const new_user_session = "new_user_session";
 
+//The hash isn't returned when getting user from session
+const returned_user = new User({
+    username: preexisting_user.username,
+    name: preexisting_user.name
+});
+
+
 let db;
-let auth_dao;
+let auth_dao = new AuthDAO(new Database());
 
 
 beforeAll(() => {
@@ -49,6 +54,7 @@ beforeAll(() => {
 
 beforeEach(() => {
     reset_db(db);
+    Date.now = () => 0;
 })
 
 describe("AuthDAO", () => {
@@ -63,15 +69,18 @@ describe("AuthDAO", () => {
 
     describe("get_user_from_session", () => {
         test("Success", () => {
-            //The hash isn't returned when getting user from session
-            const returned_user = new User({
-                username: preexisting_user.username,
-                name: preexisting_user.name
-            });
             expect(auth_dao.get_user_from_session(preexisting_user_session)).toEqual(returned_user);
         });
         test("Not found", () => {
             expect(auth_dao.get_user_from_session(new_user_session)).toBe(null);
+        });
+        test("Passed delete_time", () => {
+            const test_session = "test_session";
+            db.prepare("INSERT INTO session (session, username, delete_time) VALUES (?, ?, ?)")
+                .run(test_session, preexisting_user.username, 100);
+            expect(auth_dao.get_user_from_session(test_session)).toEqual(returned_user);
+            Date.now = () => 101;
+            expect(auth_dao.get_user_from_session(test_session)).toBeNull();
         });
     });
 
@@ -97,13 +106,9 @@ describe("AuthDAO", () => {
             expect(auth_dao.get_user_from_session(new_user_session)).toBe(null);
             auth_dao.add_session(new_user, new_user_session, ms_before_removal);
             expect(auth_dao.get_user_from_session(new_user_session)).toEqual(returned_user);
-            jest.advanceTimersByTime(ms_before_removal-1);
-            expect(auth_dao.get_user_from_session(new_user_session)).toEqual(returned_user);
-            jest.advanceTimersByTime(1);
-            expect(auth_dao.get_user_from_session(new_user_session)).toBe(null);
         });
         test("Session key already taken", () => {
-            expect(() => auth_dao.add_session(preexisting_user, preexisting_user_session)).toThrow(InvalidSession);
+            expect(() => auth_dao.add_session(preexisting_user, preexisting_user_session, 100)).toThrow(InvalidSession);
         });
     });
 });

@@ -1,5 +1,5 @@
 import Database from "better-sqlite3";
-import { DayAlreadyExists, JournalDAO } from "./journal_dao";
+import { CouldntUpdateDay, DayAlreadyExists, DayDoesntExist, JournalDAO } from "./journal_dao";
 import { AuthDAO } from "./auth_dao";
 import {readFileSync} from 'fs';
 import { InvalidUser, User } from "../../shared/data/user";
@@ -18,7 +18,7 @@ const existing_date = new Date();
 existing_date.setDate(1);
 existing_date.setMonth(1);
 existing_date.setFullYear(1995);
-const existing_day = new Day(existing_date);
+let existing_day = new Day(existing_date);
 const existing_activity = new Activity();
 existing_day.schedule.add_activity(existing_activity);
 existing_day.mood_fields = [...fields];
@@ -69,6 +69,10 @@ beforeEach(() => {
         .run(mood_id, 4, text_field2.get_field_name(), text_field2.get_data());
     db.prepare("INSERT INTO mood_fields (username, date) VALUES (?, ?)")
         .run(user.username, String(existing_empty_day.date));
+
+    existing_day = new Day(existing_date);
+    existing_day.schedule.add_activity(existing_activity);
+    existing_day.mood_fields = [...fields];
 });
 
 afterEach(() => {
@@ -140,6 +144,30 @@ describe("JournalDAO", () => {
     });
 
     describe("update_day", () => {
+        test("Success", () => {
+            existing_day.schedule.update_activity_content(0, existing_day.schedule.get_activities()[0].content + "now different");
+            const new_activity = new Activity();
+            new_activity.title = "New activity";
+            existing_day.schedule.add_activity(new_activity);
+            existing_day.mood_fields[0].set_data(existing_day.mood_fields[0].get_data() + 1);
+            existing_day.mood_fields[2].set_denominator(existing_day.mood_fields[2].get_denominator() + 1);
 
+            journal_dao.update_day(user, existing_day);
+            expect(journal_dao.get_day(user, existing_day.date).prepare_json_obj())
+                .toEqual(existing_day.prepare_json_obj());
+        });
+        test("DayDoesntExist", () => {
+            expect(() => journal_dao.update_day(user, new_day)).toThrow(DayDoesntExist);
+        });
+        test("InvalidUser", () => {
+            expect(() => journal_dao.update_day(invalid_user, existing_day)).toThrow(InvalidUser);
+        });
+        test("CouldntUpdateDay", () => {
+            const og = journal_dao._update_db_transaction;
+            journal_dao._update_db_transaction = () => {throw new Error()};
+            expect(() => {journal_dao.update_day(user, existing_day)}).toThrow(CouldntUpdateDay);
+            
+            journal_dao._update_db_transaction = og;
+        });
     })
 })

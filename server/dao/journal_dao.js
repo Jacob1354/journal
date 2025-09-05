@@ -34,6 +34,10 @@ export class JournalDAO {
             return null;
         }
     }
+    
+    update_day(user, day) {
+
+    }
 
     _check_if_user_exists(user) {
         const user_result = this.#db.prepare("SELECT username FROM user WHERE username = ?").get(user.username);
@@ -198,5 +202,21 @@ export class DayAlreadyExists extends Error {
     constructor(msg) {
         super(msg);
         this.name = "DayAlreadyExists";
+    }
+}
+
+
+
+export class CouldntUpdateDay extends Error {
+    constructor(msg) {
+        super(msg);
+        this.name = "CouldntUpdateDay";
+    }
+}
+
+export class DayDoesntExist extends Error {
+    constructor(msg) {
+        super(msg);
+        this.name = "DayDoesntExist";
     }
 }

@@ -5,4 +5,4 @@ let dom_day = new DomDay(await get_day());
 
 dom_day.render_day();
 
-document.getElementById("activity_adder_btn").addEventListener("click", () => dom_day.add_activity());
+document.getElementById().addEventListener("click", () => dom_day.add_activity());

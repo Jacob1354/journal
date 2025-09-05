@@ -2,7 +2,7 @@ import { validate_type } from "../../../shared/clean_code/clean_code_enforcement
 import { Day } from "../../../shared/data/day.js";
 import { Activity } from "../../../shared/data/schedule.js";
 import { post_day } from "../api/day_api.js";
-import { MOOD_FIELD_CLASS, ACTIVITY_CLASS } from "./constants.js";
+import { MOOD_FIELD_CLASS, ACTIVITY_CLASS, ACTIVITY_ADDER_BTN_ID } from "./constants.js";
 import { error_pop_up, get_parent_attribute } from "./dom_utils.js";
 import { DOMMoodField } from "./mood_field.js";
 import { DOMSchedule } from "./schedule.js";
@@ -34,6 +34,7 @@ export class DomDay {
                 this.start();
             }
         }
+        document.getElementById(ACTIVITY_ADDER_BTN_ID).addEventListener("click", () => this.add_activity());
     }
 
 

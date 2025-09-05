@@ -8,6 +8,7 @@ export const ACTIVITIY_ENDTIME_CLASS = "activity_end_time";
 export const ACTIVITIY_TITLE_CLASS = "activity_title";
 export const ACTIVITIY_CONTENT_WRAPPER_CLASS = "wrapper";
 export const ACTIVITIY_CONTENT_CLASS = "activity_content";
+export const ACTIVITY_ADDER_BTN_ID = "activity_adder_btn";
 
 export const ERR_MSG_UNABLE_TO_DELETE_ACTIVITY = "Sorry, we were unable to delete the activity";
 

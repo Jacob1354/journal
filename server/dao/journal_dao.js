@@ -16,7 +16,8 @@ export class JournalDAO {
         validate_type(user, User);
         validate_type(day, Day);
         if(!this._check_if_user_exists(user)) throw new InvalidUser();
-        if(this._get_mood_fields_id(user, day.date)) throw new DayAlreadyExists();// Every day, even without mood_fields has a mood_fields_id        this._create_activities(user, day);
+        if(this._get_mood_fields_id(user, day.date)) throw new DayAlreadyExists();// Every day, even without mood_fields has a mood_fields_id        
+        this._create_activities(user, day);
         this._create_mood_fields(user, day);
     }
 
@@ -36,7 +37,15 @@ export class JournalDAO {
     }
     
     update_day(user, day) {
-
+        validate_type(user, User);
+        validate_type(day, Day);
+        if(!this._check_if_user_exists(user)) throw new InvalidUser();
+        if(!this._get_mood_fields_id(user, day.date)) throw new DayDoesntExist();// Every day, even without mood_fields has a mood_fields_id        
+        try {
+            this.#db.transaction((user, day) => {this._update_db_transaction(user, day)})(user, day);
+        } catch(err) {
+            throw new CouldntUpdateDay(err);
+        }
     }
 
     _check_if_user_exists(user) {
@@ -196,6 +205,45 @@ export class JournalDAO {
         this.#db.prepare("INSERT INTO slider_field (mood_fields_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
             .run(mood_fields_id, index, field.get_field_name(), field.get_data());
     }
+
+    _update_db_transaction(user, day) {
+        validate_type(user, User);
+        validate_type(day, Day);
+        this._update_activities(user, day);
+        this._update_mood_fields(user, day);
+    }
+
+    _update_activities(user, day) {
+        this.#db.prepare("DELETE FROM activity WHERE username = ? AND date = ?")
+            .run(user.username, String(day.date));
+        this._create_activities(user, day);
+    }
+
+    _update_mood_fields(user, day) {
+        const mood_fields_id = this._get_mood_fields_id(user, day.date);
+        day.mood_fields.forEach(field => {
+            if(field instanceof NumberField) {
+                this.#db.prepare("UPDATE number_field SET data = ? WHERE mood_fields_id = ? AND title = ?")
+                    .run(field.get_data(), mood_fields_id, field.get_field_name());
+            }
+            else if(field instanceof TextField) {
+                this.#db.prepare("UPDATE text_field SET data = ? WHERE mood_fields_id = ? AND title = ?")
+                    .run(field.get_data(), mood_fields_id, field.get_field_name());
+                
+            }
+            else if(field instanceof FractionField) {
+                this.#db.prepare("UPDATE fraction_field SET data = ?, denominator = ?" 
+                                    + "WHERE mood_fields_id = ? AND title = ?")
+                    .run(field.get_data(), field.get_denominator(), mood_fields_id, field.get_field_name());
+                
+            }
+            else if(field instanceof SliderField) {
+                this.#db.prepare("UPDATE number_field SET data = ? WHERE mood_fields_id = ? AND title = ?")
+                    .run(field.get_data(), mood_fields_id, field.get_field_name());
+
+            }
+        })
+    }
 }
 
 export class DayAlreadyExists extends Error {
@@ -204,8 +252,6 @@ export class DayAlreadyExists extends Error {
         this.name = "DayAlreadyExists";
     }
 }
-
-
 
 export class CouldntUpdateDay extends Error {
     constructor(msg) {

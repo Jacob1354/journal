@@ -13,6 +13,7 @@ const user = new User({username: "user", hash: "hash", name: "name"});
 const invalid_user = new User({username: "invalid_user"});
 
 let existing_day = new Day();
+existing_day.schedule.add_activity(new Activity());
 let existing_day_json = existing_day.prepare_json_obj();
 
 const new_date = new Date();

@@ -12,6 +12,7 @@ export class DomDay {
     #dom_moodfields;
     #dom_schedule;
     #SAVE_INTERVAL = 5000;
+    #timer_id;
     constructor(day = new Day()) {
         validate_type(day, Day);
         this.#day = Day.from(day);
@@ -25,7 +26,7 @@ export class DomDay {
             update_end_time : (event) => this._update_activity_end_time(event),
             remove_activity : (event) => this._remove_activity(event)
         });
-        setInterval(() => {this._save();},  this.#SAVE_INTERVAL);
+        this.#timer_id = setInterval(() => {this._save();},  this.#SAVE_INTERVAL);
     }
 
 
@@ -49,7 +50,8 @@ export class DomDay {
 
     
     close() {
-        
+        clearInterval(this.#timer_id);
+        this._save();
     }
     
     //TODO properly handle the response/error

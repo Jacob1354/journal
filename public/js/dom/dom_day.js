@@ -11,7 +11,7 @@ export class DomDay {
     #day;
     #dom_moodfields;
     #dom_schedule;
-    #SAVE_INTERVAL = 5000;
+    #SAVE_INTERVAL = 30000;
     #timer_id;
     constructor(day = new Day()) {
         validate_type(day, Day);
@@ -26,7 +26,14 @@ export class DomDay {
             update_end_time : (event) => this._update_activity_end_time(event),
             remove_activity : (event) => this._remove_activity(event)
         });
-        this.#timer_id = setInterval(() => {this._save();},  this.#SAVE_INTERVAL);
+        this.start();
+        document.onvisibilitychange = () => {
+            if(document.hidden) {
+                this.stop();
+            } else {
+                this.start();
+            }
+        }
     }
 
 
@@ -49,9 +56,16 @@ export class DomDay {
     }
 
     
-    close() {
+    stop() {
         clearInterval(this.#timer_id);
-        this._save();
+        navigator.sendBeacon(
+            "/day/" + this.#day.date.getDate() + "-" + this.#day.date.getMonth() + "-" + this.#day.date.getFullYear(),
+            new Blob([JSON.stringify(this.#day.prepare_json_obj())], {type: "application/json"})
+        );
+    }
+
+    start() {
+        this.#timer_id = setInterval(() => {this._save();},  this.#SAVE_INTERVAL);
     }
     
     //TODO properly handle the response/error

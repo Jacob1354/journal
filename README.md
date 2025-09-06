@@ -15,3 +15,4 @@ This project combines an hourly schedule and a mood journal
  - Server logs
  - Server commands (rest db, shutdown, etc.)
  - Make tests fully independant
+ - Adapt for persons with a visual or auditive handicap

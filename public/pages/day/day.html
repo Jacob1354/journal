@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!--So expres.static("public") doesn't try something like /public/style.css -->
+    <base href="./pages/day/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/day/day.css">
+    <link rel="stylesheet" href="css/day.css">
     <title></title>
 </head>
 <body>
@@ -120,6 +122,6 @@
             </div>
         </div>
     </div>
-    <script type="module" src="./js/day.js"></script>
+    <script type="module" src="js/day.js"></script>
 </body>
 </html>

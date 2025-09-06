@@ -1,8 +1,5 @@
-import { DomDay } from "./dom/dom_day.js"
-import { get_day } from "./api/day_api.js";
-import { init } from "./utils.js";
 
-init();
+import { DayController } from "./day_controller.js";
 
-let dom_day = new DomDay(await get_day());
-dom_day.render_day();
+const controller = new DayController();
+await controller.init();

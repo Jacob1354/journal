@@ -22,8 +22,7 @@ CREATE TABLE text_field(
         REFERENCES day(id),
     arr_index INTEGER NOT NULL,
     title TEXT NOT NULL,
-    data TEXT 
-        DEFAULT '' NOT NULL,
+    data TEXT NULL,
     PRIMARY KEY (day_id, title),
     UNIQUE (day_id, arr_index)
 );
@@ -34,8 +33,7 @@ CREATE TABLE number_field(
         REFERENCES day(id),
     arr_index INTEGER NOT NULL,
     title TEXT NOT NULL,
-    data REAL 
-        DEFAULT 0 NOT NULL,
+    data REAL NOT NULL,
     PRIMARY KEY (day_id, title),
     UNIQUE (day_id, arr_index)
     
@@ -47,10 +45,8 @@ CREATE TABLE fraction_field(
         REFERENCES day(id),
     arr_index INTEGER NOT NULL,
     title TEXT NOT NULL,
-    data REAL 
-        DEFAULT 0 NOT NULL,
-    denominator INTEGER 
-        DEFAULT 10 NOT NULL,
+    data REAL NOT NULL,
+    denominator INTEGER NOT NULL,
     PRIMARY KEY (day_id, title),
     UNIQUE (day_id, arr_index)
 ); 
@@ -61,8 +57,7 @@ CREATE TABLE slider_field(
         REFERENCES day(id),
     arr_index INTEGER NOT NULL,
     title TEXT NOT NULL,
-    data INTEGER 
-        DEFAULT 0 NOT NULL
+    data INTEGER NOT NULL
         CHECK (data BETWEEN 0 AND 100),
     PRIMARY KEY (day_id, title),
     UNIQUE (day_id, arr_index)

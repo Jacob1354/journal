@@ -24,7 +24,7 @@ app.get('/', async (req, res, next) => {
 });
 
 app.get('/signup', (req, res) => {
-    res.redirect(HTML_SIGNUP_PATH);
+    res.sendFile(HTML_SIGNUP_PATH);
 });
 
 app.get('/signin', (req, res) => {

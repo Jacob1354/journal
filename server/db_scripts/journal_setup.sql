@@ -17,48 +17,45 @@ CREATE TABLE day(
 )
 
 CREATE TABLE text_field(
-    day_id INTEGER
-        NOT NULL
-        REFERENCES day(id),
+    day_id INTEGER NOT NULL,
     arr_index INTEGER NOT NULL,
     title TEXT NOT NULL,
     data TEXT NULL,
     PRIMARY KEY (day_id, title),
+    FOREIGN KEY day_id REFERENCES day(id),
     UNIQUE (day_id, arr_index)
 );
 
 CREATE TABLE number_field(
-    day_id INTEGER
-        NOT NULL
-        REFERENCES day(id),
+    day_id INTEGER NOT NULL,
     arr_index INTEGER NOT NULL,
     title TEXT NOT NULL,
     data REAL NOT NULL,
     PRIMARY KEY (day_id, title),
+    FOREIGN KEY day_id REFERENCES day(id),
     UNIQUE (day_id, arr_index)
     
 );
 
 CREATE TABLE fraction_field(
-    day_id INTEGER
-        NOT NULL
-        REFERENCES day(id),
+    day_id INTEGER NOT NULL,
     arr_index INTEGER NOT NULL,
     title TEXT NOT NULL,
     data REAL NOT NULL,
     denominator INTEGER NOT NULL,
     PRIMARY KEY (day_id, title),
-    UNIQUE (day_id, arr_index)
+    FOREIGN KEY day_id REFERENCES day(id),
+    UNIQUE (day_id, arr_index),
+    CHECK (denominator > 0)
 ); 
 
 CREATE TABLE slider_field(
-    day_id INTEGER
-        NOT NULL
-        REFERENCES day(id),
+    day_id INTEGER NOT NULL,
     arr_index INTEGER NOT NULL,
     title TEXT NOT NULL,
-    data INTEGER NOT NULL
-        CHECK (data BETWEEN 0 AND 100),
+    data INTEGER NOT NULL,
     PRIMARY KEY (day_id, title),
-    UNIQUE (day_id, arr_index)
+    FOREIGN KEY day_id REFERENCES day(id),
+    UNIQUE (day_id, arr_index),
+    CHECK (data BETWEEN 0 AND 100)
 );

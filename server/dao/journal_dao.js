@@ -266,3 +266,10 @@ export class DayDoesntExist extends Error {
         this.name = "DayDoesntExist";
     }
 }
+
+export class CouldntCreateDate extends Error {
+    constructor(msg) {
+        super(msg);
+        this.name = "CouldntCreateDate";
+    }
+}

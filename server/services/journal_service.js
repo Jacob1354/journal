@@ -1,6 +1,6 @@
 import Database from "better-sqlite3";
 import { validate_type } from "../../shared/clean_code/clean_code_enforcement.js";
-import { JournalDAO } from "../dao/journal_dao.js";
+import { CouldntCreateDate, CouldntUpdateDay, JournalDAO } from "../dao/journal_dao.js";
 import { InternalServerError } from "../server_const.js";
 import { Day } from "../../shared/data/day.js";
 import { InvalidUser } from "../../shared/data/user.js";
@@ -62,19 +62,5 @@ export class InvalidDate extends Error {
     constructor(msg) {
         super(msg);
         this.name = "InvalidDate";
-    }
-}
-
-export class CouldntUpdateDay extends Error {
-    constructor(msg) {
-        super(msg);
-        this.name = "CouldntUpdateDay";
-    }
-}
-
-export class CouldntCreateDate extends Error {
-    constructor(msg) {
-        super(msg);
-        this.name = "CouldntCreateDate";
     }
 }

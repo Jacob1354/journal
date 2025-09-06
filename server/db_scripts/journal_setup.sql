@@ -1,15 +1,9 @@
 CREATE TABLE IF NOT EXISTS activity(
     id INTEGER PRIMARY KEY,
-    username TEXT,
-    date TEXT,
-    title TEXT 
-        DEFAULT 'Activity' NOT NULL,
-    content TEXT 
-        DEFAULT 'Content' NOT NULL,
-    start_time TEXT 
-        DEFAULT '10:00' NOT NULL,
-    end_time TEXT 
-        DEFAULT '14:00' NOT NULL, 
+    title TEXT NOT NULL,
+    content TEXT NOT NULL,
+    start_time TEXT NOT NULL,
+    end_time TEXT NOT NULL, 
     FOREIGN KEY (username) REFERENCES user(username)
 );
 

@@ -1,9 +1,9 @@
 import Database from "better-sqlite3";
-import { CouldntUpdateDay, JournalService } from "./journal_service";
+import { JournalService } from "./journal_service";
 import { Day } from "../../shared/data/day";
 import { InvalidUser, User } from "../../shared/data/user";
 import { InternalServerError } from "../server_const";
-import { JournalDAO } from "../dao/journal_dao";
+import { JournalDAO, CouldntUpdateDay } from "../dao/journal_dao";
 import { jest } from "@jest/globals";
 import { AuthDAO } from "../dao/auth_dao";
 import { readFileSync } from 'fs';

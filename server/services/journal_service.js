@@ -1,6 +1,6 @@
 import Database from "better-sqlite3";
 import { validate_type } from "../../shared/clean_code/clean_code_enforcement.js";
-import { CouldntCreateDate, CouldntUpdateDay, JournalDAO } from "../dao/journal_dao.js";
+import { CouldntUpdateDay, JournalDAO } from "../dao/journal_dao.js";
 import { InternalServerError } from "../server_const.js";
 import { Day } from "../../shared/data/day.js";
 import { InvalidUser } from "../../shared/data/user.js";
@@ -39,18 +39,6 @@ export class JournalService {
         } catch(err) {
             throw new CouldntUpdateDay(err);
         }
-    }
-
-    _date_from_decomposed({date, month, year}) {
-        const date_obj = new Date();
-        try {
-            date_obj.setDate(date);
-            date_obj.setMonth(month);
-            date_obj.setFullYear(year);
-        } catch(err) {
-            throw new CouldntCreateDate(err);
-        }
-        return date_obj;
     }
 
     _set_dao_for_tests(new_dao) {

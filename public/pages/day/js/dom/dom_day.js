@@ -33,9 +33,9 @@ export class DomDay {
 
 
     _init_listeners() {
-        document.onvisibilitychange = () => {
+        document.onvisibilitychange = async () => {
             if (document.hidden) {
-                this.stop();
+                await this.stop();
             } else {
                 this.start();
             }
@@ -71,9 +71,12 @@ export class DomDay {
     render_mood_fields() {
         this.#dom_moodfields.render(this.#day.mood_fields);
     }
-
     
-    stop() {
+    start() {
+        this.#timer_id = setInterval(() => {this._save();},  this.#SAVE_INTERVAL);
+    }
+
+    async stop() {
         clearInterval(this.#timer_id);
         navigator.sendBeacon(
             "/day/" + this.#day.date.getDate() + "-" + this.#day.date.getMonth() + "-" + this.#day.date.getFullYear(),
@@ -81,8 +84,10 @@ export class DomDay {
         );
     }
 
-    start() {
-        this.#timer_id = setInterval(() => {this._save();},  this.#SAVE_INTERVAL);
+    async close() {
+        clearInterval(this.#timer_id);
+        await post_day(this.#day);
+        document.onvisibilitychange = () => {};
     }
     
     //TODO properly handle the response/error

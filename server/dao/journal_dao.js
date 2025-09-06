@@ -16,7 +16,7 @@ export class JournalDAO {
         validate_type(user, User);
         validate_type(day, Day);
         if(!this._check_if_user_exists(user)) throw new InvalidUser();
-        if(this._get_mood_fields_id(user, day.date)) throw new DayAlreadyExists();// Every day, even without mood_fields has a mood_fields_id        
+        if(this._get_day_id(user, day.date)) throw new DayAlreadyExists();// Every day, even without mood_fields has a day_id        
         this._create_activities(user, day);
         this._create_mood_fields(user, day);
     }
@@ -25,11 +25,11 @@ export class JournalDAO {
         validate_type(user, User);
         validate_type(date, Date);
         if(!this._check_if_user_exists(user)) throw new InvalidUser();
-        const mood_fields_id = this._get_mood_fields_id(user, date); 
-        if(mood_fields_id != null) { // If a day exists, it always has a mood_fields row, even without mood fields
+        const day_id = this._get_day_id(user, date); 
+        if(day_id != null) { // If a day exists, it always has a mood_fields row, even without mood fields
             const day = new Day(date);
-            day.mood_fields = this._get_mood_fields(mood_fields_id);
-            day.schedule.add_activities(this._get_activities(user, date));
+            day.mood_fields = this._get_mood_fields(day_id);
+            day.schedule.add_activities(this._get_activities(day_id));
             return day;
         } else {
             return null;
@@ -40,7 +40,7 @@ export class JournalDAO {
         validate_type(user, User);
         validate_type(day, Day);
         if(!this._check_if_user_exists(user)) throw new InvalidUser();
-        if(!this._get_mood_fields_id(user, day.date)) throw new DayDoesntExist();// Every day, even without mood_fields has a mood_fields_id        
+        if(!this._get_day_id(user, day.date)) throw new DayDoesntExist();// Every day, even without mood_fields has a day_id        
         try {
             this.#db.transaction((user, day) => {this._update_db_transaction(user, day)})(user, day);
         } catch(err) {
@@ -52,30 +52,30 @@ export class JournalDAO {
         const user_result = this.#db.prepare("SELECT username FROM user WHERE username = ?").get(user.username);
         return user_result ? true : false;
     }
-    _get_mood_fields_id(user, date) {
-        const mood_fields = this.#db.prepare("SELECT id FROM mood_fields WHERE username = ? AND date = ?")
+    _get_day_id(user, date) {
+        const day_row = this.#db.prepare("SELECT id FROM day WHERE username = ? AND date = ?")
             .get(user.username, String(date));
-        return mood_fields ? mood_fields.id : null;
+        return day_row ? day_row.id : null;
     }
-    _get_mood_fields(mood_fields_id) {
+    _get_mood_fields(day_id) {
         let fields = [];
-        this._get_number_fields(mood_fields_id).forEach(field_wrapper => {
+        this._get_number_fields(day_id).forEach(field_wrapper => {
             fields[field_wrapper.index] = field_wrapper.field;
         });
-        this._get_text_fields(mood_fields_id).forEach(field_wrapper => {
+        this._get_text_fields(day_id).forEach(field_wrapper => {
             fields[field_wrapper.index] = field_wrapper.field;
         });
-        this._get_fraction_fields(mood_fields_id).forEach(field_wrapper => {
+        this._get_fraction_fields(day_id).forEach(field_wrapper => {
             fields[field_wrapper.index] = field_wrapper.field;
         });
-        this._get_slider_fields(mood_fields_id).forEach(field_wrapper => {
+        this._get_slider_fields(day_id).forEach(field_wrapper => {
             fields[field_wrapper.index] = field_wrapper.field;
         });
         return fields;
     }
-    _get_number_fields(mood_fields_id) {
-        const fields = this.#db.prepare("SELECT * FROM number_field WHERE mood_fields_id = ?")
-                                    .all(mood_fields_id);
+    _get_number_fields(day_id) {
+        const fields = this.#db.prepare("SELECT * FROM number_field WHERE day_id = ?")
+                                    .all(day_id);
         const result = [];
         if(fields) {
             fields.forEach(field => {
@@ -87,9 +87,9 @@ export class JournalDAO {
         }
         return result;
     }
-    _get_text_fields(mood_fields_id) {
-        const fields = this.#db.prepare("SELECT * FROM text_field WHERE mood_fields_id = ?")
-                                    .all(mood_fields_id);
+    _get_text_fields(day_id) {
+        const fields = this.#db.prepare("SELECT * FROM text_field WHERE day_id = ?")
+                                    .all(day_id);
         const result = [];
         if(fields) {
             fields.forEach(field => {
@@ -101,9 +101,9 @@ export class JournalDAO {
         }
         return result;
     }
-    _get_fraction_fields(mood_fields_id) {
-        const fields = this.#db.prepare("SELECT * FROM fraction_field WHERE mood_fields_id = ?")
-                                    .all(mood_fields_id);
+    _get_fraction_fields(day_id) {
+        const fields = this.#db.prepare("SELECT * FROM fraction_field WHERE day_id = ?")
+                                    .all(day_id);
         const result = [];
         if(fields) {
             fields.forEach(field => {
@@ -115,9 +115,9 @@ export class JournalDAO {
         }
         return result;
     }
-    _get_slider_fields(mood_fields_id) {
-        const fields = this.#db.prepare("SELECT * FROM slider_field WHERE mood_fields_id = ?")
-                                    .all(mood_fields_id);
+    _get_slider_fields(day_id) {
+        const fields = this.#db.prepare("SELECT * FROM slider_field WHERE day_id = ?")
+                                    .all(day_id);
         const result = [];
         if(fields) {
             fields.forEach(field => {
@@ -129,9 +129,9 @@ export class JournalDAO {
         }
         return result;
     }
-    _get_activities(user, date) {
-        const activities = this.#db.prepare("SELECT * FROM activity WHERE username = ? AND date = ?")
-            .all(user.username, String(date));
+    _get_activities(day_id) {
+        const activities = this.#db.prepare("SELECT * FROM activity WHERE day_id = ?")
+            .all(day_id);
         const result = [];
         if(activities) {
             activities.forEach(activity => {

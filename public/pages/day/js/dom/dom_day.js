@@ -89,6 +89,10 @@ export class DomDay {
         await post_day(this.#day);
         document.onvisibilitychange = () => {};
     }
+
+    get_date() {
+        return new Date(this.#day.date);
+    }
     
     //TODO properly handle the response/error
     async _save() {

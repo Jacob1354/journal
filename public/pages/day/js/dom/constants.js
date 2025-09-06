@@ -1,4 +1,6 @@
 export const DAY_NAV_DATE_ID = "day_nav_date";
+export const DAY_NAV_LEFT_ARROW_ID =  "day_nav_left_arrow";
+export const DAY_NAV_RIGHT_ARROW_ID =  "day_nav_right_arrow";
 export const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 export const MONTH_NAMES = [
     "January", "Frebruary", "March", "April", "May", "June", "July", 

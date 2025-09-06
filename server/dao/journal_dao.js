@@ -17,8 +17,11 @@ export class JournalDAO {
         validate_type(day, Day);
         if(!this._check_if_user_exists(user)) throw new InvalidUser();
         if(this._get_day_id(user, day.date)) throw new DayAlreadyExists();// Every day, even without mood_fields has a day_id        
-        this._create_activities(user, day);
-        this._create_mood_fields(user, day);
+        this._create_day_row(user, day);
+        const day_id = this._get_day_id(user, day.date);
+        if(!day_id) throw new CouldntCreateDay("");
+        this._create_activities(day_id, day);
+        this._create_mood_fields(day_id, day);
     }
 
     get_day(user, date) {
@@ -146,14 +149,20 @@ export class JournalDAO {
         return result;
     }
 
-    _create_activities(user, day) {
+    _create_day_row(user, day) {
         validate_type(user, User);
         validate_type(day, Day);
+        this.#db.prepare("INSERT INTO day (username, date) VALUES (?, ?)")
+            .run(user.username, String(day.date));
+    }
+
+    _create_activities(day_id, day) {
+        validate_type(day, Day);
+        if(!day_id) throw new DayDoesntExist("");
         day.schedule.get_activities().forEach(activity => {
-            this.#db.prepare("INSERT INTO activity (username, date, title, content, start_time, end_time)" 
-                + "VALUES (?, ?, ?, ?, ?, ?)").run(
-                    user.username,
-                    String(day.date),
+            this.#db.prepare("INSERT INTO activity (day_id, title, content, start_time, end_time)" 
+                + "VALUES (?, ?, ?, ?, ?)").run(
+                    day_id,
                     activity.title,
                     activity.content,
                     String(activity.start_time),
@@ -161,49 +170,46 @@ export class JournalDAO {
                 );
         });
     }
-    _create_mood_fields(user, day) {
-        validate_type(user, User);
+    _create_mood_fields(day_id, day) {
         validate_type(day, Day);
-        this.#db.prepare("INSERT INTO mood_fields (username, date) VALUES (?, ?)").run(user.username, String(day.date));
-        const mood_fields_id = this._get_mood_fields_id(user, day.date);
-        if(!mood_fields_id) throw new Error("Couldn't create day because created mood_fields_id is" + mood_fields_id);
+        if(!day_id) throw new DayDoesntExist("");
         day.mood_fields.forEach((field, index) => {
             if(field instanceof NumberField)
-                this._create_number_field(mood_fields_id, field, index);
+                this._create_number_field(day_id, field, index);
             else if(field instanceof TextField)
-                this._create_text_field(mood_fields_id, field, index);
+                this._create_text_field(day_id, field, index);
             else if(field instanceof FractionField)
-                this._create_fraction_field(mood_fields_id, field, index);
+                this._create_fraction_field(day_id, field, index);
             else if(field instanceof SliderField)
-                this._create_slider_field(mood_fields_id, field, index);
+                this._create_slider_field(day_id, field, index);
         })
     }
 
-    _create_number_field(mood_fields_id, field, index) {
-        validate_type(mood_fields_id, "number");
+    _create_number_field(day_id, field, index) {
+        validate_type(day_id, "number");
         validate_type(field, NumberField);
-        this.#db.prepare("INSERT INTO number_field (mood_fields_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
-            .run(mood_fields_id, index, field.get_field_name(), field.get_data());
+        this.#db.prepare("INSERT INTO number_field (day_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
+            .run(day_id, index, field.get_field_name(), field.get_data());
         }
-    _create_text_field(mood_fields_id, field, index) {
-        validate_type(mood_fields_id, "number");
+    _create_text_field(day_id, field, index) {
+        validate_type(day_id, "number");
         validate_type(field, TextField);
-        this.#db.prepare("INSERT INTO text_field (mood_fields_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
-            .run(mood_fields_id, index, field.get_field_name(), field.get_data());
+        this.#db.prepare("INSERT INTO text_field (day_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
+            .run(day_id, index, field.get_field_name(), field.get_data());
         
     }
-    _create_fraction_field(mood_fields_id, field, index) {
-        validate_type(mood_fields_id, "number");
+    _create_fraction_field(day_id, field, index) {
+        validate_type(day_id, "number");
         validate_type(field, FractionField);
-        this.#db.prepare("INSERT INTO fraction_field (mood_fields_id, arr_index, title, data, denominator) VALUES (?, ?, ?, ?, ?)")
-            .run(mood_fields_id, index, field.get_field_name(), field.get_data(), field.get_denominator());
+        this.#db.prepare("INSERT INTO fraction_field (day_id, arr_index, title, data, denominator) VALUES (?, ?, ?, ?, ?)")
+            .run(day_id, index, field.get_field_name(), field.get_data(), field.get_denominator());
         
     }
-    _create_slider_field(mood_fields_id, field, index) {
-        validate_type(mood_fields_id, "number");
+    _create_slider_field(day_id, field, index) {
+        validate_type(day_id, "number");
         validate_type(field, SliderField);
-        this.#db.prepare("INSERT INTO slider_field (mood_fields_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
-            .run(mood_fields_id, index, field.get_field_name(), field.get_data());
+        this.#db.prepare("INSERT INTO slider_field (day_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
+            .run(day_id, index, field.get_field_name(), field.get_data());
     }
 
     _update_db_transaction(user, day) {
@@ -267,9 +273,9 @@ export class DayDoesntExist extends Error {
     }
 }
 
-export class CouldntCreateDate extends Error {
+export class CouldntCreateDay extends Error {
     constructor(msg) {
         super(msg);
-        this.name = "CouldntCreateDate";
+        this.name = "CouldntCreateDay";
     }
 }

@@ -60,6 +60,10 @@ export class AuthService {
         return user;
     }
 
+    remove_session(session) {
+        this.#auth_dao.remove_session(session);
+    }
+
     _check_if_user_is_valid(user) {
         validate_type(user, User);
         if(!user.username || user.username === ""

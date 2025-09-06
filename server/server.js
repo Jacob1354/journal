@@ -7,6 +7,7 @@ import { InvalidSession, UnavailableUsername } from './dao/auth_dao.js';
 import { InvalidPassword, UserNotFound } from './services/auth_sevice.js';
 import path from 'node:path';
 import { Day } from '../shared/data/day.js';
+import { Cookie } from '../shared/data/cookie.js';
 const __dirname = import.meta.dirname;
 
 
@@ -59,6 +60,17 @@ app.post('/signin', async (req, res) => {
         else
             res.status(500).send(ERR_MSG_SERVER_ERR);
     }
+});
+
+app.post('/signout', (req, res) => {
+    try {
+        const session = req.cookies["session"];
+        journal_srv.auth_service.remove_session(session);
+    } catch(err) {
+        console.log(err);
+    }
+    res.setHeader("Set-Cookie", String(new Cookie({name:"session", value:""})));
+    res.status(200).end();
 });
 
 app.get('/day', (req, res) => {

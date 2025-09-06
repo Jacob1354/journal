@@ -72,6 +72,11 @@ export class AuthDAO {
                 throw err;
         }
     }
+
+    remove_session(session) {
+        validate_type(session, "string");
+        this.#db.prepare("DELETE FROM session WHERE session = ?").run(session);
+    }
 }
 
 export class UnavailableUsername extends Error {

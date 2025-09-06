@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS day(
     id INTEGER PRIMARY KEY,
+    update_timestamp INTEGER NOT NULL,
     username TEXT NOT NULL,
     date TEXT NOT NULL,
     UNIQUE (username, date),

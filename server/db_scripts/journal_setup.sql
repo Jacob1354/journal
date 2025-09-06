@@ -1,68 +1,69 @@
 CREATE TABLE IF NOT EXISTS activity(
     id INTEGER PRIMARY KEY,
+    day_id INTEGER NOT NULL,
     title TEXT NOT NULL,
     content TEXT NOT NULL,
     start_time TEXT NOT NULL,
     end_time TEXT NOT NULL, 
-    FOREIGN KEY (username) REFERENCES user(username)
+    FOREIGN KEY (day_id) REFERENCES day(id)
 );
 
-CREATE TABLE mood_fields(
+CREATE TABLE day(
     id INTEGER PRIMARY KEY,
-    username NOT NULL,
+    username TEXT NOT NULL,
     date TEXT NOT NULL,
     UNIQUE (username, date),
     FOREIGN KEY (username) REFERENCES user(username) 
-);
+)
 
 CREATE TABLE text_field(
-    mood_fields_id INTEGER
+    day_id INTEGER
         NOT NULL
-        REFERENCES mood_fields(id),
+        REFERENCES day(id),
     arr_index INTEGER NOT NULL,
     title TEXT NOT NULL,
     data TEXT 
         DEFAULT '' NOT NULL,
-    PRIMARY KEY (mood_fields_id, title),
-    UNIQUE (mood_fields_id, arr_index)
+    PRIMARY KEY (day_id, title),
+    UNIQUE (day_id, arr_index)
 );
 
 CREATE TABLE number_field(
-    mood_fields_id INTEGER
+    day_id INTEGER
         NOT NULL
-        REFERENCES mood_fields(id),
+        REFERENCES day(id),
     arr_index INTEGER NOT NULL,
     title TEXT NOT NULL,
     data REAL 
         DEFAULT 0 NOT NULL,
-    PRIMARY KEY (mood_fields_id, title),
-    UNIQUE (mood_fields_id, arr_index)
+    PRIMARY KEY (day_id, title),
+    UNIQUE (day_id, arr_index)
     
 );
 
 CREATE TABLE fraction_field(
-    mood_fields_id INTEGER
+    day_id INTEGER
         NOT NULL
-        REFERENCES mood_fields(id),
+        REFERENCES day(id),
     arr_index INTEGER NOT NULL,
     title TEXT NOT NULL,
     data REAL 
         DEFAULT 0 NOT NULL,
     denominator INTEGER 
         DEFAULT 10 NOT NULL,
-    PRIMARY KEY (mood_fields_id, title),
-    UNIQUE (mood_fields_id, arr_index)
+    PRIMARY KEY (day_id, title),
+    UNIQUE (day_id, arr_index)
 ); 
 
 CREATE TABLE slider_field(
-    mood_fields_id INTEGER
+    day_id INTEGER
         NOT NULL
-        REFERENCES mood_fields(id),
+        REFERENCES day(id),
     arr_index INTEGER NOT NULL,
     title TEXT NOT NULL,
     data INTEGER 
         DEFAULT 0 NOT NULL
         CHECK (data BETWEEN 0 AND 100),
-    PRIMARY KEY (mood_fields_id, title),
-    UNIQUE (mood_fields_id, arr_index)
+    PRIMARY KEY (day_id, title),
+    UNIQUE (day_id, arr_index)
 );

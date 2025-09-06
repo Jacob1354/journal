@@ -48,26 +48,26 @@ beforeAll(() => {
 });
 
 beforeEach(() => {
-    db.prepare("INSERT INTO activity(username, date, title, content, start_time,end_time) VALUES (?, ?, ?, ?, ?, ?)")
-        .run(user.username, String(existing_date), 
-            existing_activity.title, existing_activity.content,
+    db.prepare("INSERT INTO day (username, date) VALUES (?, ?)")
+    .run(user.username, String(existing_day.date));
+    const day_id = db.prepare("SELECT id FROM day WHERE username = ? AND date = ?")
+        .get(user.username, String(existing_day.date)).id;
+    db.prepare("INSERT INTO activity(day_id, title, content, start_time,end_time) VALUES (?, ?, ?, ?, ?)")
+        .run(day_id, existing_activity.title, existing_activity.content,
             String(existing_activity.start_time), String(existing_activity.end_time)
         );
-    db.prepare("INSERT INTO mood_fields (username, date) VALUES (?, ?)")
-        .run(user.username, String(existing_day.date));
-    const mood_id = db.prepare("SELECT id FROM mood_fields WHERE username = ? AND date = ?")
-        .get(user.username, String(existing_day.date)).id;
-    db.prepare("INSERT INTO number_field (mood_fields_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
-        .run(mood_id, 0, nb_field.get_field_name(), nb_field.get_data());
-    db.prepare("INSERT INTO text_field (mood_fields_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
-        .run(mood_id, 1, text_field1.get_field_name(), text_field1.get_data());
-    db.prepare("INSERT INTO fraction_field (mood_fields_id, arr_index, title, data, denominator) VALUES (?, ?, ?, ?, ?)")
-        .run(mood_id, 2, fraction_field.get_field_name(), fraction_field.get_data(), fraction_field.get_denominator());
-    db.prepare("INSERT INTO slider_field (mood_fields_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
-        .run(mood_id, 3, slider_field.get_field_name(), slider_field.get_data());
-    db.prepare("INSERT INTO text_field (mood_fields_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
-        .run(mood_id, 4, text_field2.get_field_name(), text_field2.get_data());
-    db.prepare("INSERT INTO mood_fields (username, date) VALUES (?, ?)")
+
+    db.prepare("INSERT INTO number_field (day_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
+        .run(day_id, 0, nb_field.get_field_name(), nb_field.get_data());
+    db.prepare("INSERT INTO text_field (day_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
+        .run(day_id, 1, text_field1.get_field_name(), text_field1.get_data());
+    db.prepare("INSERT INTO fraction_field (day_id, arr_index, title, data, denominator) VALUES (?, ?, ?, ?, ?)")
+        .run(day_id, 2, fraction_field.get_field_name(), fraction_field.get_data(), fraction_field.get_denominator());
+    db.prepare("INSERT INTO slider_field (day_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
+        .run(day_id, 3, slider_field.get_field_name(), slider_field.get_data());
+    db.prepare("INSERT INTO text_field (day_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
+        .run(day_id, 4, text_field2.get_field_name(), text_field2.get_data());
+    db.prepare("INSERT INTO day (username, date) VALUES (?, ?)")
         .run(user.username, String(existing_empty_day.date));
 
     existing_day = new Day(existing_date);
@@ -82,7 +82,7 @@ afterEach(() => {
         DELETE FROM fraction_field;
         DELETE FROM text_field;
         DELETE FROM slider_field;
-        DELETE FROM mood_fields;
+        DELETE FROM day;
     `;
     db.exec(reset_script);
 });

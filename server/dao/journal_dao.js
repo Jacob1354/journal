@@ -16,7 +16,7 @@ export class JournalDAO {
         validate_type(user, User);
         validate_type(day, Day);
         if(!this._check_if_user_exists(user)) throw new InvalidUser();
-        if(this._get_day_id(user, day.date)) throw new DayAlreadyExists();// Every day, even without mood_fields has a day_id        
+        if(this._get_day_id(user, day.date)) throw new DayAlreadyExists();
         this._create_day_row(user, day);
         const day_id = this._get_day_id(user, day.date);
         if(!day_id) throw new CouldntCreateDay("");
@@ -29,7 +29,7 @@ export class JournalDAO {
         validate_type(date, Date);
         if(!this._check_if_user_exists(user)) throw new InvalidUser();
         const day_id = this._get_day_id(user, date); 
-        if(day_id != null) { // If a day exists, it always has a mood_fields row, even without mood fields
+        if(day_id != null) {
             const day = new Day(date);
             day.mood_fields = this._get_mood_fields(day_id);
             day.schedule.add_activities(this._get_activities(day_id));
@@ -43,9 +43,10 @@ export class JournalDAO {
         validate_type(user, User);
         validate_type(day, Day);
         if(!this._check_if_user_exists(user)) throw new InvalidUser();
-        if(!this._get_day_id(user, day.date)) throw new DayDoesntExist();// Every day, even without mood_fields has a day_id        
+        const day_id = this._get_day_id(user, day.date);
+        if(!day_id) throw new DayDoesntExist("");      
         try {
-            this.#db.transaction((user, day) => {this._update_db_transaction(user, day)})(user, day);
+            this.#db.transaction((day_id, day) => {this._update_db_transaction(day_id, day)})(day_id, day);
         } catch(err) {
             throw new CouldntUpdateDay(err);
         }
@@ -212,40 +213,39 @@ export class JournalDAO {
             .run(day_id, index, field.get_field_name(), field.get_data());
     }
 
-    _update_db_transaction(user, day) {
-        validate_type(user, User);
+    _update_db_transaction(day_id, day) {
+        validate_type(day_id, "number");
         validate_type(day, Day);
-        this._update_activities(user, day);
-        this._update_mood_fields(user, day);
+        this._update_activities(day_id, day);
+        this._update_mood_fields(day_id, day);
     }
 
-    _update_activities(user, day) {
-        this.#db.prepare("DELETE FROM activity WHERE username = ? AND date = ?")
-            .run(user.username, String(day.date));
-        this._create_activities(user, day);
+    _update_activities(day_id, day) {
+        this.#db.prepare("DELETE FROM activity WHERE day_id = ?")
+            .run(day_id);
+        this._create_activities(day_id, day);
     }
 
-    _update_mood_fields(user, day) {
-        const mood_fields_id = this._get_mood_fields_id(user, day.date);
+    _update_mood_fields(day_id, day) {
         day.mood_fields.forEach(field => {
             if(field instanceof NumberField) {
-                this.#db.prepare("UPDATE number_field SET data = ? WHERE mood_fields_id = ? AND title = ?")
-                    .run(field.get_data(), mood_fields_id, field.get_field_name());
+                this.#db.prepare("UPDATE number_field SET data = ? WHERE day_id = ? AND title = ?")
+                    .run(field.get_data(), day_id, field.get_field_name());
             }
             else if(field instanceof TextField) {
-                this.#db.prepare("UPDATE text_field SET data = ? WHERE mood_fields_id = ? AND title = ?")
-                    .run(field.get_data(), mood_fields_id, field.get_field_name());
+                this.#db.prepare("UPDATE text_field SET data = ? WHERE day_id = ? AND title = ?")
+                    .run(field.get_data(), day_id, field.get_field_name());
                 
             }
             else if(field instanceof FractionField) {
                 this.#db.prepare("UPDATE fraction_field SET data = ?, denominator = ?" 
-                                    + "WHERE mood_fields_id = ? AND title = ?")
-                    .run(field.get_data(), field.get_denominator(), mood_fields_id, field.get_field_name());
+                                    + "WHERE day_id = ? AND title = ?")
+                    .run(field.get_data(), field.get_denominator(), day_id, field.get_field_name());
                 
             }
             else if(field instanceof SliderField) {
-                this.#db.prepare("UPDATE number_field SET data = ? WHERE mood_fields_id = ? AND title = ?")
-                    .run(field.get_data(), mood_fields_id, field.get_field_name());
+                this.#db.prepare("UPDATE number_field SET data = ? WHERE day_id = ? AND title = ?")
+                    .run(field.get_data(), day_id, field.get_field_name());
 
             }
         })

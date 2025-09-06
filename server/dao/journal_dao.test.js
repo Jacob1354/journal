@@ -108,12 +108,12 @@ describe("JournalDAO", () => {
             });
             
             test("_get_mood_fields_id: success", () => {
-                expect(journal_dao._get_mood_fields_id(user, existing_day.date)).toBeTruthy();
-                expect(journal_dao._get_mood_fields_id(user, new_day.date)).toBeFalsy();
+                expect(journal_dao._get_day_id(user, existing_day.date)).toBeTruthy();
+                expect(journal_dao._get_day_id(user, new_day.date)).toBeFalsy();
             });
             
             test("_get_mood_fields: success", () => {
-                const mood_fields_id = journal_dao._get_mood_fields_id(user, existing_day.date);
+                const mood_fields_id = journal_dao._get_day_id(user, existing_day.date);
                 const result = journal_dao._get_mood_fields(mood_fields_id)
                                             .sort((a, b) => a.get_field_name().localeCompare(b.get_field_name()));
                 const expected = existing_day.mood_fields
@@ -123,7 +123,8 @@ describe("JournalDAO", () => {
             
             test("_get_activities: success", () => {
                 //Uses schedule to make sure they're sorted properly
-                const result_schedule = new Schedule(journal_dao._get_activities(user, existing_day.date));
+                const day_id = journal_dao._get_day_id(user, existing_day.date);
+                const result_schedule = new Schedule(journal_dao._get_activities(day_id));
                 expect(result_schedule.get_activities()).toEqual(existing_day.schedule.get_activities());
             });
         })

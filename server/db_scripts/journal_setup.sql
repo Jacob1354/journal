@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS activity(
     FOREIGN KEY (day_id) REFERENCES day(id)
 );
 
-CREATE TABLE day(
+CREATE TABLE IF NOT EXISTS day(
     id INTEGER PRIMARY KEY,
     username TEXT NOT NULL,
     date TEXT NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE day(
     FOREIGN KEY (username) REFERENCES user(username) 
 )
 
-CREATE TABLE text_field(
+CREATE TABLE IF NOT EXISTS text_field(
     day_id INTEGER NOT NULL,
     arr_index INTEGER NOT NULL,
     title TEXT NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE text_field(
     UNIQUE (day_id, arr_index)
 );
 
-CREATE TABLE number_field(
+CREATE TABLE IF NOT EXISTS number_field(
     day_id INTEGER NOT NULL,
     arr_index INTEGER NOT NULL,
     title TEXT NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE number_field(
     
 );
 
-CREATE TABLE fraction_field(
+CREATE TABLE IF NOT EXISTS fraction_field(
     day_id INTEGER NOT NULL,
     arr_index INTEGER NOT NULL,
     title TEXT NOT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE fraction_field(
     CHECK (denominator > 0)
 ); 
 
-CREATE TABLE slider_field(
+CREATE TABLE IF NOT EXISTS slider_field(
     day_id INTEGER NOT NULL,
     arr_index INTEGER NOT NULL,
     title TEXT NOT NULL,

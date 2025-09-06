@@ -30,9 +30,9 @@ app.get('/signup', (req, res) => {
 app.get('/signin', (req, res) => {
     try {
         const user = journal_srv.auth_service.authenticate_session(req.cookies["session"]);
-        res.redirect(HTML_DAY_PATH);
+        res.redirect('/day');
     } catch(err) {
-        res.redirect(HTML_SIGNIN_PATH);
+        res.sendFile(HTML_SIGNIN_PATH);
     }
 });
 
@@ -65,7 +65,7 @@ app.get('/day', (req, res) => {
     const user = journal_srv.authenticate_session(req.cookies["session"], res);
     if(user != null) {
         try {
-            res.sendFile(path.join(__dirname, "..", "public", "html", "day.html"));
+            res.sendFile(HTML_DAY_PATH);
         } catch(err) {
             res.status(500).send(ERR_MSG_SERVER_ERR);
         }

@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
 import { Day } from "../../../../../shared/data/day.js";
-import { CouldntSaveData, get_day, FETCH_TIMEOUT, InvalidAuth, post_day, ServerErr } from "./day_api";
+import { CouldntSaveData, get_day, FETCH_TIMEOUT, InvalidAuth, post_day, ServerErr, post_signout, SIGNOUT_TIMEOUT } from "./day_api";
 import { Activity } from "../../../../../shared/data/schedule.js";
 import { json } from "express";
 

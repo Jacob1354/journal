@@ -2,6 +2,7 @@ import { validate_type } from "../../../../../shared/clean_code/clean_code_enfor
 import { Day } from "../../../../../shared/data/day.js";
 
 export const FETCH_TIMEOUT = 5000;
+export const SIGNOUT_TIMEOUT = 1500;
 
 
 export async function get_day(date = new Date()) {
@@ -40,6 +41,14 @@ export async function post_day(day) {
             else
                 throw new CouldntSaveData("Couldn't save day");
         })
+}
+
+export async function post_signout() {
+    return fetch('/signout', {
+        method: "POST",
+        keepalive: true,
+        signal: AbortSignal.timeout(SIGNOUT_TIMEOUT)
+    }).catch((err) => console.log(err));
 }
 
 

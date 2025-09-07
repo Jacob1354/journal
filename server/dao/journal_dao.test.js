@@ -51,7 +51,7 @@ beforeAll(() => {
 
 beforeEach(() => {
     db.prepare("INSERT INTO day (username, date, update_timestamp) VALUES (?, ?, ?)")
-    .run(user.username, String(existing_day.date), existing_day_update_timestamp);
+    .run(user.username, String(existing_day.date), existing_day.update_timestamp);
     const day_id = db.prepare("SELECT id FROM day WHERE username = ? AND date = ?")
         .get(user.username, String(existing_day.date)).id;
     db.prepare("INSERT INTO activity(day_id, title, content, start_time,end_time) VALUES (?, ?, ?, ?, ?)")
@@ -69,8 +69,8 @@ beforeEach(() => {
         .run(day_id, 3, slider_field.get_field_name(), slider_field.get_data());
     db.prepare("INSERT INTO text_field (day_id, arr_index, title, data) VALUES (?, ?, ?, ?)")
         .run(day_id, 4, text_field2.get_field_name(), text_field2.get_data());
-    db.prepare("INSERT INTO day (username, date) VALUES (?, ?)")
-        .run(user.username, String(existing_empty_day.date));
+    db.prepare("INSERT INTO day (username, date, update_timestamp) VALUES (?, ?, ?)")
+        .run(user.username, String(existing_empty_day.date), existing_day.update_timestamp);
 
     existing_day = new Day(existing_date);
     existing_day.update_timestamp = existing_day_update_timestamp;

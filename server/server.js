@@ -8,6 +8,7 @@ import { InvalidPassword, UserNotFound } from './services/auth_sevice.js';
 import path from 'node:path';
 import { Day } from '../shared/data/day.js';
 import { Cookie } from '../shared/data/cookie.js';
+import { ClientNotUpToDate } from './dao/journal_dao.js';
 const __dirname = import.meta.dirname;
 
 
@@ -99,11 +100,14 @@ app.get('/day/:day-:month-:year', (req, res) => {
 app.post('/day/:day-:month-:year', (req, res) => {
     const user = journal_srv.authenticate_session(req.cookies["session"], res);
     try {
-        journal_srv.journal_service.update_day(user, Day.from_json_obj(req.body));
-        res.status(200).end();
+        const new_timestamp = journal_srv.journal_service.update_day(user, Day.from_json_obj(req.body));
+        res.status(200).send(JSON.stringify({new_timestamp}));
     } catch(err) {
         console.log(err);
-        res.status(500).send(ERR_MSG_SERVER_ERR);
+        if(err instanceof ClientNotUpToDate)
+            res.status(428).end();
+        else
+            res.status(500).send(ERR_MSG_SERVER_ERR);
     }
 });
 

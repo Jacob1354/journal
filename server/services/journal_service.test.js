@@ -81,7 +81,7 @@ describe("JournalService", () => {
         });
         test("CouldntUpdateDay", () => {
             journal_dao.update_day = () => {throw new Error()};
-            expect(() => journal_service.update_day()).toThrow(CouldntUpdateDay);
+            expect(() => journal_service.update_day(user, existing_day)).toThrow(CouldntUpdateDay);
         });
     });
 })

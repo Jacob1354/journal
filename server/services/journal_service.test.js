@@ -3,7 +3,7 @@ import { JournalService } from "./journal_service";
 import { Day } from "../../shared/data/day";
 import { InvalidUser, User } from "../../shared/data/user";
 import { InternalServerError } from "../server_const";
-import { JournalDAO, CouldntUpdateDay } from "../dao/journal_dao";
+import { JournalDAO, CouldntUpdateDay, ClientNotUpToDate } from "../dao/journal_dao";
 import { jest } from "@jest/globals";
 import { AuthDAO } from "../dao/auth_dao";
 import { readFileSync } from 'fs';
@@ -69,19 +69,26 @@ describe("JournalService", () => {
     });
     describe("update_day", () => {
         test("Success", () => {
+            const new_timestamp = default_timestamp + 1;
+            jest.spyOn(Date, "now").mockImplementation(() => new_timestamp);
             const non_basic_activity = new Activity(
                 new HoursAndMinutes(20, 5), new HoursAndMinutes(23,44), "non_basic", "non_basic_content"
             );
             existing_day.schedule.add_activity(new Activity());
             existing_day.schedule.add_activity(non_basic_activity);
             existing_day.mood_fields[0].set_data(existing_day.mood_fields[0].get_data() + 1);
-            journal_service.update_day(user, existing_day);
 
+            expect(journal_service.update_day(user, existing_day)).toBe(new_timestamp);
+            existing_day.update_timestamp = new_timestamp;
             expect(journal_service.get_json_day_obj(user, existing_day.date)).toEqual(existing_day.prepare_json_obj());
         });
         test("CouldntUpdateDay", () => {
             journal_dao.update_day = () => {throw new Error()};
             expect(() => journal_service.update_day(user, existing_day)).toThrow(CouldntUpdateDay);
+        });
+        test("ClientNotUpToDate", () => {
+            existing_day.update_timestamp = default_timestamp - 1;
+            expect(() => journal_service.update_day(user, existing_day)).toThrow(ClientNotUpToDate);
         });
     });
 })

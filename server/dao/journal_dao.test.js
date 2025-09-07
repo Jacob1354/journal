@@ -166,6 +166,8 @@ describe("JournalDAO", () => {
             existing_day.mood_fields[2].set_denominator(existing_day.mood_fields[2].get_denominator() + 1);
 
             journal_dao.update_day(user, existing_day);
+            
+            existing_day.update_timestamp = new_timestamp;
             expect(journal_dao.get_day(user, existing_day.date).prepare_json_obj())
                 .toEqual(existing_day.prepare_json_obj());
             Date.now.mockRestore();

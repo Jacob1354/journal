@@ -48,7 +48,7 @@ export class JournalDAO {
         const day_id = this._get_day_id(user, day.date);
         if(!day_id) throw new DayDoesntExist("");      
         try {
-            this.#db.transaction((day_id, day) => {this._update_db_transaction(day_id, day)})(day_id, day);
+            return this.#db.transaction((day_id, day) => this._update_db_transaction(day_id, day))(day_id, day);
         } catch(err) {
             if(err instanceof ClientNotUpToDate)
                 throw err;
@@ -223,10 +223,12 @@ export class JournalDAO {
         const timestamp = this.#db.prepare("SELECT update_timestamp FROM day WHERE id = ?")
             .get(day_id).update_timestamp;
         if(timestamp != day.update_timestamp) throw new ClientNotUpToDate("");
+        const new_timestamp = Date.now();
         this.#db.prepare("UPDATE day SET update_timestamp = ? WHERE id = ?")
-            .run(Date.now(), day_id);
+            .run(new_timestamp, day_id);
         this._update_activities(day_id, day);
         this._update_mood_fields(day_id, day);
+        return new_timestamp;
     }
 
     _update_activities(day_id, day) {

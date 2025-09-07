@@ -12,8 +12,11 @@ import { Activity, HoursAndMinutes } from "../../shared/data/schedule";
 const user = new User({username: "user", hash: "hash", name: "name"});
 const invalid_user = new User({username: "invalid_user"});
 
+const default_timestamp = 500;
+
 let existing_day = new Day();
 existing_day.schedule.add_activity(new Activity());
+existing_day.update_timestamp = default_timestamp;
 let existing_day_json = existing_day.prepare_json_obj();
 
 const new_date = new Date();
@@ -21,6 +24,7 @@ new_date.setDate(1);
 new_date.setMonth(1);
 new_date.setFullYear(1995);
 const new_day = new Day(new_date);
+new_day.update_timestamp = default_timestamp;
 const new_day_json = new_day.prepare_json_obj();
 
 const journal_service = new JournalService(new Database());
@@ -28,8 +32,10 @@ let journal_dao;
 
 
 beforeEach(() => {
+    jest.spyOn(Date, "now").mockImplementation(() => default_timestamp);
     existing_day = new Day();
     existing_day.schedule.add_activity(new Activity());
+    existing_day.update_timestamp = default_timestamp;
     existing_day_json = existing_day.prepare_json_obj();
     const db = new Database(":memory:");
     const db_auth_script = readFileSync("./server/db_scripts/auth_setup.sql", "utf8");

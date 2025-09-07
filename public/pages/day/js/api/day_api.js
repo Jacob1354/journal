@@ -1,4 +1,5 @@
 import { validate_type } from "../../../../../shared/clean_code/clean_code_enforcement.js";
+import { ClientNotUpToDate } from "../../../../../shared/const.js";
 import { Day } from "../../../../../shared/data/day.js";
 
 export const FETCH_TIMEOUT = 5000;
@@ -28,15 +29,17 @@ export async function post_day(day) {
         signal: AbortSignal.timeout(FETCH_TIMEOUT)
     }
     return fetch(url, info)
-        .then((res) => {
+        .then(async(res) => {
             if(res.status == 401)
-                throw new InvalidAuth("Couldn't save day");
+                throw new InvalidAuth("Invalid auth");
+            else if(res.status == 428)
+                throw new ClientNotUpToDate("Not up to date");
             else if(res.status < 200 || res.status > 299)
                 throw new CouldntSaveData("Couldn't save day");
-            return Promise.resolve({status: res.status});
+            return Promise.resolve({status: res.status, new_timestamp: (await res.json()).new_timestamp});
         })
         .catch((err) => {
-            if(err instanceof InvalidAuth || err instanceof CouldntSaveData)
+            if(err instanceof InvalidAuth || err instanceof CouldntSaveData || err instanceof ClientNotUpToDate)
                 throw err;
             else
                 throw new CouldntSaveData("Couldn't save day");

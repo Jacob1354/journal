@@ -50,6 +50,8 @@ export class JournalDAO {
         try {
             this.#db.transaction((day_id, day) => {this._update_db_transaction(day_id, day)})(day_id, day);
         } catch(err) {
+            if(err instanceof ClientNotUpToDate)
+                throw err;
             throw new CouldntUpdateDay(err);
         }
     }
@@ -218,6 +220,9 @@ export class JournalDAO {
     _update_db_transaction(day_id, day) {
         validate_type(day_id, "number");
         validate_type(day, Day);
+        const timestamp = this.#db.prepare("SELECT update_timestamp FROM day WHERE id = ?")
+            .get(day_id).update_timestamp;
+        if(timestamp != day.update_timestamp) throw new ClientNotUpToDate("");
         this.#db.prepare("UPDATE day SET update_timestamp = ? WHERE id = ?")
             .run(Date.now(), day_id);
         this._update_activities(day_id, day);

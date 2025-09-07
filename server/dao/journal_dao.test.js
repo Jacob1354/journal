@@ -149,6 +149,8 @@ describe("JournalDAO", () => {
 
     describe("update_day", () => {
         test("Success", () => {
+            const new_timestamp = existing_day.update_timestamp + 1;
+            jest.spyOn(Date, "now").mockImplementation(() => new_timestamp);
             existing_day.schedule.update_activity_content(0, existing_day.schedule.get_activities()[0].content + "now different");
             const new_activity = new Activity();
             new_activity.title = "New activity";
@@ -159,6 +161,7 @@ describe("JournalDAO", () => {
             journal_dao.update_day(user, existing_day);
             expect(journal_dao.get_day(user, existing_day.date).prepare_json_obj())
                 .toEqual(existing_day.prepare_json_obj());
+            Date.now.mockRestore();
         });
         test("DayDoesntExist", () => {
             expect(() => journal_dao.update_day(user, new_day)).toThrow(DayDoesntExist);

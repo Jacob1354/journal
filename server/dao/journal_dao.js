@@ -153,8 +153,8 @@ export class JournalDAO {
     _create_day_row(user, day) {
         validate_type(user, User);
         validate_type(day, Day);
-        this.#db.prepare("INSERT INTO day (username, date) VALUES (?, ?)")
-            .run(user.username, String(day.date));
+        this.#db.prepare("INSERT INTO day (username, date, update_timestamp) VALUES (?, ?, ?)")
+            .run(user.username, String(day.date), Date.now());
     }
 
     _create_activities(day_id, day) {

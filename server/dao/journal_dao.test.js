@@ -1,5 +1,5 @@
 import Database from "better-sqlite3";
-import { ClientNotUpToDate, CouldntUpdateDay, DayAlreadyExists, DayDoesntExist, JournalDAO } from "./journal_dao";
+import { CouldntUpdateDay, DayAlreadyExists, DayDoesntExist, JournalDAO } from "./journal_dao";
 import { AuthDAO } from "./auth_dao";
 import {readFileSync} from 'fs';
 import { InvalidUser, User } from "../../shared/data/user";
@@ -7,6 +7,7 @@ import { Day } from "../../shared/data/day";
 import { Activity, HoursAndMinutes, Schedule } from "../../shared/data/schedule";
 import { FractionField, NumberField, SliderField, TextField } from "../../shared/data/mood_field";
 import { jest } from "@jest/globals";
+import { ClientNotUpToDate } from "../../shared/const";
 
 const nb_field = new NumberField("nb_field", 10);
 const text_field1 = new TextField("text_field1", "text");

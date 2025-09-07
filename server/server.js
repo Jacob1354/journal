@@ -8,7 +8,7 @@ import { InvalidPassword, UserNotFound } from './services/auth_sevice.js';
 import path from 'node:path';
 import { Day } from '../shared/data/day.js';
 import { Cookie } from '../shared/data/cookie.js';
-import { ClientNotUpToDate } from './dao/journal_dao.js';
+import { ClientNotUpToDate } from '../shared/const.js';
 const __dirname = import.meta.dirname;
 
 

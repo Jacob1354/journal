@@ -4,6 +4,7 @@ import { Day } from "../../shared/data/day.js";
 import { InvalidUser, User } from "../../shared/data/user.js";
 import { FractionField, NumberField, SliderField, TextField } from "../../shared/data/mood_field.js";
 import { Activity, HoursAndMinutes } from "../../shared/data/schedule.js";
+import { ClientNotUpToDate } from "../../shared/const.js";
 
 export class JournalDAO {
     #db;
@@ -291,9 +292,4 @@ export class CouldntCreateDay extends Error {
     }
 }
 
-export class ClientNotUpToDate extends Error {
-    constructor(msg) {
-        super(msg);
-        this.name = "ClientNotUpToDate";
-    }
-}
+

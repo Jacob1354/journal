@@ -3,11 +3,12 @@ import { JournalService } from "./journal_service";
 import { Day } from "../../shared/data/day";
 import { InvalidUser, User } from "../../shared/data/user";
 import { InternalServerError } from "../server_const";
-import { JournalDAO, CouldntUpdateDay, ClientNotUpToDate } from "../dao/journal_dao";
+import { JournalDAO, CouldntUpdateDay } from "../dao/journal_dao";
 import { jest } from "@jest/globals";
 import { AuthDAO } from "../dao/auth_dao";
 import { readFileSync } from 'fs';
 import { Activity, HoursAndMinutes } from "../../shared/data/schedule";
+import { ClientNotUpToDate } from "../../shared/const";
 
 const user = new User({username: "user", hash: "hash", name: "name"});
 const invalid_user = new User({username: "invalid_user"});

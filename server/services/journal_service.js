@@ -1,9 +1,10 @@
 import Database from "better-sqlite3";
 import { validate_type } from "../../shared/clean_code/clean_code_enforcement.js";
-import { ClientNotUpToDate, CouldntUpdateDay, JournalDAO } from "../dao/journal_dao.js";
+import { CouldntUpdateDay, JournalDAO } from "../dao/journal_dao.js";
 import { InternalServerError } from "../server_const.js";
 import { Day } from "../../shared/data/day.js";
 import { InvalidUser } from "../../shared/data/user.js";
+import { ClientNotUpToDate } from "../../shared/const.js";
 
 export class JournalService {
     #journal_dao;

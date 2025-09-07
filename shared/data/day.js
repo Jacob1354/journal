@@ -4,6 +4,10 @@ import { NumberField, FractionField, TextField, SliderField } from "./mood_field
 import { Schedule } from "./schedule.js";
 
 export class Day {
+    update_timestamp;
+    date;
+    schedule;
+    mood_fields;
     constructor(date = new Date()) {
         validate_type(date, Date);
         this.date = new Date(date);
@@ -21,6 +25,7 @@ export class Day {
         copy.date = other.date;
         copy.schedule = Schedule.from(other.schedule);
         copy.mood_fields = [...other.mood_fields];
+        this.update_timestamp = other.update_timestamp;
         return copy;
     }
 
@@ -31,6 +36,7 @@ export class Day {
         });
         return {
             date: this.date,
+            update_timestamp: this.update_timestamp,
             schedule: this.schedule.prepare_json_obj(),
             mood_fields: parsed_mood_fields
         };
@@ -42,6 +48,7 @@ export class Day {
 
     static from_json_obj(obj) {
         const day = new Day(new Date(obj.date));
+        day.update_timestamp = obj.update_timestamp;
         day.schedule = Schedule.from_json_obj(obj.schedule);
         day.mood_fields = [];
         obj.mood_fields.forEach(json_field => {

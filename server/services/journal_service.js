@@ -1,6 +1,6 @@
 import Database from "better-sqlite3";
 import { validate_type } from "../../shared/clean_code/clean_code_enforcement.js";
-import { CouldntUpdateDay, JournalDAO } from "../dao/journal_dao.js";
+import { ClientNotUpToDate, CouldntUpdateDay, JournalDAO } from "../dao/journal_dao.js";
 import { InternalServerError } from "../server_const.js";
 import { Day } from "../../shared/data/day.js";
 import { InvalidUser } from "../../shared/data/user.js";
@@ -35,8 +35,10 @@ export class JournalService {
 
     update_day(user, day) {
         try {
-            this.#journal_dao.update_day(user, day);
+            return this.#journal_dao.update_day(user, day);
         } catch(err) {
+            if(err instanceof ClientNotUpToDate)
+                throw err;
             throw new CouldntUpdateDay(err);
         }
     }

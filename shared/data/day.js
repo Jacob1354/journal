@@ -25,7 +25,7 @@ export class Day {
         copy.date = other.date;
         copy.schedule = Schedule.from(other.schedule);
         copy.mood_fields = [...other.mood_fields];
-        this.update_timestamp = other.update_timestamp;
+        copy.update_timestamp = other.update_timestamp;
         return copy;
     }
 

@@ -23,6 +23,7 @@ export class DayController {
     }
 
     async signout() {
+        //TODO avoid depending on close() working properly
         this.#dom_day.close()
             .then(() => post_signout())
             .then(() => window.location.href = "/signin");

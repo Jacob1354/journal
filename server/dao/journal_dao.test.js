@@ -33,8 +33,11 @@ existing_day.update_timestamp = existing_day_update_timestamp;
 const new_date = new Date();
 const new_day = new Day(new_date);
 const new_activity = new Activity();
+const new_day_update_timestamp = 300;
 new_day.schedule.add_activity(new_activity);
 new_day.mood_fields = [...fields];
+new_day.update_timestamp = new_day_update_timestamp;
+
 
 const db = new Database(":memory:");
 const journal_dao = new JournalDAO(db);
@@ -77,6 +80,7 @@ beforeEach(() => {
     existing_day.update_timestamp = existing_day_update_timestamp;
     existing_day.schedule.add_activity(existing_activity);
     existing_day.mood_fields = [...fields];
+    new_day.update_timestamp = new_day_update_timestamp;
 });
 
 afterEach(() => {
@@ -137,8 +141,10 @@ describe("JournalDAO", () => {
 
     describe("create_day", () => {
         test("success", () => {
+            jest.spyOn(Date, "now").mockImplementation(() => new_day.update_timestamp);
             journal_dao.create_day(user, new_day);
             expect(journal_dao.get_day(user, new_day.date)).toEqual(new_day);
+            Date.now.mockRestore();
         });
         test("InvalidUser", () => {
             expect(() => journal_dao.create_day(invalid_user, new_day)).toThrow(InvalidUser);

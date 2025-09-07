@@ -218,6 +218,8 @@ export class JournalDAO {
     _update_db_transaction(day_id, day) {
         validate_type(day_id, "number");
         validate_type(day, Day);
+        this.#db.prepare("UPDATE day SET update_timestamp = ? WHERE id = ?")
+            .run(Date.now(), day_id);
         this._update_activities(day_id, day);
         this._update_mood_fields(day_id, day);
     }

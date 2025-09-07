@@ -1,5 +1,5 @@
 import Database from "better-sqlite3";
-import { CouldntUpdateDay, DayAlreadyExists, DayDoesntExist, JournalDAO } from "./journal_dao";
+import { ClientNotUpToDate, CouldntUpdateDay, DayAlreadyExists, DayDoesntExist, JournalDAO } from "./journal_dao";
 import { AuthDAO } from "./auth_dao";
 import {readFileSync} from 'fs';
 import { InvalidUser, User } from "../../shared/data/user";
@@ -26,6 +26,8 @@ existing_day.mood_fields = [...fields];
 const existing_empty_day = new Day();
 existing_empty_day.date.setFullYear(1990);
 existing_empty_day.mood_fields = [];
+const existing_day_update_timestamp = 500;
+existing_day.update_timestamp = existing_day_update_timestamp;
 
 const new_date = new Date();
 const new_day = new Day(new_date);
@@ -48,8 +50,8 @@ beforeAll(() => {
 });
 
 beforeEach(() => {
-    db.prepare("INSERT INTO day (username, date) VALUES (?, ?)")
-    .run(user.username, String(existing_day.date));
+    db.prepare("INSERT INTO day (username, date, update_timestamp) VALUES (?, ?, ?)")
+    .run(user.username, String(existing_day.date), existing_day_update_timestamp);
     const day_id = db.prepare("SELECT id FROM day WHERE username = ? AND date = ?")
         .get(user.username, String(existing_day.date)).id;
     db.prepare("INSERT INTO activity(day_id, title, content, start_time,end_time) VALUES (?, ?, ?, ?, ?)")
@@ -71,6 +73,7 @@ beforeEach(() => {
         .run(user.username, String(existing_empty_day.date));
 
     existing_day = new Day(existing_date);
+    existing_day.update_timestamp = existing_day_update_timestamp;
     existing_day.schedule.add_activity(existing_activity);
     existing_day.mood_fields = [...fields];
 });
@@ -169,6 +172,10 @@ describe("JournalDAO", () => {
             expect(() => {journal_dao.update_day(user, existing_day)}).toThrow(CouldntUpdateDay);
             
             journal_dao._update_db_transaction = og;
+        });
+        test("ClientNotUpToDate", () => {
+            existing_day.update_timestamp = existing_day_update_timestamp + 1;
+            expect(() => journal_dao.update_day(user, existing_day)).toThrow(ClientNotUpToDate);
         });
     })
 })

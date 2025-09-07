@@ -279,3 +279,10 @@ export class CouldntCreateDay extends Error {
         this.name = "CouldntCreateDay";
     }
 }
+
+export class ClientNotUpToDate extends Error {
+    constructor(msg) {
+        super(msg);
+        this.name = "ClientNotUpToDate";
+    }
+}

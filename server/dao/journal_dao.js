@@ -31,6 +31,8 @@ export class JournalDAO {
         const day_id = this._get_day_id(user, date); 
         if(day_id != null) {
             const day = new Day(date);
+            day.update_timestamp = this.#db.prepare("SELECT update_timestamp FROM day WHERE id = ?")
+                .get(day_id).update_timestamp;
             day.mood_fields = this._get_mood_fields(day_id);
             day.schedule.add_activities(this._get_activities(day_id));
             return day;

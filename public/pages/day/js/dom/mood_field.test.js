@@ -2,12 +2,16 @@
  * @jest-environment jsdom
  */
 
+import { jest } from "@jest/globals";
 import { validate_type } from "../../../../../shared/clean_code/clean_code_enforcement";
 import { FractionField, NumberField, SliderField, TextField } from "../../../../../shared/data/mood_field";
-import { MOOD_FIELD_CLASS, MOOD_FIELD_FRACTION_CLASS, MOOD_FIELD_INPUT_CLASS, MOOD_FIELD_NB_CLASS, MOOD_FIELD_SLIDER_CLASS, MOOD_FIELD_TEXT_CLASS, MOOD_FIELD_TEXT_NAME, MOOD_FIELDS_WRAPPER_ID } from "./constants";
+import { EVENT_UPDATE_MOODFIELD, MOOD_FIELD_CLASS, MOOD_FIELD_FRACTION_CLASS, MOOD_FIELD_INPUT_CLASS, MOOD_FIELD_NB_CLASS, MOOD_FIELD_SLIDER_CLASS, MOOD_FIELD_TEXT_CLASS, MOOD_FIELD_TEXT_NAME, MOOD_FIELDS_WRAPPER_ID } from "./constants";
 import { DOMMoodField } from "./mood_field";
 
 let nb_field, fraction_field, slider_field, text_field, mood_fields, dom_mood_field;
+const input_event = new Event("input", {bubbles: true});
+const update_moodfield_event = new Event(EVENT_UPDATE_MOODFIELD, {bubbles: true});
+let dispatch_spy = jest.spyOn(EventTarget.prototype, "dispatchEvent");
 
 beforeAll(() => {
     nb_field = new NumberField("nb_field");
@@ -15,7 +19,11 @@ beforeAll(() => {
     slider_field = new SliderField("slider_field");
     text_field = new TextField("text_field");
     mood_fields = [nb_field, fraction_field, slider_field, text_field, nb_field];
-    dom_mood_field = new DOMMoodField({update: (event) => {}});
+    dom_mood_field = new DOMMoodField();
+})
+
+beforeEach(() => {
+     dispatch_spy.mockClear();
 })
 
 test("create_mood_fields", () => {
@@ -48,13 +56,15 @@ function test_field_basics(field_el, field_data, field_type) {
     expect(field_el.children[0].innerText).toBe(field_data.get_field_name());
     expect(field_el.children[1].nodeName).toBe("DIV");
     expect(field_el.children[1].classList.contains("mood_field_" + field_type)).toBe(true);
-    expect(field_el.querySelector("." + MOOD_FIELD_INPUT_CLASS)).toBeDefined;
+    expect(field_el.querySelector("." + MOOD_FIELD_INPUT_CLASS)).toBeDefined();
 }
 
 test("_create_number_field", () => {
     const nb_field_el = dom_mood_field._create_number_field(nb_field);
 
     test_field_basics(nb_field_el, nb_field, "nb");
+    nb_field_el.querySelector('.' + MOOD_FIELD_INPUT_CLASS).dispatchEvent(input_event);
+    expect(dispatch_spy.mock.calls[1][0].type).toBe(EVENT_UPDATE_MOODFIELD);
     expect(nb_field_el.children[1].children[0].nodeName).toBe("INPUT");
     expect(nb_field_el.children[1].children[0].type).toBe("number");
     expect(nb_field_el.children[1].children[0].value).toBe(String(nb_field.get_data()));
@@ -62,8 +72,10 @@ test("_create_number_field", () => {
 
 test("_create_text_field", () => {
     const text_field_el = dom_mood_field._create_text_field(text_field);
-    test_field_basics(text_field_el, text_field, "text");
 
+    test_field_basics(text_field_el, text_field, "text");
+    text_field_el.querySelector('.' + MOOD_FIELD_INPUT_CLASS).dispatchEvent(input_event);
+    expect(dispatch_spy.mock.calls[1][0].type).toBe(EVENT_UPDATE_MOODFIELD);
     expect(text_field_el.children[1].children[0].nodeName).toBe("TEXTAREA");
     expect(text_field_el.children[1].children[0].name).toBe(MOOD_FIELD_TEXT_NAME);
     expect(text_field_el.children[1].children[0].value).toBe(text_field.get_data());
@@ -71,8 +83,10 @@ test("_create_text_field", () => {
 
 test("_create_fraction_field", () => {
     const fraction_field_el = dom_mood_field._create_fraction_field(fraction_field);
+    
     test_field_basics(fraction_field_el, fraction_field, "fraction");
-
+    fraction_field_el.querySelector('.' + MOOD_FIELD_INPUT_CLASS).dispatchEvent(input_event);
+    expect(dispatch_spy.mock.calls[1][0].type).toBe(EVENT_UPDATE_MOODFIELD);
     expect(fraction_field_el.children[1].children[0].nodeName).toBe("INPUT");
     expect(fraction_field_el.children[1].children[0].type).toBe("number");
     expect(fraction_field_el.children[1].children[0].value).toBe(String(nb_field.get_data()));
@@ -84,7 +98,10 @@ test("create_slider_field", () => {
     const slider_field_el = dom_mood_field._create_slider_field(slider_field);
 
     test_field_basics(slider_field_el, slider_field, "slider");
+    slider_field_el.querySelector('.' + MOOD_FIELD_INPUT_CLASS).dispatchEvent(input_event);
+    expect(dispatch_spy.mock.calls[1][0].type).toBe(EVENT_UPDATE_MOODFIELD);
     expect(slider_field_el.children[1].children[0].nodeName).toBe("INPUT");
     expect(slider_field_el.children[1].children[0].type).toBe("range");
     expect(slider_field_el.children[1].children[0].value).toBe(String(slider_field.get_data()));
+
 }); 

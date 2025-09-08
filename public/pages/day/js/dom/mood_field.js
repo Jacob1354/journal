@@ -1,13 +1,11 @@
 import { validate_array_type, validate_integer, validate_type } from "../../../../../shared/clean_code/clean_code_enforcement.js";
 import { AbstractMoodField, FractionField, NumberField, SliderField, TextField } from "../../../../../shared/data/mood_field.js";
-import { MOOD_FIELD_CLASS, MOOD_FIELD_FRACTION_CLASS, MOOD_FIELD_INPUT_CLASS, MOOD_FIELD_NB_CLASS, MOOD_FIELD_SLIDER_CLASS, MOOD_FIELD_TEXT_CLASS, MOOD_FIELD_TEXT_NAME, MOOD_FIELDS_WRAPPER_ID } from "./constants.js";
+import { EVENT_UPDATE_MOODFIELD, MOOD_FIELD_CLASS, MOOD_FIELD_FRACTION_CLASS, MOOD_FIELD_INPUT_CLASS, MOOD_FIELD_NB_CLASS, MOOD_FIELD_SLIDER_CLASS, MOOD_FIELD_TEXT_CLASS, MOOD_FIELD_TEXT_NAME, MOOD_FIELDS_WRAPPER_ID } from "./constants.js";
 import { replace_children_of } from "./dom_utils.js";
 
 export class DOMMoodField {
-    #update;
 
-    constructor( {update} ) {
-        this.#update = update;
+    constructor() {
     }
 
     render(mood_fields) {
@@ -53,9 +51,10 @@ export class DOMMoodField {
         const nb_field = document.createElement("div");
         nb_field.classList.add(MOOD_FIELD_NB_CLASS);
         const input = document.createElement("input");
+        input.classList.add(MOOD_FIELD_INPUT_CLASS);
         input.type = "number";
         input.value = field.get_data();
-        input.addEventListener("input", this.#update);
+        input.addEventListener("input", () => input.dispatchEvent(new Event(EVENT_UPDATE_MOODFIELD)));
         nb_field.appendChild(input);
         mood_field_wrapper.appendChild(nb_field);
         
@@ -72,7 +71,7 @@ export class DOMMoodField {
         input.classList.add(MOOD_FIELD_INPUT_CLASS);
         input.name = MOOD_FIELD_TEXT_NAME;
         input.value = field.get_data();
-        input.addEventListener("input", this.#update);
+        input.addEventListener("input", () => input.dispatchEvent(new Event(EVENT_UPDATE_MOODFIELD)));
         text_field.appendChild(input);
         mood_field_wrapper.appendChild(text_field);
         
@@ -90,7 +89,7 @@ export class DOMMoodField {
         input.type = "number";
 
         input.value = field.get_data();
-        input.addEventListener("input", this.#update);
+        input.addEventListener("input", () => input.dispatchEvent(new Event(EVENT_UPDATE_MOODFIELD)));
         const denominator = document.createElement("p");
         denominator.innerText = "/" + String(field.get_denominator());
         fraction_field.appendChild(input);
@@ -110,7 +109,7 @@ export class DOMMoodField {
         input.classList.add(MOOD_FIELD_INPUT_CLASS);
         input.type = "range";
         input.value = field.get_data();
-        input.addEventListener("input", this.#update);
+        input.addEventListener("input", () => input.dispatchEvent(new Event(EVENT_UPDATE_MOODFIELD)));
         nb_field.appendChild(input);
         mood_field_wrapper.appendChild(nb_field);
 

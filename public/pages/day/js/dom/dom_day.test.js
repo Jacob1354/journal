@@ -54,8 +54,8 @@ test("_remove_activity", () => {
     });
 
     dom_day._remove_activity(update_event);
-    expect(dom_day._get_day_copy_for_test().schedule.get_activities().length).toBe(1);
-    expect(dom_day._get_day_copy_for_test().schedule.get_activities()[activity_index].title).toBe("A2");
+    expect(dom_day._get_day().schedule.get_activities().length).toBe(1);
+    expect(dom_day._get_day().schedule.get_activities()[activity_index].title).toBe("A2");
 });
 
 test("_update_activity_title", () => {
@@ -69,11 +69,11 @@ test("_update_activity_title", () => {
         value: title
     });
 
-    expect(dom_day._get_day_copy_for_test().schedule.get_activities()[activity_index].title).not.toBe(new_title);
+    expect(dom_day._get_day().schedule.get_activities()[activity_index].title).not.toBe(new_title);
     
     title.value = new_title;
     dom_day._update_activity_title(update_event);
-    expect(dom_day._get_day_copy_for_test().schedule.get_activities()[activity_index].title).toBe(new_title);
+    expect(dom_day._get_day().schedule.get_activities()[activity_index].title).toBe(new_title);
 });
 
 test("_update_activity_content", () => {
@@ -87,11 +87,11 @@ test("_update_activity_content", () => {
         value: content
     });
 
-    expect(dom_day._get_day_copy_for_test().schedule.get_activities()[activity_index].content).not.toBe(new_content);
+    expect(dom_day._get_day().schedule.get_activities()[activity_index].content).not.toBe(new_content);
     
     content.value = new_content;
     dom_day._update_activity_content(update_event);
-    expect(dom_day._get_day_copy_for_test().schedule.get_activities()[activity_index].content).toBe(new_content);
+    expect(dom_day._get_day().schedule.get_activities()[activity_index].content).toBe(new_content);
 });
 
 test("_update_activity_start_time", () => {
@@ -106,7 +106,7 @@ test("_update_activity_start_time", () => {
         value: start_time_el
     });
 
-    let current_start_time_str = String(dom_day._get_day_copy_for_test().schedule
+    let current_start_time_str = String(dom_day._get_day().schedule
                                     .get_activities()[activity_index].start_time);
 
     expect(current_start_time_str).not.toBe(new_start_time);
@@ -114,7 +114,7 @@ test("_update_activity_start_time", () => {
     start_time_el.value = new_start_time;
     dom_day._update_activity_start_time(update_event);
 
-    current_start_time_str = String(dom_day._get_day_copy_for_test().schedule
+    current_start_time_str = String(dom_day._get_day().schedule
                                     .get_activities()[activity_index].start_time);
     expect(current_start_time_str).toBe(new_start_time);
 });
@@ -130,7 +130,7 @@ test("_update_activity_end_time", () => {
         value: end_time_el
     });
 
-    let current_end_time_str = String(dom_day._get_day_copy_for_test().schedule
+    let current_end_time_str = String(dom_day._get_day().schedule
                                     .get_activities()[activity_index].end_time);
 
     expect(current_end_time_str).not.toBe(new_end_time);
@@ -138,7 +138,7 @@ test("_update_activity_end_time", () => {
     end_time_el.value = new_end_time;
     dom_day._update_activity_end_time(update_event);
 
-    current_end_time_str = String(dom_day._get_day_copy_for_test().schedule
+    current_end_time_str = String(dom_day._get_day().schedule
                                     .get_activities()[activity_index].end_time);
     expect(current_end_time_str).toBe(new_end_time);
 });
@@ -152,9 +152,9 @@ test("_update_mood_field", () => {
     dom_day.render_mood_fields();
     const mood_field = document.getElementById(MOOD_FIELDS_WRAPPER_ID).querySelector('[index="' + index + '"]');
     const input_field = mood_field.querySelector("." + MOOD_FIELD_INPUT_CLASS);
-    expect(dom_day._get_day_copy_for_test().mood_fields[index].get_data()).not.toBe(new_input);
+    expect(dom_day._get_day().mood_fields[index].get_data()).not.toBe(new_input);
     
     input_field.value = new_input;
     input_field.dispatchEvent(new Event("input", {bubbles: true}));
-    expect(dom_day._get_day_copy_for_test().mood_fields[index].get_data()).toBe(new_input);
+    expect(dom_day._get_day().mood_fields[index].get_data()).toBe(new_input);
 });

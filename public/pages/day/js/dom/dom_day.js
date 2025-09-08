@@ -2,6 +2,7 @@ import { validate_type } from "../../../../../shared/clean_code/clean_code_enfor
 import { Day } from "../../../../../shared/data/day.js";
 import { Activity } from "../../../../../shared/data/schedule.js";
 import { post_day } from "../api/day_api.js";
+import { DayAutoSaver } from "../day_autosaver.js";
 import { MOOD_FIELD_CLASS, ACTIVITY_CLASS, ACTIVITY_ADDER_BTN_ID, DAY_NAV_DATE_ID, DAY_NAMES, MONTH_NAMES } from "./constants.js";
 import { error_pop_up, get_parent_attribute } from "./dom_utils.js";
 import { DOMMoodField } from "./mood_field.js";
@@ -11,8 +12,7 @@ export class DomDay {
     #day;
     #dom_moodfields;
     #dom_schedule;
-    #SAVE_INTERVAL = 30000;
-    #timer_id;
+    #auto_saver;
     constructor(day = new Day()) {
         validate_type(day, Day);
         this.#day = Day.from(day);
@@ -26,21 +26,9 @@ export class DomDay {
             update_end_time : (event) => this._update_activity_end_time(event),
             remove_activity : (event) => this._remove_activity(event)
         });
-        this.start();
-        this._init_listeners();
-        this._render_date();
-    }
-
-
-    _init_listeners() {
-        document.onvisibilitychange = async () => {
-            if (document.hidden) {
-                await this.stop();
-            } else {
-                this.start();
-            }
-        };
+        this.#auto_saver = new DayAutoSaver(() => this._get_day());
         document.getElementById(ACTIVITY_ADDER_BTN_ID).addEventListener("click", () => this.add_activity());
+        this._render_date();
     }
 
     _render_date() {
@@ -71,39 +59,15 @@ export class DomDay {
     render_mood_fields() {
         this.#dom_moodfields.render(this.#day.mood_fields);
     }
-    
-    start() {
-        this.#timer_id = setInterval(() => {this._save();},  this.#SAVE_INTERVAL);
-    }
-
-    async stop() {
-        clearInterval(this.#timer_id);
-        navigator.sendBeacon(
-            "/day/" + this.#day.date.getDate() + "-" + this.#day.date.getMonth() + "-" + this.#day.date.getFullYear(),
-            new Blob([JSON.stringify(this.#day.prepare_json_obj())], {type: "application/json"})
-        );
-    }
-
-    async close() {
-        clearInterval(this.#timer_id);
-        await post_day(this.#day);
-        document.onvisibilitychange = () => {};
-    }
 
     get_date() {
         return new Date(this.#day.date);
     }
-    
-    //TODO properly handle the response/error
-    async _save() {
-        post_day(this.#day)
-            .then((res) => {
-                console.log("status :" + res.status);
-            })
-            .catch((err) => {
-                console.log("Couldn't save day : " + err);
-            })
+
+    async close() {
+        this.#auto_saver.close();
     }
+
     
     _update_activity_title(event) {
         validate_type(event, Event);
@@ -171,7 +135,7 @@ export class DomDay {
     }
     
 
-    _get_day_copy_for_test() {
+    _get_day() {
         return Day.from(this.#day);
     }
 

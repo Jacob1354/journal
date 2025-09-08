@@ -1,6 +1,6 @@
 import { validate_array_type, validate_integer, validate_type } from "../../../../../shared/clean_code/clean_code_enforcement.js";
 import { Activity } from "../../../../../shared/data/schedule.js";
-import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_CONTENT_WRAPPER_CLASS, ACTIVITIY_ENDTIME_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_STARTTIME_CLASS, ACTIVITIY_TIMEINTERVAL_CLASS, ACTIVITIY_TITLE_CLASS, ACTIVITIES_ID, ACTIVITY_CLASS } from "./constants.js";
+import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_CONTENT_WRAPPER_CLASS, ACTIVITIY_ENDTIME_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_STARTTIME_CLASS, ACTIVITIY_TIMEINTERVAL_CLASS, ACTIVITIY_TITLE_CLASS, ACTIVITIES_ID, ACTIVITY_CLASS, EVENT_UPDATE_ACTIVITY_TITLE, EVENT_UPDATE_ACTIVITY_STARTTIME, EVENT_UPDATE_ACTIVITY_ENDTIME, EVENT_REMOVE_ACTIVITY, EVENT_UPDATE_ACTIVITY_CONTENT } from "./constants.js";
 
 export const removeBtnHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="3 6 5 6 21 6"></polyline>
@@ -17,19 +17,7 @@ export class DOMSchedule {
     #update_end_time;
     #remove_activity;
     
-    constructor( {
-        update_title,
-        update_content,
-        update_start_time,
-        update_end_time,
-        remove_activity
-    }
-    ) {
-        this.#update_title = update_title;
-        this.#update_content = update_content;
-        this.#update_start_time = update_start_time;
-        this.#update_end_time = update_end_time;
-        this.#remove_activity = remove_activity;
+    constructor() {
     }
 
     render(activities) {
@@ -68,7 +56,9 @@ export class DOMSchedule {
         const title = document.createElement("h3");
         title.innerText = activity.title;
         title.classList.add(ACTIVITIY_TITLE_CLASS);
-        title.addEventListener("blur", this.#update_title);
+        title.addEventListener("input", () => 
+            title.dispatchEvent(new Event(EVENT_UPDATE_ACTIVITY_TITLE, {bubbles: true}))
+        );
     
         return title;
     }
@@ -81,7 +71,9 @@ export class DOMSchedule {
         start_time.classList.add(ACTIVITIY_STARTTIME_CLASS);
         start_time.type = "time";
         start_time.value = String(activity.start_time);
-        start_time.addEventListener("blur", this.#update_start_time);
+        start_time.addEventListener("input", () => 
+            start_time.dispatchEvent(new Event(EVENT_UPDATE_ACTIVITY_STARTTIME, {bubbles: true}))
+        );
     
         const to = document.createElement("p");
         to.innerText = "to";
@@ -90,7 +82,9 @@ export class DOMSchedule {
         end_time.classList.add(ACTIVITIY_ENDTIME_CLASS);
         end_time.type = "time";
         end_time.value = String(activity.end_time);
-        end_time.addEventListener("blur", this.#update_end_time);
+        end_time.addEventListener("input", () => 
+            end_time.dispatchEvent(new Event(EVENT_UPDATE_ACTIVITY_ENDTIME, {bubbles: true}))
+        );
         
         interval.appendChild(start_time);
         interval.appendChild(to);
@@ -103,7 +97,9 @@ export class DOMSchedule {
         const btn = document.createElement("button");
         btn.classList.add(ACTIVITIY_REMOVE_BTN_CLASS);
         btn.innerHTML = removeBtnHTML;
-        btn.addEventListener("click", this.#remove_activity);
+        btn.addEventListener("click", () => 
+            btn.dispatchEvent(new Event(EVENT_REMOVE_ACTIVITY, {bubbles: true}))
+        );
         return btn;
     }
     
@@ -115,7 +111,9 @@ export class DOMSchedule {
         content.classList.add(ACTIVITIY_CONTENT_CLASS);
         content.type = "text";
         content.value = activity.content;
-        content.addEventListener("blur", this.#update_content);
+        content.addEventListener("input", () => 
+            content.dispatchEvent(new Event(EVENT_UPDATE_ACTIVITY_CONTENT, {bubbles: true}))
+        );
     
         wrapper.appendChild(content);
         return wrapper;

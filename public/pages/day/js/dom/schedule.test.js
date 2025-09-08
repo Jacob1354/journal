@@ -2,11 +2,14 @@
  * @jest-environment jsdom
  */
 
+import { jest } from "@jest/globals";
 import { Activity, HoursAndMinutes, Schedule } from "../../../../../shared/data/schedule.js"
-import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_CONTENT_WRAPPER_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_TIMEINTERVAL_CLASS, ACTIVITIY_TITLE_CLASS, ACTIVITIES_ID, ACTIVITY_CLASS } from "./constants.js";
+import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_CONTENT_WRAPPER_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_TIMEINTERVAL_CLASS, ACTIVITIY_TITLE_CLASS, ACTIVITIES_ID, ACTIVITY_CLASS, ACTIVITIY_STARTTIME_CLASS, ACTIVITIY_ENDTIME_CLASS, EVENT_UPDATE_ACTIVITY_TITLE, EVENT_UPDATE_ACTIVITY_CONTENT, EVENT_UPDATE_ACTIVITY_STARTTIME, EVENT_UPDATE_ACTIVITY_ENDTIME, EVENT_REMOVE_ACTIVITY } from "./constants.js";
 import { DOMSchedule } from "./schedule.js";
 
 let a1, a2, a3, activities, schedule, dom_schedule;
+let dispatch_spy = jest.spyOn(EventTarget.prototype, "dispatchEvent");
+const input_event = new Event("input", {bubbles: true});
 
 beforeEach(() => {
     a1 = new Activity(
@@ -25,8 +28,8 @@ beforeEach(() => {
                             "A2", 
                             "a2");
     activities = [a1, a2, a3];
-    schedule = new Schedule(activities);
-    dom_schedule = new DOMSchedule(new Date(), schedule);
+    dom_schedule = new DOMSchedule();
+    dispatch_spy.mockClear();
 });
 
 test("create_scheduled_activities", () => {
@@ -58,6 +61,8 @@ test("create_activity_title", () => {
     expect(title.nodeName).toBe("H3");
     expect(title.classList.contains(ACTIVITIY_TITLE_CLASS)).toBe(true);
     expect(title.innerText).toBe(a1.title);
+    title.dispatchEvent(input_event);
+    expect(dispatch_spy.mock.calls[1][0].type).toBe(EVENT_UPDATE_ACTIVITY_TITLE);
 });
 
 test("create_activity_time_interval", () => {
@@ -76,6 +81,13 @@ test("create_activity_time_interval", () => {
     // @ts-ignore
     expect(interval.children[1].innerText).toBe("to");
     expect(interval.children[2].value).toBe(String(a1.end_time));
+
+    interval.querySelector('.' + ACTIVITIY_STARTTIME_CLASS).dispatchEvent(input_event);
+   expect(dispatch_spy.mock.calls[1][0].type).toBe(EVENT_UPDATE_ACTIVITY_STARTTIME);
+
+    
+    interval.querySelector('.' + ACTIVITIY_ENDTIME_CLASS).dispatchEvent(input_event);
+    expect(dispatch_spy.mock.calls[3][0].type).toBe(EVENT_UPDATE_ACTIVITY_ENDTIME);
 });
 
 test("create_activity_remove_btn", () => {
@@ -91,17 +103,21 @@ test("create_activity_remove_btn", () => {
                             <line x1="14" y1="11" x2="14" y2="17"></line>
                         </svg>`
     );
+    btn.dispatchEvent(new Event("click", {bubbles: true}));
+    expect(dispatch_spy.mock.calls[1][0].type).toBe(EVENT_REMOVE_ACTIVITY);
 });
 
 test("create_activity_content", () => {
-    const content = dom_schedule._create_activity_content(a1);
+    const content_wrapper = dom_schedule._create_activity_content(a1);
 
-    expect(content.nodeName).toBe("DIV");
-    expect(content.classList.contains(ACTIVITIY_CONTENT_WRAPPER_CLASS)).toBe(true);
+    expect(content_wrapper.nodeName).toBe("DIV");
+    expect(content_wrapper.classList.contains(ACTIVITIY_CONTENT_WRAPPER_CLASS)).toBe(true);
     
-    expect(content.firstChild.nodeName).toBe("INPUT");
-    expect(content.firstChild.classList.contains(ACTIVITIY_CONTENT_CLASS)).toBe(true);
-    expect(content.firstChild.type).toBe("text");
-    expect(content.firstChild.value).toBe(a1.content);
+    expect(content_wrapper.firstChild.nodeName).toBe("INPUT");
+    expect(content_wrapper.firstChild.classList.contains(ACTIVITIY_CONTENT_CLASS)).toBe(true);
+    expect(content_wrapper.firstChild.type).toBe("text");
+    expect(content_wrapper.firstChild.value).toBe(a1.content);
+    content_wrapper.querySelector('.' + ACTIVITIY_CONTENT_CLASS).dispatchEvent(input_event);
+    expect(dispatch_spy.mock.calls[1][0].type).toBe(EVENT_UPDATE_ACTIVITY_CONTENT);
 })
 

@@ -23,10 +23,17 @@ export class DayController {
     }
 
     async signout() {
-        //TODO avoid depending on close() working properly
-        this.#dom_day.close()
-            .then(() => post_signout())
-            .then(() => window.location.href = "/signin");
+        //TODO avoid depending on close() working
+        try {
+            await this.#dom_day.close();
+        } catch(err) {
+            console.log(err);
+        } try {
+            post_signout();
+        } catch(err) {
+            console.log(err);
+        }
+        window.location.href = "/signin";
     }
 
     async move_to_next_day() {

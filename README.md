@@ -3,7 +3,6 @@ This project combines an hourly schedule and a mood journal
 
 ## Important notes
 ========================
- - No race condition protection if a user opens multiple sessions
 
 ## Future improvements
 ========================
@@ -16,3 +15,9 @@ This project combines an hourly schedule and a mood journal
  - Server commands (rest db, shutdown, etc.)
  - Make tests fully independant
  - Adapt for persons with a visual or auditive handicap
+
+## Key learning points
+========================
+ - Fully js generated html (ideally with framework (ex: react))
+ - Taking in account race conditions if a user has multiple active sessions
+ - 

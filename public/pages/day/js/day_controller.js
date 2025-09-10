@@ -73,8 +73,10 @@ export class DayController {
     }
 
     async load_new_day(new_date) {
+        this.#auto_saver.stop();
         this.#day = await get_day(new_date);
         this.#dom_day.render();
+        this.#auto_saver.start();
     }
     
     _update_activity_title(event) {

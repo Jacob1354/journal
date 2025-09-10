@@ -21,3 +21,7 @@ This project combines an hourly schedule and a mood journal
  - Fully js generated html (ideally with framework (ex: react))
  - Taking in account race conditions if a user has multiple active sessions
  - 
+
+## Limitations
+========================
+ - Multiple tabs opened simultaneously

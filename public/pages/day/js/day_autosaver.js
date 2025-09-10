@@ -34,13 +34,6 @@ export class DayAutoSaver {
             new Blob([JSON.stringify(this.#get_day().prepare_json_obj())], {type: "application/json"})
         );
     }
-
-    async close() {
-        clearInterval(this.#timer_id);
-        await post_day(this.#get_day());
-        document.onvisibilitychange = () => {};
-    }
-
     
     async _save() {
         post_day(this.#get_day())

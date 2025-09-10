@@ -57,7 +57,7 @@ export class DOMSchedule {
         title.innerText = activity.title;
         title.classList.add(ACTIVITIY_TITLE_CLASS);
         title.addEventListener("input", () => 
-            title.dispatchEvent(new Event(EVENT_UPDATE_ACTIVITY_TITLE, {bubbles: true}))
+            title.dispatchEvent(new CustomEvent(EVENT_UPDATE_ACTIVITY_TITLE, {bubbles: true}))
         );
     
         return title;
@@ -72,7 +72,7 @@ export class DOMSchedule {
         start_time.type = "time";
         start_time.value = String(activity.start_time);
         start_time.addEventListener("input", () => 
-            start_time.dispatchEvent(new Event(EVENT_UPDATE_ACTIVITY_STARTTIME, {bubbles: true}))
+            start_time.dispatchEvent(new CustomEvent(EVENT_UPDATE_ACTIVITY_STARTTIME, {bubbles: true}))
         );
     
         const to = document.createElement("p");
@@ -83,7 +83,7 @@ export class DOMSchedule {
         end_time.type = "time";
         end_time.value = String(activity.end_time);
         end_time.addEventListener("input", () => 
-            end_time.dispatchEvent(new Event(EVENT_UPDATE_ACTIVITY_ENDTIME, {bubbles: true}))
+            end_time.dispatchEvent(new CustomEvent(EVENT_UPDATE_ACTIVITY_ENDTIME, {bubbles: true}))
         );
         
         interval.appendChild(start_time);
@@ -98,7 +98,7 @@ export class DOMSchedule {
         btn.classList.add(ACTIVITIY_REMOVE_BTN_CLASS);
         btn.innerHTML = removeBtnHTML;
         btn.addEventListener("click", () => 
-            btn.dispatchEvent(new Event(EVENT_REMOVE_ACTIVITY, {bubbles: true}))
+            btn.dispatchEvent(new CustomEvent(EVENT_REMOVE_ACTIVITY, {bubbles: true}))
         );
         return btn;
     }
@@ -112,7 +112,7 @@ export class DOMSchedule {
         content.type = "text";
         content.value = activity.content;
         content.addEventListener("input", () => 
-            content.dispatchEvent(new Event(EVENT_UPDATE_ACTIVITY_CONTENT, {bubbles: true}))
+            content.dispatchEvent(new CustomEvent(EVENT_UPDATE_ACTIVITY_CONTENT, {bubbles: true}))
         );
     
         wrapper.appendChild(content);

@@ -5,10 +5,11 @@ import { User } from "../../shared/data/user";
 import { AuthDAO, UnavailableUsername } from "./auth_dao";
 import { UserNotFound } from "../services/auth_sevice";
 import { InvalidSession } from "./auth_dao";
+import { SQL_AUTH_SETUP_PATH } from "../server_const";
 
 function set_up_db() {
     const db = new Database(":memory:");
-    const db_script = readFileSync("./server/db_scripts/auth_setup.sql", "utf8");
+    const db_script = readFileSync(SQL_AUTH_SETUP_PATH, "utf8");
     db.exec(db_script);
     return db;
 } 

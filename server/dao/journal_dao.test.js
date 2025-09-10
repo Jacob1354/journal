@@ -8,6 +8,7 @@ import { Activity, HoursAndMinutes, Schedule } from "../../shared/data/schedule"
 import { FractionField, NumberField, SliderField, TextField } from "../../shared/data/mood_field";
 import { jest } from "@jest/globals";
 import { ClientNotUpToDate } from "../../shared/const";
+import { SQL_AUTH_SETUP_PATH, SQL_JOURNAL_SETUP_PATH } from "../server_const";
 
 const nb_field = new NumberField("nb_field", 10);
 const text_field1 = new TextField("text_field1", "text");
@@ -46,8 +47,8 @@ const user = new User({username: "user", hash: "hash", name: "name"});
 const invalid_user = new User({username: "invalid_user"});
 
 beforeAll(() => {
-    const auth_script = readFileSync("./server/db_scripts/auth_setup.sql", "utf8");
-    const journal_script = readFileSync("./server/db_scripts/journal_setup.sql", "utf8");
+    const auth_script = readFileSync(SQL_AUTH_SETUP_PATH, "utf8");
+    const journal_script = readFileSync(SQL_JOURNAL_SETUP_PATH, "utf8");
     const auth_dao = new AuthDAO(db);
     db.exec(auth_script);
     db.exec(journal_script);

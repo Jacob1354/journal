@@ -1,19 +1,27 @@
 import path from 'path';
 const __dirname = import.meta.dirname;
 
+//SERVER PROPERTIES
+//===================
 export const SERVER_HOST = "127.0.0.1";
 export const SERVER_PORT = 3000;
 export const DB_NAME = "journaldb.db";
 
-export const SQL_AUTH_SETUP_PATH = "./server/db_scripts/auth_setup.sql";
-export const SQL_JOURNAL_SETUP_PATH = "./server/db_scripts/journal_setup.sql";
-export const SQL_RESET_PATH = "./server/db_scripts/journal_setup.sql";
 
+//PATHS
+//====================
+//HTML
 export const HTML_PAGES_PATH = path.join(__dirname, "..", "public", "pages");
 export const HTML_DAY_PATH = path.join(HTML_PAGES_PATH, "day", "day.html");
 export const HTML_SIGNIN_PATH = path.join(HTML_PAGES_PATH, "sign_in_up", "signin.html");
 export const HTML_SIGNUP_PATH = path.join(HTML_PAGES_PATH, "sign_in_up", "signup.html");
+//SQL
+export const SQL_AUTH_SETUP_PATH = "./server/db_scripts/auth_setup.sql";
+export const SQL_JOURNAL_SETUP_PATH = "./server/db_scripts/journal_setup.sql";
+export const SQL_RESET_PATH = "./server/db_scripts/journal_setup.sql";
 
+//ERROR MESSAGES
+//===================
 export const ERR_MSG_UNAVAILABLE_USERNAME = "Sorry, this username is already taken. Please choose another one";
 export const ERR_MSG_SERVER_ERR = "Sorry, an error occured. Please try again";
 export const ERR_MSG_SIGN_IN_INVALID_USER = 
@@ -21,6 +29,8 @@ export const ERR_MSG_SIGN_IN_INVALID_USER =
     + "Please try again";
 export const ERR_MSG_MUST_BE_LOGGED = "Seems like you're trying to access data for which you must be logged";
 
+//ERRORS
+//===================
 export class InternalServerError extends Error {
     constructor(msg) {
         super(msg);

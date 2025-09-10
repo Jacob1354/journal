@@ -5,7 +5,7 @@
 import { Day } from "../../../../shared/data/day.js";
 import { Activity, HoursAndMinutes } from "../../../../shared/data/schedule.js";
 import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_TITLE_CLASS, MOOD_FIELDS_WRAPPER_CLASS, MOOD_FIELDS_WRAPPER_ID, ACTIVITIES_ID, ACTIVITY_CLASS, ACTIVITIY_STARTTIME_CLASS, ACTIVITIY_ENDTIME_CLASS, MOOD_FIELD_INPUT_CLASS, ACTIVITY_ADDER_BTN_ID, DAY_NAMES, DAY_NAV_DATE_ID, SIGNOUT_ID, DAY_NAV_LEFT_ARROW_ID, DAY_NAV_RIGHT_ARROW_ID, EVENT_REMOVE_ACTIVITY } from "./dom/constants.js";
-import { post_signout, post_day } from "./api/day_api.js";
+import { post_signout, post_day, InvalidAuth } from "./api/day_api.js";
 import { jest } from "@jest/globals";
 
 const activities = document.createElement("div");
@@ -48,7 +48,8 @@ const clean_dom = document.body.innerHTML;
 jest.unstable_mockModule("./api/day_api.js", jest.fn(() => ({
     get_day: jest.fn(async () => day),
     post_day,
-    post_signout
+    post_signout,
+    InvalidAuth
 })));
 
 const {get_day} = await import("./api/day_api.js");

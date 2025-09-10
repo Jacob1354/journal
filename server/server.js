@@ -3,13 +3,11 @@ import { ERR_MSG_SERVER_ERR, ERR_MSG_SIGN_IN_INVALID_USER, ERR_MSG_UNAVAILABLE_U
 import { JournalServer } from './journal_server.js';
 import cookieParser from 'cookie-parser';
 import { User } from '../shared/data/user.js';
-import { InvalidSession, UnavailableUsername } from './dao/auth_dao.js';
+import { UnavailableUsername } from './dao/auth_dao.js';
 import { InvalidPassword, UserNotFound } from './services/auth_sevice.js';
-import path from 'node:path';
 import { Day } from '../shared/data/day.js';
 import { Cookie } from '../shared/data/cookie.js';
 import { ClientNotUpToDate } from '../shared/const.js';
-const __dirname = import.meta.dirname;
 
 
 const app = express();

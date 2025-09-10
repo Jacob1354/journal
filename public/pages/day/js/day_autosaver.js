@@ -61,6 +61,7 @@ export class DayAutoSaver {
             if (document.hidden) {
                 await this.stop();
             } else {
+                this.#update_day();
                 this.start();
             }
         };

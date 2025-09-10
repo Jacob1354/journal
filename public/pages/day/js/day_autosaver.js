@@ -1,16 +1,23 @@
 import { validate_type } from "../../../../shared/clean_code/clean_code_enforcement.js";
+import { ClientNotUpToDate } from "../../../../shared/const.js";
 import { Day } from "../../../../shared/data/day.js";
-import { post_day } from "./api/day_api.js";
+import { InvalidAuth, post_day } from "./api/day_api.js";
 
 export class DayAutoSaver {
     #SAVE_INTERVAL;
     #timer_id;
     #get_day;
+    #update_timestamp;
+    #update_day;
 
-    constructor(get_day, save_interval = 5000) {
+    constructor({get_day, update_timestamp, update_day, save_interval = 5000}) {
         validate_type(get_day, "function");
+        validate_type(update_timestamp, "function");
+        validate_type(update_day, "function");
         validate_type(get_day(), Day);
         this.#get_day = get_day;
+        this.#update_timestamp = update_timestamp;
+        this.#update_day = update_day;
         this.#SAVE_INTERVAL = save_interval;
         this._init_listeners();
         this.start();
@@ -35,15 +42,18 @@ export class DayAutoSaver {
     }
 
     
-    //TODO properly handle the response/error
     async _save() {
         post_day(this.#get_day())
             .then((res) => {
-                console.log("Saved !")
+                this.#update_timestamp(res.new_timestamp);
             })
             .catch((err) => {
-                console.log("Couldn't save day : " + err);
-            })
+                if(err instanceof InvalidAuth) {
+                    //TODO figure out how to implement
+                } else if(err instanceof ClientNotUpToDate) {
+                    this.#update_day();
+                }
+            });
     }
 
     _init_listeners() {

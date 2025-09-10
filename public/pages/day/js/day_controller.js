@@ -20,7 +20,11 @@ export class DayController {
         this.#day = await get_day();
         this.#dom_day = new DomDay(() => this.get_day());
         this.#dom_day.render();
-        this.#auto_saver = new DayAutoSaver(() => this.get_day());
+        this.#auto_saver = new DayAutoSaver({
+            get_day: () => this.get_day(),
+            update_timestamp: (new_timestamp) => this.#day.update_timestamp = new_timestamp,
+            update_day: async () => await this.load_new_day(this.#day.date)
+        });
         document.addEventListener(EVENT_UPDATE_MOODFIELD, (e) => this._update_mood_field(e));
         document.addEventListener(EVENT_ADD_ACTIVITY, (e) => this._add_activity(e));
         document.addEventListener(EVENT_UPDATE_ACTIVITY_TITLE, (e) => this._update_activity_title(e));

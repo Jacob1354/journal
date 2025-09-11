@@ -168,6 +168,5 @@ export class DayController {
         const new_val = event.target.value;
         const mood_field = this.#day.mood_fields[index];
         mood_field.set_data(mood_field.parse_input(new_val));
-        console.log("Mood field updated");
     }
 }

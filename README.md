@@ -5,13 +5,12 @@
  1. [Description](#desc-fr)
  2. [Objectifs du projet](#obj-fr)
  3. [Notes importantes](#notes-fr)
- 4. [Démo](#demo-fr)
- 5. [Installation](#install-fr)
- 7. [Features](#feat-fr)
+ 4. [Installation](#install-fr)
+ 5. [Features](#feat-fr)
  6. [Uilisation](#usage-fr)
- 8. [Points faibles](#weak-pts-fr)
- 10. [Améliorations futures](#improvements-fr)
- 11. [Tech Stack](#stack-fr)
+ 7. [Points faibles](#weak-pts-fr)
+ 8. [Améliorations futures](#improvements-fr)
+ 9. [Tech Stack](#stack-fr)
 
 
 ## Description <a name="desc-fr" />
@@ -40,10 +39,6 @@ l'app contenant le principal. Cela dit, des modules essentiels sont à venir :
  - v3: Un système de template flexible pour que l'utilisateur puisse accumuler des données sur ce qu'il désire
 
 De plus, le visuel n'était pas le principal de l'application, expliquant son design de piètre qualité
-
-
-## Démo <a name="demo-fr" />
-
 
 ## Installation <a name="install-fr" />
 ### Pré-requis:
@@ -115,8 +110,8 @@ En conclusion, je dirais que le problème essentiel du projet fût la conception
 À noter: Malgré que les deux derniers points seraient important, je compte redévelopper l'application sous une version mobile. Pour passer à la v2, ce ne devrait être trop compliqué sans changer énormément la conception. Donc, les changements, peu importe la direction choisie ne risque d'arriver que rendu la (y compris une reconception).
 
 ## Tech Stack
- - [Nodejs](nodejs.org)
- - [Jest](jestjs.io)
+ - [Nodejs](https://nodejs.org/)
+ - [Jest](https://jestjs.io/)
  - [Expressjs](https://expressjs.com/)
  - [argon2](https://www.npmjs.com/package//argon2)
  - [better-sqlite3](https://github.com/WiseLibs/better-sqlite3)

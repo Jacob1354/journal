@@ -107,9 +107,10 @@ En conclusion, je dirais que le problème essentiel du projet fût la conception
  - Ajouter un système de personnalisation des données suivies selon les besoin clients
  - Passer à du TS
  - Remplacer le front-end par React
+ - Et plus: adapter aux personnes en situation de handicap, adjouter de la db migration, rendre l'app plus sécuritaire, mieux gérer les erreurs liées à la bd(ex: réesseyer quelques fois), ajouter des logs du serveur, mieux gérer les conditions de concurence
 À noter: Malgré que les deux derniers points seraient important, je compte redévelopper l'application sous une version mobile. Pour passer à la v2, ce ne devrait être trop compliqué sans changer énormément la conception. Donc, les changements, peu importe la direction choisie ne risque d'arriver que rendu la (y compris une reconception).
 
-## Tech Stack
+## Tech Stack <a name="stack-fr">
  - [Nodejs](https://nodejs.org/)
  - [Jest](https://jestjs.io/)
  - [Expressjs](https://expressjs.com/)
@@ -117,26 +118,3 @@ En conclusion, je dirais que le problème essentiel du projet fût la conception
  - [better-sqlite3](https://github.com/WiseLibs/better-sqlite3)
  - [SQLite](https://www.sqlite.org/)
  - [cookie-parser](https://www.npmjs.com/package/cookie-parser)
-
-
-## Future improvements
-========================
- - Add db migration
- - More robust session token creation
- - Prettier UI
- - More complex db error (ex: trying again a few times depending on the sqlite error code)
- - Being able to remove an account
- - Server logs
- - Server commands (rest db, shutdown, etc.)
- - Make tests fully independant
- - Adapt for persons with a visual or auditive handicap
-
-## Key learning points
-========================
- - Fully js generated html (ideally with framework (ex: react))
- - Taking in account race conditions if a user has multiple active sessions
- - 
-
-## Limitations
-========================
- - Multiple tabs opened simultaneously

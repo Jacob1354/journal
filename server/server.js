@@ -74,7 +74,7 @@ app.post('/signout', (req, res) => {
 
 app.get('/day', (req, res) => {
     const user = journal_srv.authenticate_session(req.cookies["session"], res);
-    if(user != null) {
+    if(user) {
         try {
             res.sendFile(HTML_DAY_PATH);
         } catch(err) {
@@ -85,27 +85,31 @@ app.get('/day', (req, res) => {
 
 app.get('/day/:day-:month-:year', (req, res) => {
     const user = journal_srv.authenticate_session(req.cookies["session"], res);
-    try {
-        const date = new Date(Number(req.params.year), Number(req.params.month), Number(req.params.day));
-        const day_json = journal_srv.journal_service.get_json_day_obj(user, date);
-        res.json(day_json);
-    } catch(err) {
-        console.log(err);
-        res.status(500).send(ERR_MSG_SERVER_ERR);
-    } 
+    if(user) {
+        try {
+            const date = new Date(Number(req.params.year), Number(req.params.month), Number(req.params.day));
+            const day_json = journal_srv.journal_service.get_json_day_obj(user, date);
+            res.json(day_json);
+        } catch(err) {
+            console.log(err);
+            res.status(500).send(ERR_MSG_SERVER_ERR);
+        } 
+    }
 });
 
 app.post('/day/:day-:month-:year', (req, res) => {
     const user = journal_srv.authenticate_session(req.cookies["session"], res);
-    try {
-        const new_timestamp = journal_srv.journal_service.update_day(user, Day.from_json_obj(req.body));
-        res.status(200).send(JSON.stringify({new_timestamp}));
-    } catch(err) {
-        console.log(err);
-        if(err instanceof ClientNotUpToDate)
-            res.status(428).end();
-        else
-            res.status(500).send(ERR_MSG_SERVER_ERR);
+    if(user) {
+        try {
+            const new_timestamp = journal_srv.journal_service.update_day(user, Day.from_json_obj(req.body));
+            res.status(200).send(JSON.stringify({new_timestamp}));
+        } catch(err) {
+            console.log(err);
+            if(err instanceof ClientNotUpToDate)
+                res.status(428).end();
+            else
+                res.status(500).send(ERR_MSG_SERVER_ERR);
+        }
     }
 });
 

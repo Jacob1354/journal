@@ -47,8 +47,10 @@ describe("fetch_day", () => {
 
 describe("post_day", () => {
     test("Success", async () => {
-        global.fetch = jest.fn(() => Promise.resolve({status: 200}));        
-        await expect(post_day(fetched_day)).resolves.toEqual({status: 200});
+        global.fetch = jest.fn(
+            () => Promise.resolve(new Response(JSON.stringify({new_timestamp: 0}), {status: 200}))
+        ); 
+        await expect(post_day(fetched_day)).resolves.toEqual({status: 200, new_timestamp: 0});
     });
     test("SignInRequired", async () => {
         global.fetch = jest.fn(() => Promise.resolve(({status: 401})));

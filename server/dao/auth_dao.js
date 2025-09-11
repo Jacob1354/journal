@@ -9,6 +9,13 @@ export class AuthDAO {
         this.#db = db;
     }
     
+    
+    /**
+     * Returns the user if it was found and null otherwise
+     * 
+     * @param {string} username 
+     * @returns {User} 
+     */
     get_user(username) {
         validate_type(username, "string");
         let user;
@@ -23,6 +30,13 @@ export class AuthDAO {
         return user ? user : null;
     }
 
+    
+    /**
+     * Returns the user if it was found and null otherwise
+     *
+     * @param {string} session 
+     * @returns {User} 
+     */
     get_user_from_session(session) {
         validate_type(session, "string");
         let user;
@@ -44,6 +58,15 @@ export class AuthDAO {
         return user ? user : null;
     }
 
+    
+    /**
+     * Add a user tp the db
+     *
+     * @param {User} user 
+     * 
+     * @throws {InvalidUser} If the User object doesn't have a username, name or hash
+     * @throws {UnavailableUsername} If username isn't unique
+     */
     add_user(user) {
         validate_type(user, User);
         if(!user.username || !user.hash || !user.name)
@@ -59,6 +82,16 @@ export class AuthDAO {
         }
     }
 
+    
+    /**
+     * Creates a new session token in the db with a max_age of ms_before_removal milliseconds
+     *
+     * @param {User} user 
+     * @param {string} session 
+     * @param {number} ms_before_removal 
+     * 
+     * @throws {InvalidSession} If the session isn't unique
+     */
     add_session(user, session, ms_before_removal) {
         validate_type(user, User);
         validate_type(session, "string");
@@ -73,6 +106,12 @@ export class AuthDAO {
         }
     }
 
+    
+    /**
+     * Removes a session from the db
+     *
+     * @param {string} session 
+     */
     remove_session(session) {
         validate_type(session, "string");
         this.#db.prepare("DELETE FROM session WHERE session = ?").run(session);

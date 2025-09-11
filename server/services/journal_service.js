@@ -13,6 +13,15 @@ export class JournalService {
         this.#journal_dao = new JournalDAO(db);
     }
 
+    
+    /**
+     * Returns the json object of the day corresponding to the specified user and date
+     * If a day doesn't exist yet to that date, it is created.
+     * 
+     * @param {User} user 
+     * @param {Date} date 
+     * @returns {object} See Day.prepare_json_obj
+     */
     get_json_day_obj(user, date) {
         let day;
         try {
@@ -34,6 +43,17 @@ export class JournalService {
         }
     }
 
+    
+    /**
+     * Updates the specified day of the specified user with it's new data.
+     *
+     * @param {User} user 
+     * @param {Day} day 
+     * @returns {number} The new update timestamp in ms if the transaction succeeded 
+     * 
+     * @throws {ClientNotUpToDate} If the update_timestamp doesn't match
+     * @throws {CouldntUpdateDay}
+     */
     update_day(user, day) {
         try {
             return this.#journal_dao.update_day(user, day);

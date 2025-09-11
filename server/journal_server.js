@@ -6,6 +6,12 @@ import { ERR_MSG_MUST_BE_LOGGED, ERR_MSG_SERVER_ERR, SQL_AUTH_SETUP_PATH, SQL_JO
 import { validate_type } from "../shared/clean_code/clean_code_enforcement.js";
 import { InvalidSession } from "./dao/auth_dao.js";
 
+
+/**
+ * @export
+ * @class JournalServer
+ * @typedef {JournalServer}
+ */
 export class JournalServer {
     
     constructor() {
@@ -18,6 +24,15 @@ export class JournalServer {
         this.db.close();
     }
 
+    
+    /**
+     * Tries to get the user matching the session passed as parameter.
+     * If no match is found, then sends an error message to the client
+     *
+     * @param {string} session 
+     * @param {Response} res 
+     * @returns {User}
+     */
     authenticate_session(session, res) {
         let user;
         try {
@@ -31,6 +46,8 @@ export class JournalServer {
         return user;
     }
 
+    
+    /** Clears all the data from the db */
     reset_db() {
         const reset_script = readFileSync(SQL_RESET_PATH, "utf8");
         this.db.exec(reset_script);

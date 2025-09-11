@@ -15,19 +15,37 @@ export class AuthService {
         this.#auth_dao = new AuthDAO(db);
     }
 
+    
+    /**
+     * The user object must contain non-empty password and name fields
+     * The username must be unique
+     * 
+     * @async
+     * @param {User} user
+     * @throws {UnavailableUsername}
+     * @throws {InvalidUser}
+     */
     async signup_user(user) {
         validate_type(user, User);
-        this._check_if_user_is_valid(user);
+        this._check_if_user_is_valid_for_signup(user);
         this._check_if_username_is_taken(user);
         user.hash = await argon2.hash(user.password);
         this.#auth_dao.add_user(user);
     }
 
 
-    /*
-     * Checks if the user exists using the username and if the password is valid.
-     * If it's the case, it creates and return a session cookie
-    */
+   
+    /**
+     * Creates and returns a session cookie if the user and the password are valid.
+     * The user object must contain a password field and a name field
+     *
+     * @async
+     * @param {User} user 
+     * @returns {string} New session cookie associated to the user
+     * 
+     * @throws {InvalidPassword}
+     * @throws {UserNotFound} 
+     */
     async signin_user(user) {
         validate_type(user, User);
         const db_user = this.#auth_dao.get_user(user.username)
@@ -48,6 +66,13 @@ export class AuthService {
         return session_cookie;
     }
 
+    
+    /**
+     * Veririfies if a user is valid. If it's the case, returns a corresponding User object
+     *
+     * @param {string} session 
+     * @returns {User} The user matching the session
+     */
     authenticate_session(session) {
         try {
             validate_type(session, "string");
@@ -60,11 +85,22 @@ export class AuthService {
         return user;
     }
 
+    
+    /**
+     * @param {string} session 
+     */
     remove_session(session) {
         this.#auth_dao.remove_session(session);
     }
 
-    _check_if_user_is_valid(user) {
+    
+    /**
+     * A user is valid for signup if it has a non-empty username, password and name
+     *
+     * @param {User} user 
+     * @throws {InvalidUser}
+     */
+    _check_if_user_is_valid_for_signup(user) {
         validate_type(user, User);
         if(!user.username || user.username === ""
             || !user.password || user.password === "" 
@@ -74,16 +110,14 @@ export class AuthService {
         }
     }
 
+    
+    /**
+     * @param {*} user
+     * @throws {UnavailableUsername}
+     */
     _check_if_username_is_taken(user) {
-        try {
-            if(this.#auth_dao.get_user(user.username))
-                throw new UnavailableUsername("Unvailable username");
-        } catch(err) {
-            if(err instanceof UnavailableUsername)
-                throw err;
-            else 
-                throw new UnableToCreateUser("Couldn't get_user from db to check username");
-        }
+        if(this.#auth_dao.get_user(user.username))
+            throw new UnavailableUsername("Unvailable username");
     }
 
 }

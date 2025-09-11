@@ -13,6 +13,17 @@ export class JournalDAO {
         this.#db = db;
     }
 
+    
+    /**
+     * Creates a new day in the db respresenting day
+     *
+     * @param {User} user 
+     * @param {Day} day 
+     * 
+     * @throws {InvalidUser}
+     * @throws {DayAlreadyExists}
+     * @throws {CouldntCreateDay}
+     */
     create_day(user, day) {
         validate_type(user, User);
         validate_type(day, Day);
@@ -25,6 +36,17 @@ export class JournalDAO {
         this._create_mood_fields(day_id, day);
     }
 
+    
+    /**
+     * Search for a day matching the user and the date and returns it.
+     * If it wasn't found. returns null
+     *
+     * @param {User} user 
+     * @param {Date} date 
+     * @returns {Day} or null
+     * 
+     * @throws {InvalidUser}
+     */
     get_day(user, date) {
         validate_type(user, User);
         validate_type(date, Date);
@@ -42,6 +64,16 @@ export class JournalDAO {
         }
     }
     
+     /**
+      * Updates a day and, if it was a success, returns the timestamp in ms
+      * The timestamp is used to determine wether the client was up to date or not
+      *
+      * @returns {number} the new update_timestamp in ms 
+      * 
+      * @throws {DayDoesntExist} if the day wasn't found in the db
+      * @throws {ClientNotUpToDate} if the timestamp of the received day doesn't match the one in the db
+      * @throws {CouldntUpdateDay}
+      */
     update_day(user, day) {
         validate_type(user, User);
         validate_type(day, Day);

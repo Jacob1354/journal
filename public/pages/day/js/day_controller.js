@@ -37,6 +37,13 @@ export class DayController {
         document.addEventListener(EVENT_SIGNOUT, () => this.signout());
     }
 
+    
+    /**
+     * Signs the user out and move back to '/signin'.
+     * Saves the day before signing out
+     *
+     * @async
+     */
     async signout() {
         //TODO avoid depending on close() working
         try {
@@ -60,6 +67,7 @@ export class DayController {
         this.#dom_day.render_schedule();
     }
 
+    
     async move_to_next_day() {
         await this.load_new_day(new Date(
             this.#day.date.getTime() + 1000 * 60 * 60 * 24 //Adding 24h to move to the next day
@@ -72,12 +80,26 @@ export class DayController {
         ));
     }
 
+    
+    /**
+     * Saves the day and change to a new one matching new_date
+     * 
+     * @async
+     * @param {Date} new_date 
+     */
     async load_new_day(new_date) {
         this.#auto_saver.stop();
         await this.update_day(new_date);
         this.#auto_saver.start();
     }
 
+    
+    /**
+     * Updates the day to make sure it is up to date with the db
+     *
+     * @async
+     * @param {Date} date 
+     */
     async update_day(date) {
         this.#day = await get_day(date);
         this.#dom_day.render();

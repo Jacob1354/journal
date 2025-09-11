@@ -19,6 +19,8 @@ export class DomDay {
         this._init();
     }
 
+    
+    /** Renders a day to the DOM. Gets the day using @var {this.#get_day} */
     render() {
         const day = this.#get_day();
         this._render_date(day.date);

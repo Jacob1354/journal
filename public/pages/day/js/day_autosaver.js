@@ -3,6 +3,14 @@ import { ClientNotUpToDate } from "../../../../shared/const.js";
 import { Day } from "../../../../shared/data/day.js";
 import { InvalidAuth, post_day } from "./api/day_api.js";
 
+
+/**
+ * Handles the automatic saving of a day object on a regular interval.
+ *
+ * @export
+ * @class DayAutoSaver
+ * @typedef {DayAutoSaver}
+ */
 export class DayAutoSaver {
     #SAVE_INTERVAL;
     #timer_id;
@@ -23,10 +31,20 @@ export class DayAutoSaver {
         this.start();
     }
 
+    
+    /** 
+     * Starts/restarts the timer 
+     * This is automatically called when the visibilityState goes to visibile
+     * 
+    */
     start() {
         this.#timer_id = setInterval(() => {this._save();},  this.#SAVE_INTERVAL);
     }
 
+     /**
+      * Stops the timer and saves the day using @function sendBeacon
+      * This is automatically called when the visibilityState goes to hidden
+      */
     async stop() {
         clearInterval(this.#timer_id);
         navigator.sendBeacon(

@@ -6,6 +6,17 @@ export const FETCH_TIMEOUT = 5000;
 export const SIGNOUT_TIMEOUT = 1500;
 
 
+/**
+ * Fetches a GET request to domain/day/:day-:month-:year and returns the received day
+ * The fetch timesout after @var {FETCH_TIMEOUT}
+ *
+ * @export
+ * @async
+ * @throws {InvalidAuth}
+ * @throws {ServerErr}
+ * @param {Date} 
+ * @returns {Day} the day matching the user and the date
+ */
 export async function get_day(date = new Date()) {
     const day_path = "/day/" + date.getDate() +"-"+ date.getMonth() +"-"+ date.getFullYear();
     let response = await fetch(day_path, {signal: AbortSignal.timeout(FETCH_TIMEOUT)});
@@ -17,6 +28,18 @@ export async function get_day(date = new Date()) {
         throw new ServerErr("Couldn't retrieve data due to a serer error");
 }
 
+/**
+ * Fetches a POST request to domain/day/:day-:month-:year to save a day
+ * The fetch timesout after @var {FETCH_TIMEOUT}
+ *
+ * @export
+ * @async
+ * @throws {InvalidAuth}
+ * @throws {ClientNotUpToDate} If the timestamp of the day passed as a param doesn't match the one in the db
+ * @throws {CouldntSaveData}
+ * @param {Day} day The day to save
+ * @returns {new_timetamp} The new update_timestamp for a Day instance 
+ */
 export async function post_day(day) {
     validate_type(day, Day);
     const url = "/day/" + day.date.getDate() + "-" + day.date.getMonth() + "-" + day.date.getFullYear();
@@ -46,6 +69,12 @@ export async function post_day(day) {
         })
 }
 
+/**
+ * Fetches a POST request to /signout. The response should set the session cookie to ""
+ *
+ * @export
+ * @async 
+ */
 export async function post_signout() {
     return fetch('/signout', {
         method: "POST",
@@ -62,12 +91,14 @@ export class InvalidAuth extends Error {
     }
 }
 
+
 export class ServerErr extends Error {
     constructor(msg) {
         super(msg);
         this.name = "ServerErr";
     }
 }
+
 
 export class CouldntSaveData extends Error {
     constructor(msg) {

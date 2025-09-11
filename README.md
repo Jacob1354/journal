@@ -12,7 +12,6 @@
  8. [Améliorations futures](#improvements-fr)
  9. [Tech Stack](#stack-fr)
 
-
 ## Description <a name="desc-fr" />
 Ce projet est un mélange entre un journal de l'humeur et un horaire. Cela dit, le réel objectif était de 
 répondre à un besoin de journal de l'humeur. En effet, je n'ai pas trouvé de logiciels gratuis et 
@@ -100,7 +99,7 @@ Même si j'ai fait une certaine conception, prendre le temps de mieux réfléchi
 Ce projet m'a prouvé qu'il fallait que je m'améliore au niveau des tests. Ceux implémentés sont seulement unitaire et clairement pas codés de la meilleure manière. Cela dit, ce n'était pas l'objectif du projet.
 
 ### Conlusion
-En conclusion, je dirais que le problème essentiel du projet fût la conception. Je crois que ce problème peut être scinder en deux. D'un côté, les problèmes liés aux objectifs du projet. Je ne visais pas à faire un projet moderne, mais plutôt un projet d'apprentissage ciblé. Cela a affecté la qualtié du projet. De l'autre côté, celui qui montre ce que je dois améliorer, c'est la conception du projet avec ses contraintes. Mieux établir les cas d'utilisations et la manière dont les modules intéragissent aurait pris plus de temps, mais aurait faciliter l'implémentation et la compréhension du code. De plus, le nombre d'erreur en cours de route aurait été limité.   
+En conclusion, je dirais que le problème essentiel du projet fût la conception. Je crois que ce problème peut être scinder en deux. D'un côté, les problèmes liés aux objectifs du projet. Je ne visais pas à faire un projet moderne, mais plutôt un projet d'apprentissage ciblé. Cela a affecté la qualtié du projet. De l'autre côté, ce que je dois améliorer, c'est la conception du projet avec ses contraintes. Mieux établir les cas d'utilisations et la manière dont les modules intéragissent aurait pris plus de temps, mais aurait faciliter l'implémentation et la compréhension du code. De plus, le nombre d'erreur en cours de route aurait été limité.
 
 ## Améliorations future <a name="improvements-fr" />
  - Ajouter une page d'analyse des données pour une intervalle donnée
@@ -118,3 +117,110 @@ En conclusion, je dirais que le problème essentiel du projet fût la conception
  - [better-sqlite3](https://github.com/WiseLibs/better-sqlite3)
  - [SQLite](https://www.sqlite.org/)
  - [cookie-parser](https://www.npmjs.com/package/cookie-parser)
+
+
+---
+
+
+## English Version <a name="english-version" />
+
+### Index
+ 1. [Description](#desc-en)
+ 2. [Project Objectives](#obj-en)
+ 3. [Important Notes](#notes-en)
+ 4. [Installation](#install-en)
+ 5. [Features](#feat-en)
+ 6. [Usage](#usage-en)
+ 7. [Weak Points](#weak-pts-en)
+ 8. [Future Improvements](#improvements-en)
+ 9. [Tech Stack](#stack-en)
+
+## Description <a name="desc-en" />
+This project is a mix between a mood journal and a daily schedule. The goal was to address my own need for a mood journal, as I couldn't find any free software that met my requirements. You can log your daily activities/tasks and fill in various fields to track data such as hours of sleep or energy level throughout the day.
+The typical use would be to open the app to see the current day's plan, possibly add tasks for upcoming days, and at the end of the day, record mood-related data.
+
+## Project Objectives <a name="obj-en" />
+This project was created with several goals in mind:
+ 1. Complete a project for my portfolio
+ 2. Work with technologies I was not familiar with (Node, Express, Jest, etc.)
+ 3. Try to build an app that solves a real need
+ 4. Learn to build an application in pure JavaScript rather than with tools like React or TypeScript, to better understand their advantages and how they work
+
+## Important Notes <a name="notes-en" />
+This project is not finished. This is just v1. The goal was to create a first version with the main features. Essential modules are planned:
+- v2: A page to view statistics over a time interval (e.g., average sleep hours from August 24, 2025 to September 14, 2025).
+- v3: A flexible template system so users can track any data they want.
+
+Also, the visual design was not the main focus, which explains its basic appearance.
+
+## Installation <a name="install-en" />
+### Prerequisites:
+- npm
+
+### Steps
+ 1. Clone the repo
+ 2. Open a terminal
+ 3. Go to the project root
+ 4. Run `npm install`
+ 5. To start the app, run: `node server/server.js`
+
+## Features <a name="feat-en" />
+- Account system
+- Track hours of sleep, daily energy, and happiness
+- Daily schedule to list activities/tasks
+
+## Usage <a name="usage-en" />
+Once started, the terminal will display the server link.
+
+Open it in a browser to use the app.
+
+You will need to sign in or create an account if you don't have one. The only requirements are at least 1 character per field and unique usernames.
+
+After creating your account, a session cookie is set with a one-hour expiration. You will be automatically logged in next time.
+
+Once logged in, you'll see the current day. The default values are the same as in the screenshot below.
+
+As you can see, there are no default activities. Just click the add button to create one.
+
+Changing a start time field will automatically sort activities in ascending order.
+
+To delete an activity, click the delete button to its right.
+
+To change the day, use the arrow buttons next to the date.
+
+Finally, to sign out, click the 'sign out' button.
+
+## Weak Points <a name="weak-pts-en" />
+This project has many weak points. Some are related to its goals and design, others to my own weaknesses. Here are the main ones:
+
+### Lack of modern technologies
+As mentioned in the objectives, I wanted to build this app in vanilla JS to get a better feel for the language. That's why there are many validation functions. Not only do they slow down the program, but they could be easily avoided with TypeScript. Also, for the frontend, the code is hard to test and not fully independent from the HTML. This could be improved in vanilla JS, but would be much easier with a modern framework like React, especially for long-term maintenance.
+
+### Style
+Not much to say—it's not pretty, and not modern. This is also related to the project goals.
+
+### Design
+Even though I did some design work, taking more time to plan and create models would have avoided important mistakes. Also, use cases are harder to understand from the code. That's why errors are not well handled, especially for UX.
+
+### Testing
+This project showed me I need to improve my testing skills. The tests implemented are only unit tests and not written in the best way. However, that wasn't the main goal of the project.
+
+### Conclusion
+In conclusion, the main problem was the design. I think this can be split in two: on one hand, issues related to the project goals (I wasn't aiming for a modern project, but a learning one, which affected quality); on the other hand, what I need to improve — project design with its constraints. Better defining use cases and module interactions would have taken more time, but would have made implementation and code understanding easier, and reduced errors along the way.
+
+## Future Improvements <a name="improvements-en" />
+- Add a data analysis page for a given interval
+- Add a system to customize tracked data for user needs
+- Switch to TypeScript
+- Replace frontend with React
+- And more: accessibility improvements, DB migration, better security, improved DB error handling (e.g., retry logic), add server logs, better concurrency handling
+Note: While the last two points are important, I plan to redevelop the app as a mobile version. For v2, changes shouldn't be too complicated without a major redesign. So, changes—regardless of direction—will likely come then (including a redesign).
+
+## Tech Stack <a name="stack-en">
+- [Nodejs](https://nodejs.org/)
+- [Jest](https://jestjs.io/)
+- [Expressjs](https://expressjs.com/)
+- [argon2](https://www.npmjs.com/package//argon2)
+- [better-sqlite3](https://github.com/WiseLibs/better-sqlite3)
+- [SQLite](https://www.sqlite.org/)
+- [cookie-parser](https://www.npmjs.com/package/cookie-parser)

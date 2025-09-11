@@ -7,23 +7,23 @@
  3. [Notes importantes](#notes-fr)
  4. [Démo](#demo-fr)
  5. [Installation](#install-fr)
- 6. [Uilisation](#usage-fr)
  7. [Features](#feat-fr)
+ 6. [Uilisation](#usage-fr)
  8. [Points faibles](#weak-pts-fr)
  9. [Apprentissages](#learn-fr)
  10. [Améliorations futures](#desc-fr)
  11. [Tech Stack](#stack-fr)
 
-<a name="desc-fr" />
-## Description
+
+## Description <a name="desc-fr" />
 Ce projet est un mélange entre un journal de l'humeur et un horaire. Cela dit, le réel objectif était de 
 répondre à un besoin de journal de l'humeur. En effet, je n'ai pas trouvé de logiciels gratuis et 
 répondant à mes exigences. Il est donc possible de noter les activités/tâches à faire durant la journée 
 ainsi que de remplir différentes informations pour effectuer un suivi de données telles que le nombre 
 d'heures de sommeil ou encore le niveau d'énergie durant la journée.
 
-<a name="obj-fr" />
-## Objectifs du projet
+
+## Objectifs du projet <a name="obj-fr" />
 Ce projet a été fait avec plusieurs objectifs en tête:
  1. Compléter un projet pour mon portfolio
  2. Toucher à plusieurs technologies que je ne connaissais pas originalement (node, express, jest, etc.)
@@ -31,8 +31,8 @@ Ce projet a été fait avec plusieurs objectifs en tête:
  4. Apprendre à faire une application en js pure plutôt qu'avec des outils tel que react ou le typescrip
     pour mieux comprendre les avantages de ceux-ci et leur fonctionnement 
 
-<a name="note-fr" />
-## Note importante
+
+## Note importante <a name="note-fr" />
 Ce projet n'est pas terminé. Ceci est simplement la v1. L'objectif était de créer une première version de
 l'app contenant le principal. Cela dit, des modules essentiels sont à venir :
  - v2: Une page permettant d'avoir des statistiques sur des intervalles de temps. (ex: moyennes des heures de
@@ -41,11 +41,11 @@ l'app contenant le principal. Cela dit, des modules essentiels sont à venir :
 
 De plus, le visuel n'était pas le principal de l'application, expliquant son design de piètre qualité
 
-<a name="demo-fr" />
-## Démo 
 
-<a name="install-fr" />
-## Installation
+## Démo <a name="demo-fr" />
+
+
+## Installation <a name="install-fr" />
 ### Pré-requis:
  - npm
 
@@ -56,8 +56,14 @@ De plus, le visuel n'était pas le principal de l'application, expliquant son de
  4. Lancer `npm install`
  5. Pour lancer l'application, ils suffit d'utiliser la commande suivante: `node server/server.js`
 
-<a name="usage-fr" />
-## Utilisation
+
+## Features <a name="feat-fr" />
+ - Système de compte
+ - Suivi du nombre d'heures de sommeil, du niveau d'énergie et du niveau de bohneur quotidien
+ - Horaire quotidien permettant d'inscrire une liste d'activité à faire
+
+
+## Utilisation <a name="usage-fr" />
 Une fois le lancement effectué, dans le terminal, il sera écrit le lien du serveur. 
 
 Il suffit de l'ouvrir dans un navigateur pour voir l'application. 
@@ -74,7 +80,13 @@ dans l'image suivante.
 Comme vous pouvez le voir, il n'y a pas d'activité par défaut. Il suffit de cliquer sur le bouton d'ajout pour
 le faire.
 
-La modification d'un champ d'heure de début d'une activité est la seule qui puisse entra
+Modifier un champ d'heure de début entraînera un tri des activités afin qu'elles soient toujours en ordre croissant.
+
+Afin de supprimer une activité, vous n'avez qu'à cliquer sur le bouton de suppression à droite de celle-ci.
+
+Pour changer journée, il est possible d'utiliser les boutons avec des flèches aux côtés de la date.
+
+Finalement, si vous désirez vous déconnecter, appuyer sur le bouton 'sign out'
 
 ## Future improvements
 ========================

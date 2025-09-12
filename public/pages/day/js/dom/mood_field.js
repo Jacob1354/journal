@@ -69,7 +69,7 @@ export class DOMMoodField {
         const mood_field_wrapper = this._create_mood_field_wrapper_with_title(field);
         const text_field = document.createElement("div");
         text_field.classList.add(MOOD_FIELD_TEXT_CLASS);
-        const input = document.createElement("textarea");
+        const input = document.createElement("input");
         input.classList.add(MOOD_FIELD_INPUT_CLASS);
         input.name = MOOD_FIELD_TEXT_NAME;
         input.value = field.get_data();

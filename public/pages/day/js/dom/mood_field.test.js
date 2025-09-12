@@ -76,7 +76,7 @@ test("_create_text_field", () => {
     test_field_basics(text_field_el, text_field, "text");
     text_field_el.querySelector('.' + MOOD_FIELD_INPUT_CLASS).dispatchEvent(input_event);
     expect(dispatch_spy.mock.calls[1][0].type).toBe(EVENT_UPDATE_MOODFIELD);
-    expect(text_field_el.children[1].children[0].nodeName).toBe("TEXTAREA");
+    expect(text_field_el.children[1].children[0].nodeName).toBe("INPUT");
     expect(text_field_el.children[1].children[0].name).toBe(MOOD_FIELD_TEXT_NAME);
     expect(text_field_el.children[1].children[0].value).toBe(text_field.get_data());
 }); 

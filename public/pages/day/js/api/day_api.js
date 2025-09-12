@@ -12,9 +12,9 @@ export const SIGNOUT_TIMEOUT = 1500;
  *
  * @export
  * @async
+ * @param {Date} date Defaults to current day
  * @throws {InvalidAuth}
  * @throws {ServerErr}
- * @param {Date} 
  * @returns {Day} the day matching the user and the date
  */
 export async function get_day(date = new Date()) {

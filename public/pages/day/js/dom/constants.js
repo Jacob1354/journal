@@ -13,6 +13,7 @@ export const DAY_NAV_RIGHT_ARROW_ID =  "day_nav_right_arrow";
 //Schedule
 export const ACTIVITIES_ID = "scheduled_activities";
 export const ACTIVITY_CLASS = "scheduled_activity";
+export const ACTIVITY_INPUTS_WRAPPER_CLASS = "activity_inputs_wrapper";
 export const ACTIVITIY_REMOVE_BTN_CLASS = "activity_remove_btn";
 export const ACTIVITIY_TIMEINTERVAL_CLASS = "time_interval";
 export const ACTIVITIY_STARTTIME_CLASS = "activity_start_time";

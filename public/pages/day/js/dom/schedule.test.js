@@ -36,11 +36,11 @@ test("create_scheduled_activities", () => {
     const schedule_el = dom_schedule._create_scheduled_activities(activities);
 
     expect(schedule_el.id).toBe(ACTIVITIES_ID);
-    expect(schedule_el.children[0].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].value).toBe(a1.title);
+    expect(schedule_el.children[0].children[0].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].value).toBe(a1.title);
     expect(schedule_el.children[0].getAttribute("index")).toBe("0");
-    expect(schedule_el.children[1].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].value).toBe(a3.title);
+    expect(schedule_el.children[1].children[0].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].value).toBe(a3.title);
     expect(schedule_el.children[1].getAttribute("index")).toBe("1");
-    expect(schedule_el.children[2].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].value).toBe(a2.title);
+    expect(schedule_el.children[2].children[0].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].value).toBe(a2.title);
     expect(schedule_el.children[2].getAttribute("index")).toBe("2");
 });
 
@@ -48,11 +48,10 @@ test("_create_activity", () => {
     const activity = dom_schedule._create_activity(a1, 0);
     expect(activity.classList.contains(ACTIVITY_CLASS)).toBe(true);
     expect(activity.getAttribute("index")).toBe("0");
-    expect(activity.children[0].value).toBe(a1.title);
-    expect(activity.children[1].classList.contains(ACTIVITIY_TIMEINTERVAL_CLASS)).toBe(true);
-    expect(activity.children[2].classList.contains(ACTIVITIY_REMOVE_BTN_CLASS)).toBe(true);
-    expect(activity.children[3].classList.contains(ACTIVITIY_CONTENT_WRAPPER_CLASS)).toBe(true);
-
+    expect(activity.children[0].children[0].value).toBe(a1.title);
+    expect(activity.children[0].children[1].classList.contains(ACTIVITIY_TIMEINTERVAL_CLASS)).toBe(true);
+    expect(activity.children[0].children[2].classList.contains(ACTIVITIY_CONTENT_WRAPPER_CLASS)).toBe(true);
+    expect(activity.children[1].classList.contains(ACTIVITIY_REMOVE_BTN_CLASS)).toBe(true);
 });
 
 test("create_activity_title", () => {

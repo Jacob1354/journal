@@ -1,6 +1,6 @@
 import { validate_array_type, validate_integer, validate_type } from "../../../../../shared/clean_code/clean_code_enforcement.js";
 import { Activity } from "../../../../../shared/data/schedule.js";
-import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_CONTENT_WRAPPER_CLASS, ACTIVITIY_ENDTIME_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_STARTTIME_CLASS, ACTIVITIY_TIMEINTERVAL_CLASS, ACTIVITIY_TITLE_CLASS, ACTIVITIES_ID, ACTIVITY_CLASS, EVENT_UPDATE_ACTIVITY_TITLE, EVENT_UPDATE_ACTIVITY_STARTTIME, EVENT_UPDATE_ACTIVITY_ENDTIME, EVENT_REMOVE_ACTIVITY, EVENT_UPDATE_ACTIVITY_CONTENT } from "./constants.js";
+import { ACTIVITIY_CONTENT_CLASS, ACTIVITIY_CONTENT_WRAPPER_CLASS, ACTIVITIY_ENDTIME_CLASS, ACTIVITIY_REMOVE_BTN_CLASS, ACTIVITIY_STARTTIME_CLASS, ACTIVITIY_TIMEINTERVAL_CLASS, ACTIVITIY_TITLE_CLASS, ACTIVITIES_ID, ACTIVITY_CLASS, EVENT_UPDATE_ACTIVITY_TITLE, EVENT_UPDATE_ACTIVITY_STARTTIME, EVENT_UPDATE_ACTIVITY_ENDTIME, EVENT_REMOVE_ACTIVITY, EVENT_UPDATE_ACTIVITY_CONTENT, ACTIVITY_INPUTS_WRAPPER_CLASS } from "./constants.js";
 
 export const removeBtnHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="3 6 5 6 21 6"></polyline>
@@ -40,13 +40,16 @@ export class DOMSchedule {
         validate_type(activity, Activity);
         validate_integer(index, 0);
         const activity_el = document.createElement("div");
+        const inputs_wrapper = document.createElement("div");
         activity_el.classList.add(ACTIVITY_CLASS);
+        inputs_wrapper.classList.add(ACTIVITY_INPUTS_WRAPPER_CLASS);
         activity_el.setAttribute("index", index);
-    
-        activity_el.appendChild(this._create_activity_title(activity));
-        activity_el.appendChild(this._create_activity_time_interval(activity));
+
+        inputs_wrapper.appendChild(this._create_activity_title(activity));
+        inputs_wrapper.appendChild(this._create_activity_time_interval(activity));
+        inputs_wrapper.appendChild(this._create_activity_content(activity));
+        activity_el.appendChild(inputs_wrapper);
         activity_el.appendChild(this._create_activity_remove_btn());
-        activity_el.appendChild(this._create_activity_content(activity));
 
         return activity_el;
     }

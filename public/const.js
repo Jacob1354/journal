@@ -1,0 +1,1 @@
+export const ERROR_POP_UP_CLASS = "error_pop_up";

@@ -1,4 +1,5 @@
 import { validate_array_type, validate_type } from "../shared/clean_code/clean_code_enforcement.js";
+import { ERROR_POP_UP_CLASS } from "./const.js";
 
 
 /**
@@ -70,8 +71,24 @@ export function get_parent_attribute(child, parent_selector, attribute) {
     return index;
 }
 
+
+/**
+ * Creates an error pop up in the body of the document. 
+ * Contains the message passed as msg 
+ *
+ * @export
+ * @param {string} msg 
+ */
 export function error_pop_up(msg) {
-    console.log(msg);
+    const pop_up = document.createElement("div");
+    pop_up.classList.add(ERROR_POP_UP_CLASS);
+    const msg_el = document.createElement("p");
+    msg_el.innerText = msg;
+    const close_btn = document.createElement("button");
+    close_btn.addEventListener("click", () => document.body.removeChild(pop_up));
+    pop_up.appendChild(msg_el);
+    pop_up.appendChild(close_btn);
+    document.body.appendChild(pop_up);
 }
 
 export class ParentNotFound extends Error {

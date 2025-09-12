@@ -1,7 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import { clear_children_of, get_parent_attribute, move_child_node, ParentNotFound, replace_children_of, UndefinedAttribute } from "./dom_utils";
+import { ERROR_POP_UP_CLASS } from "./const";
+import { clear_children_of, error_pop_up, get_parent_attribute, move_child_node, ParentNotFound, replace_children_of, UndefinedAttribute } from "./dom_utils";
 
 
 test("clear_element", () => {
@@ -79,6 +80,12 @@ test("get_parent_attribute", () => {
         .toThrow(ParentNotFound);
 });
 
-test("error_pop_up", () => {
-    throw new Error("Not implemented, yet");
+test("error_pop_up", async () => {
+    const msg = "this is a msg";
+    error_pop_up(msg);
+    const pop_up_el = document.getElementsByClassName(ERROR_POP_UP_CLASS)[0];
+    expect(pop_up_el).toBeDefined();
+    expect(pop_up_el.children[0].innerText).toBe(msg);
+    pop_up_el.children[1].click();
+    expect(document.getElementsByClassName(ERROR_POP_UP_CLASS).length).toBe(0);
 });

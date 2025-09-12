@@ -1,15 +1,6 @@
 import { User } from "../../../../../shared/data/user.js";
 import { ERROR_CLASS } from "../../const.js";
-import { msg_pop_up } from "../../dom_utils.js";
-
-function validate_form(form) {
-    const inputs = form.getElementsByTagName("input");
-    for(let i = 0;  i < inputs.length; i++)
-        if(inputs[i].value.trim() === "")
-            return false;
-
-    return true;
-}
+import { msg_pop_up, validate_form } from "../../dom_utils.js";
 
 function get_user_from_form() {
     const name = document.getElementById("name").value;
@@ -42,9 +33,6 @@ function handle_signup_err (err) {
     console.log(err);
     msg_pop_up({ msg: "Couldn't create account sorry :/", el_class: ERROR_CLASS });
 }
-
-let signup_success_text = document.getElementById("create_user_success");
-let signup_error_text = document.getElementById("create_user_error");
 
 document.getElementById("sign_up_btn").addEventListener("click", (e) => {
     const form = e.currentTarget.closest("form");

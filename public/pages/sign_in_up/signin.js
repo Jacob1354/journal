@@ -1,15 +1,6 @@
 import { User } from "../../../../../shared/data/user.js";
 import { ERROR_CLASS } from "../../const.js";
-import { msg_pop_up } from "../../dom_utils.js";
-
-function validate_form(form) {
-    const inputs = form.getElementsByTagName("input");
-    for(let i = 0;  i < inputs.length; i++)
-        if(inputs[i].value.trim() === "")
-            return false;
-
-    return true;
-}
+import { msg_pop_up, validate_form } from "../../dom_utils.js";
 
 function get_user_from_form() {
     const username = document.getElementById("username_input").value;

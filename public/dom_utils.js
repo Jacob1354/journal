@@ -131,3 +131,20 @@ export class UndefinedAttribute extends Error {
         this.name = "UndefinedAttribute";
     }
 }
+
+/**
+ * Verifies that all the 'input' fields of a form aren't empty 
+ * (white spaces and line terminator characters count as empty) 
+ * Doesn't check 'textarea'
+ * 
+ * @param {HTMLElement} form 
+ * @returns true if the form is valid, false otherwise
+ */
+export function validate_form(form) {
+    const inputs = form.getElementsByTagName("input");
+    for (let i = 0; i < inputs.length; i++)
+        if (inputs[i].value.trim() === "")
+            return false;
+
+    return true;
+}

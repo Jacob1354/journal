@@ -45,10 +45,13 @@
 }
 
 .scheduled_activity .activity_remove_btn {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    border: 0;
     margin: auto 5% auto auto;
     justify-self: flex-end;
+    
 }
 
 .scheduled_activity .wrapper {
@@ -65,5 +68,11 @@
 
 .activity_adder {
     margin: auto auto 2% auto;
+}
 
+.activity_adder button {
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 10px;
 }

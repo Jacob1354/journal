@@ -5,9 +5,20 @@ body {
     background-color: aquamarine;
     display: flex;
     flex-direction: column;
-    padding: 10%;
+    padding: 0 10%;
     font-family:  "Century Gothic", "Cambria", serif;
     font-size: max(19px, 1.2em);
+}
+
+button {
+    font-size: inherit;
+    font-family: inherit;
+}
+
+button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 nav {

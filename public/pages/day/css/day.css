@@ -6,6 +6,8 @@ body {
     display: flex;
     flex-direction: column;
     padding: 10%;
+    font-family:  "Century Gothic", "Cambria", serif;
+    font-size: max(19px, 1.2em);
 }
 
 nav {

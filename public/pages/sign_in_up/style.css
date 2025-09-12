@@ -3,7 +3,10 @@ body {
     display: flex;
     flex-direction: column;
     padding: 10%;
+    font-family:  "Century Gothic", "Cambria", serif;
+    font-size: max(19px, 1.2em);
 }
+
 nav {
     border: solid black 1px;
     border-radius: 10px;
@@ -44,6 +47,30 @@ form {
     margin: 0 auto 50px auto;
     padding: 10px;
     width: 50%;
+}
+
+form h2 {
+    margin-top: 5px;
+}
+
+form p {
+    margin-bottom: 5px;
+}
+
+form input {
+    border: 0px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 8px;
+}
+
+form button {
+    border: solid black 1px;
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+    padding: 5px;
+    text-decoration: none;
+    color: black;
+    font-family: inherit;
 }
 
 #user_getter_box {

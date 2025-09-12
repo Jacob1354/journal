@@ -10,6 +10,12 @@ body {
     font-size: max(19px, 1.2em);
 }
 
+@media (max-width: 992px) {
+    body {
+        padding: 2%;
+    }
+}
+
 button {
     font-size: inherit;
     font-family: inherit;

@@ -23,6 +23,7 @@
 }
 
 .scheduled_activity .activity_inputs_wrapper {
+    width: 80%;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;

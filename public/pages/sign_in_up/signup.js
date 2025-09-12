@@ -1,4 +1,6 @@
 import { User } from "../../../../../shared/data/user.js";
+import { ERROR_CLASS } from "../../const.js";
+import { msg_pop_up } from "../../dom_utils.js";
 
 function validate_form(form) {
     const inputs = form.getElementsByTagName("input");
@@ -25,25 +27,20 @@ function handle_signup_response(res) {
     if(res.status < 200 || res.status > 299) {
         res.text()
             .then((text) => {
-                signup_error_text.innerText = text;
-                signup_success_text.innerText = "";
+                msg_pop_up({msg: text, el_class: ERROR_CLASS});
             })
         }
         else {
             res.text()
             .then((text) => {
-                signup_success_text.innerText = 
-                    "New account created successfully";
-                signup_error_text.innerText = "";
+                msg_pop_up({msg: "New account created successfully"});
         })
     }
 }
 
 function handle_signup_err (err) {
     console.log(err);
-    signup_error_text.innerText = 
-                    "Couldn't create account sorry :/";
-    signup_success_text.innerText = "";
+    msg_pop_up({ msg: "Couldn't create account sorry :/", el_class: ERROR_CLASS });
 }
 
 let signup_success_text = document.getElementById("create_user_success");
@@ -64,8 +61,7 @@ document.getElementById("sign_up_btn").addEventListener("click", (e) => {
             .catch(handle_signup_err);
         } 
         else {
-            signup_error_text.innerText = "Error ! Cannot send a form with empty fields";
-            signup_success_text.innerText = "";
+            msg_pop_up({ msg: "Error ! Cannot send a form with empty fields", el_class: ERROR_CLASS});
         }
     }
 );

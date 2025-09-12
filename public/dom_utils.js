@@ -85,10 +85,33 @@ export function error_pop_up(msg) {
     const msg_el = document.createElement("p");
     msg_el.innerText = msg;
     const close_btn = document.createElement("button");
+    close_btn.innerText = "X";
     close_btn.addEventListener("click", () => document.body.removeChild(pop_up));
     pop_up.appendChild(msg_el);
     pop_up.appendChild(close_btn);
+    pop_up.style.opacity = 0;
     document.body.appendChild(pop_up);
+    fade_in(pop_up, 200);
+}
+
+
+/**
+ * Fades in an html element with an animation duration of duration
+ *
+ * @export
+ * @param {HTMLElement} el 
+ * @param {number} duration in ms 
+ */
+export function fade_in(el, duration) {
+    const delay = 10;
+    const incrementation = delay/duration;
+    const id = setInterval(() => {
+        el.style.opacity = Number(el.style.opacity) + incrementation;
+        if(el.style.opacity >= 1)
+            clearInterval(id);
+        }, 
+        delay
+    );
 }
 
 export class ParentNotFound extends Error {

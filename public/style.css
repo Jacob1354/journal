@@ -1,0 +1,28 @@
+.error_pop_up {
+    position: sticky;
+    bottom: 0px;
+    display: flex;
+    align-items: center;
+    background-color: rgb(245, 92, 92);
+    border-radius: 10px;
+    border: 1px solid black;
+    margin: 0;
+    height: 100px;
+}
+
+.error_pop_up p{
+    margin: 0;
+    padding: 0;
+    flex: auto;
+    color: aliceblue;
+    text-align: center;
+    font-weight: bold;
+}
+
+.error_pop_up button{
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    margin: 5px;
+    align-self: flex-start;
+}

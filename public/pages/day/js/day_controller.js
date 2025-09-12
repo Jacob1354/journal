@@ -5,7 +5,8 @@ import { get_day, post_signout } from "./api/day_api.js";
 import { DayAutoSaver } from "./day_autosaver.js";
 import { ACTIVITY_CLASS, EVENT_ADD_ACTIVITY, EVENT_MOVE_TO_NEXT_DAY, EVENT_MOVE_TO_PREVIOUS_DAY, EVENT_REMOVE_ACTIVITY, EVENT_SIGNOUT, EVENT_UPDATE_ACTIVITY_CONTENT, EVENT_UPDATE_ACTIVITY_ENDTIME, EVENT_UPDATE_ACTIVITY_STARTTIME, EVENT_UPDATE_ACTIVITY_TITLE, EVENT_UPDATE_MOODFIELD, MOOD_FIELD_CLASS } from "./dom/constants.js";
 import { DomDay } from "./dom/dom_day.js";
-import { error_pop_up, get_parent_attribute } from "../../../dom_utils.js";
+import { msg_pop_up, get_parent_attribute } from "../../../dom_utils.js";
+import { ERROR_CLASS } from "../../../const.js";
 
 
 export class DayController {
@@ -112,7 +113,7 @@ export class DayController {
             const index = get_parent_attribute(input_field, "." + ACTIVITY_CLASS, "index");
             this.#day.schedule.update_activity_title(index, input_field.value);
         } catch (error) {
-            error_pop_up(error);
+            msg_pop_up({msg: error, el_class: ERROR_CLASS});
         }
     }
     
@@ -123,7 +124,7 @@ export class DayController {
             const index = get_parent_attribute(input_field, "." + ACTIVITY_CLASS, "index");
             this.#day.schedule.update_activity_content(index, input_field.value);
         } catch (error) {
-            error_pop_up(error);
+            msg_pop_up({msg: error, el_class: ERROR_CLASS});
         }
     }
     
@@ -135,7 +136,7 @@ export class DayController {
             this.#day.schedule.update_activity_start_time(index, input_field.value);
             this.#dom_day.render_schedule(this.#day.schedule.get_activities());
         } catch (error) {
-            error_pop_up(error);
+            msg_pop_up({msg: error, el_class: ERROR_CLASS});
         }
     }
     
@@ -146,7 +147,7 @@ export class DayController {
             const index = get_parent_attribute(input_field, "." + ACTIVITY_CLASS, "index");
             this.#day.schedule.update_activity_end_time(index, input_field.value);
         } catch (error) {
-            error_pop_up(error);
+            msg_pop_up({msg: error, el_class: ERROR_CLASS});
         }
     }
     
@@ -158,7 +159,7 @@ export class DayController {
             this.#day.schedule.remove_activity(index);
             this.#dom_day.render_schedule(this.#day.schedule.get_activities());
         } catch (error) {
-            error_pop_up("Sorry, we we'rent able to remove this activity");
+            error_pop_up({msg: "Sorry, we we'rent able to remove this activity", el_class: ERROR_CLASS});
         }
     }
 

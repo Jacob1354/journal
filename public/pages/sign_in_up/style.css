@@ -2,10 +2,11 @@ body {
     background-color: aquamarine;
     display: flex;
     flex-direction: column;
-    padding: 10%;
+    padding: 5% 20%;
     font-family:  "Century Gothic", "Cambria", serif;
     font-size: max(19px, 1.2em);
 }
+
 
 nav {
     border: solid black 1px;
@@ -13,7 +14,7 @@ nav {
     background-color: rgb(246, 190, 253);
     margin: 0 auto 50px auto;
     padding: 10px;
-    width: 50%;
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -28,17 +29,6 @@ nav a {
     color: black;
 }
 
-.container {
-    border: solid black 1px;
-    border-radius: 10px;
-    background-color: rgb(246, 190, 253);
-    margin: 0 auto 50px auto;
-    padding: 10px;
-    width: 50%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-}
 
 form {
     border: solid black 1px;
@@ -46,7 +36,7 @@ form {
     background-color: rgb(246, 190, 253);
     margin: 0 auto 50px auto;
     padding: 10px;
-    width: 50%;
+    width: 100%;
 }
 
 form h2 {
@@ -82,4 +72,11 @@ form button {
 
 .err_text {
     color: red;
+}
+
+
+@media (max-width: 992px) {
+    body {
+        padding: 5% 10%;
+    }
 }

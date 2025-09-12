@@ -74,14 +74,15 @@ export function get_parent_attribute(child, parent_selector, attribute) {
 
 
 /**
- * Creates a pop up in the body of the document. 
+ * Creates a pop up in the body of the document and remove the previous one if there is one.
  * Contains the message passed as msg and has the class passed in param.
  *
  * @export
  * @param {string} msg 
  * @param {string} el_class The class to give to the pop_up. Defaults at "pop_up"
  */
-export function msg_pop_up({msg, el_class = null}) {
+export async function msg_pop_up({msg, el_class = null}) {
+    const old_pop_up = document.getElementsByClassName(POP_UP_CLASS)[0];
     const pop_up = document.createElement("div");
     pop_up.classList.add(POP_UP_CLASS);
     if(el_class) pop_up.classList.add(el_class);
@@ -94,7 +95,8 @@ export function msg_pop_up({msg, el_class = null}) {
     pop_up.appendChild(close_btn);
     pop_up.style.opacity = 0;
     document.body.appendChild(pop_up);
-    fade_in(pop_up, 200);
+    await fade_in(pop_up, 200);
+    if(old_pop_up) document.body.removeChild(old_pop_up);
 }
 
 
@@ -105,7 +107,7 @@ export function msg_pop_up({msg, el_class = null}) {
  * @param {HTMLElement} el 
  * @param {number} duration in ms 
  */
-export function fade_in(el, duration) {
+export async function fade_in(el, duration) {
     const delay = 10;
     const incrementation = delay/duration;
     const id = setInterval(() => {

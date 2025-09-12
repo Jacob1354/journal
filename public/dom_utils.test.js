@@ -80,13 +80,26 @@ test("get_parent_attribute", () => {
         .toThrow(ParentNotFound);
 });
 
-test("pop_up", async () => {
-    const msg = "this is a msg";
-    msg_pop_up({msg, el_class: ERROR_CLASS});
-    const pop_up_el = document.getElementsByClassName(POP_UP_CLASS)[0];
-    expect(pop_up_el).toBeDefined();
-    expect(pop_up_el.classList.contains(ERROR_CLASS)).toBeTruthy();
-    expect(pop_up_el.children[0].innerText).toBe(msg);
-    pop_up_el.children[1].click();
-    expect(document.getElementsByClassName(POP_UP_CLASS).length).toBe(0);
-});
+describe("msg_pop_up", () => {
+    test("Success", async () => {
+        const msg = "this is a msg";
+        await msg_pop_up({msg, el_class: ERROR_CLASS});
+        const pop_up_el = document.getElementsByClassName(POP_UP_CLASS)[0];
+        expect(pop_up_el).toBeDefined();
+        expect(pop_up_el.classList.contains(ERROR_CLASS)).toBeTruthy();
+        expect(pop_up_el.children[0].innerText).toBe(msg);
+        pop_up_el.children[1].click();
+        expect(document.getElementsByClassName(POP_UP_CLASS).length).toBe(0);
+    });
+
+    test("Removes old pop_up", async () => {
+        const msg_1 = "msg_1";
+        const msg_2 = "msg_2";
+        await msg_pop_up({msg: msg_1});
+        let pop_up_el = document.getElementsByClassName(POP_UP_CLASS)[0];
+        expect(pop_up_el.getElementsByTagName("p")[0].innerText).toBe(msg_1);
+        await msg_pop_up({msg: msg_2});
+        pop_up_el = document.getElementsByClassName(POP_UP_CLASS)[0];
+        expect(pop_up_el.getElementsByTagName("p")[0].innerText).toBe(msg_2);
+    });
+})

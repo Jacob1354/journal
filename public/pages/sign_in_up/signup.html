@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--So expres.static("public") doesn't try something like /public/style.css -->
+    <base href="./pages/sign_in_up/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Sign Up</title>
+</head>
+<body>
+    <nav>
+        <a href="/signup">Sign up</a>
+        <a href="/signin">Sign in</a>
+    </nav>
+    <form method="post">
+        <h2>Sign Up</h2>
+        <p>Name :</p>
+        <input type="text" name="name" id="name">
+        <p>Username :</p>
+        <input type="text" name="username" id="username_input">
+        <p>Password :</p>
+        <input type="password" name="password" id="password_input">
+        <button id="sign_up_btn" type="button">Sign Up</button>
+        <p id="create_user_success"></p>
+        <p id="create_user_error" class="err_text"></p>
+    </form>
+    <script type="module" src="signup.js"></script>
+</body>
+</html>

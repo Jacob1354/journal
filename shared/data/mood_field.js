@@ -1,0 +1,179 @@
+import { AbstractClassInstanciated, AbstractFunctionNotOverriden, validate_type, validate_integer, InvalidDataType} from "../clean_code/clean_code_enforcement.js";
+import { FIELD_TYPE_FRACTION, FIELD_TYPE_NUMBER, FIELD_TYPE_SLIDER, FIELD_TYPE_TEXT } from "../const.js";
+
+export class AbstractMoodField {
+    #field_name;
+    _data;
+    _field_type;
+
+    constructor(field_name) {
+        if(new.target === AbstractMoodField) {
+            throw new AbstractClassInstanciated(
+                "Cannot initiate AbstactMoodField since it's an abstract class"
+            );
+        }
+        validate_type(field_name, "string");
+        this.#field_name = field_name;
+    }
+
+    rename_field(new_field_name) {
+        this.#field_name = new_field_name;
+    }
+    get_field_name() {
+        return this.#field_name;
+    }
+
+    get_data() {
+        return this._data;
+    }
+    set_data(new_data) {
+        throw new AbstractFunctionNotOverriden(
+            "No set_data method defined for this " + String(this.constructor)
+        );
+    }
+
+    parse_input(value){}
+
+    update_from_input(value) {
+        this.set_data(this.parse_input(value));
+    }
+
+    prepare_json_obj() {
+        return {
+            type: this._field_type,
+            title: this.#field_name,
+            data: this._data
+        };
+    }
+
+    toJSON() {
+        return JSON.stringify(this.prepare_json_obj());
+    }
+
+    static fromJSON(obj) {
+        throw new Error("Abstract class");
+    }
+}
+
+export class TextField extends AbstractMoodField {
+    constructor(field_name, data="Write here") {
+        super(field_name);
+        this.set_data(data);
+        this._field_type = FIELD_TYPE_TEXT; 
+    }
+
+    set_data(new_data) {
+        validate_type(new_data, "string");
+        this._data = new_data;
+    }
+    
+    parse_input(value) {
+        return String(value);
+    }
+
+    static from_json_obj(json_obj) {
+        return new TextField(json_obj.title, json_obj.data);
+    }
+}
+
+export class NumberField extends AbstractMoodField {
+        constructor(field_name, data=0) {
+        super(field_name);
+        this.set_data(data);
+        this._field_type = FIELD_TYPE_NUMBER;
+    }
+
+    set_data(new_data) {
+        validate_integer(new_data);
+        this._data = new_data;
+    }
+
+    parse_input(value) {
+        return Number(value);
+    }
+    
+    static from_json_obj(json_obj) {
+        return new NumberField(json_obj.title, json_obj.data);
+    }
+}
+
+export class SliderField extends AbstractMoodField {
+    constructor(field_name, data=0) {
+        super(field_name);
+        this.set_data(data);
+        this._field_type = FIELD_TYPE_SLIDER;
+    }
+    
+    set_data(new_data) {
+        validate_integer(new_data, 0, 100);
+        this._data = new_data;
+    }
+    
+    parse_input(value) {
+        return Number(value);
+    }
+
+    static from_json_obj(json_obj) {
+        return new SliderField(json_obj.title, json_obj.data);
+    }
+}
+
+export class FractionField extends AbstractMoodField {
+    #denom;
+    constructor(field_name, data = 0, denominator = 10) {
+        super(field_name);
+        this.set_denominator(denominator);
+        this.set_data(data);
+        this._field_type = FIELD_TYPE_FRACTION;
+    }
+    
+    set_data(new_data) {
+        //Number instead of integer, because the precision is up the user for maximal expressiveness
+        validate_type(new_data, "number");
+        this._data = new_data;
+    }
+    
+    get_denominator() {
+        return this.#denom;
+    }
+
+    set_denominator(new_denom) {
+        try {
+            validate_integer(new_denom);
+        } catch (err) {
+            if(err instanceof InvalidDataType)
+                throw new InvalidDenom("Denom must be an integer");
+            else
+                throw err;
+        }
+        if(new_denom < 1)
+            throw new InvalidDenom("Denom must be bigger or equal to zero");
+        this.#denom = new_denom;
+    }
+    
+    parse_input(value) {
+        return Number(value);
+    }
+
+    prepare_json_obj() {
+        const obj = super.prepare_json_obj();
+        obj.denom = this.#denom;
+        return obj;
+    }
+    
+    static from_json_obj(json_obj) {
+        return new FractionField(json_obj.title, json_obj.data, json_obj.denom);
+    }
+}
+
+export class InvalidDenom extends Error {
+    constructor(msg) {
+        super(msg);
+        this.name = "InvalidDenom";
+    }
+}
+
+
+
+
+

@@ -1,0 +1,23 @@
+{
+    "type": "module",
+    "jest": {
+        "transform": {}
+    },
+    "scripts": {
+        "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    },
+    "devDependencies": {
+        "@jest/globals": "^30.0.5",
+        "@jest/types": "^30.0.5",
+        "@types/jest": "^30.0.0",
+        "jest": "^30.0.5",
+        "jest-environment-jsdom": "^30.0.4"
+    },
+    "dependencies": {
+        "@types/argon2": "^0.14.1",
+        "argon2": "^0.44.0",
+        "better-sqlite3": "^12.2.0",
+        "cookie-parser": "^1.4.7",
+        "express": "^5.1.0"
+    }
+}

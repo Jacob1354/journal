@@ -1,5 +1,5 @@
 import { validate_array_type, validate_type } from "../shared/clean_code/clean_code_enforcement.js";
-import { ERROR_POP_UP_CLASS } from "./const.js";
+import { ERROR_CLASS, POP_UP_CLASS } from "./const.js";
 
 
 /**
@@ -72,16 +72,19 @@ export function get_parent_attribute(child, parent_selector, attribute) {
 }
 
 
+
 /**
- * Creates an error pop up in the body of the document. 
- * Contains the message passed as msg 
+ * Creates a pop up in the body of the document. 
+ * Contains the message passed as msg and has the class passed in param.
  *
  * @export
  * @param {string} msg 
+ * @param {string} el_class The class to give to the pop_up. Defaults at "pop_up"
  */
-export function error_pop_up(msg) {
+export function msg_pop_up({msg, el_class = null}) {
     const pop_up = document.createElement("div");
-    pop_up.classList.add(ERROR_POP_UP_CLASS);
+    pop_up.classList.add(POP_UP_CLASS);
+    if(el_class) pop_up.classList.add(el_class);
     const msg_el = document.createElement("p");
     msg_el.innerText = msg;
     const close_btn = document.createElement("button");

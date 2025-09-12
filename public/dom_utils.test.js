@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import { ERROR_POP_UP_CLASS } from "./const";
-import { clear_children_of, error_pop_up, get_parent_attribute, move_child_node, ParentNotFound, replace_children_of, UndefinedAttribute } from "./dom_utils";
+import { ERROR_CLASS, POP_UP_CLASS } from "./const";
+import { clear_children_of, msg_pop_up, get_parent_attribute, move_child_node, ParentNotFound, replace_children_of, UndefinedAttribute } from "./dom_utils";
 
 
 test("clear_element", () => {
@@ -80,12 +80,13 @@ test("get_parent_attribute", () => {
         .toThrow(ParentNotFound);
 });
 
-test("error_pop_up", async () => {
+test("pop_up", async () => {
     const msg = "this is a msg";
-    error_pop_up(msg);
-    const pop_up_el = document.getElementsByClassName(ERROR_POP_UP_CLASS)[0];
+    msg_pop_up({msg, el_class: ERROR_CLASS});
+    const pop_up_el = document.getElementsByClassName(POP_UP_CLASS)[0];
     expect(pop_up_el).toBeDefined();
+    expect(pop_up_el.classList.contains(ERROR_CLASS)).toBeTruthy();
     expect(pop_up_el.children[0].innerText).toBe(msg);
     pop_up_el.children[1].click();
-    expect(document.getElementsByClassName(ERROR_POP_UP_CLASS).length).toBe(0);
+    expect(document.getElementsByClassName(POP_UP_CLASS).length).toBe(0);
 });

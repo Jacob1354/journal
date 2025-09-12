@@ -7,27 +7,44 @@
     grid-row: 2;
     border: solid black 1px;
     border-radius: 10px;
-    background-color: rgb(118, 236, 236);   
+    background-color: rgb(118, 236, 236);
+    padding: 2%; 
 }
 
 #scheduled_activities {
-    margin: 2%;
+    padding: 2%;
 }
 
 .scheduled_activity  {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    width: 100%;
 }
 
-.scheduled_activity h3 {
-    margin-left: auto;
+.scheduled_activity .activity_inputs_wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
 }
 
+.scheduled_activity .activity_title {
+    width: 100%;
+    padding: 0;
+    border-radius: 10px;
+    border: 0;
+    background-color: inherit;
+    font-size: 1.5em;
+    font-weight: bold;
+    grid-column: 1;
+    grid-row: 1;
+}
 
 .scheduled_activity .time_interval {
+    grid-column: 2;
+    grid-row: 1;
     display: flex;
-    margin: .5em 3% .5em 3%;
+    margin: .5em 3% .5em 0;
     background-color: rgb(202, 255, 255);
     border-radius: 1em;
 }
@@ -49,22 +66,44 @@
     height: 40px;
     border-radius: 100%;
     border: 0;
-    margin: auto 5% auto auto;
-    justify-self: flex-end;
+    align-self: flex-end;
+    margin-left: auto;
+    flex: 0 0 auto;
+    align-self: center;
     
 }
 
 .scheduled_activity .wrapper {
     width: 100%;
-    margin: .5em 3% .5em 3%;
+    grid-column: 1/3;
 }
 
 .scheduled_activity .wrapper .activity_content {
-    width: 90%;
+    width: 100%;
     border: none;
     background-color: rgb(202, 255, 255);
     border-radius: 1em;
 }
+
+@media (max-width: 992px) {
+    .scheduled_activity .activity_inputs_wrapper {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+    }
+    .scheduled_activity .activity_title {
+        grid-column: 1;
+        grid-row: 1;
+    }
+    .scheduled_activity .time_interval {
+        grid-column: 1;
+        grid-row: 2;
+    }
+    .scheduled_activity .wrapper {
+        grid-column: 1;
+        grid-row: 3;
+    }
+}
+
 
 .activity_adder {
     margin: auto auto 2% auto;

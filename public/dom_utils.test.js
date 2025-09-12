@@ -87,7 +87,7 @@ describe("msg_pop_up", () => {
         const pop_up_el = document.getElementsByClassName(POP_UP_CLASS)[0];
         expect(pop_up_el).toBeDefined();
         expect(pop_up_el.classList.contains(ERROR_CLASS)).toBeTruthy();
-        expect(pop_up_el.children[0].innerText).toBe(msg);
+        expect(pop_up_el.children[0].getElementsByTagName("p")[0].innerText).toBe(msg);
         pop_up_el.children[1].click();
         expect(document.getElementsByClassName(POP_UP_CLASS).length).toBe(0);
     });
@@ -102,4 +102,14 @@ describe("msg_pop_up", () => {
         pop_up_el = document.getElementsByClassName(POP_UP_CLASS)[0];
         expect(pop_up_el.getElementsByTagName("p")[0].innerText).toBe(msg_2);
     });
+
+    test("Add redirection link", async () => {
+        const msg = "this is a msg";
+        const redirection_msg = "this is a redirection msg";
+        const url = "a_url";
+        await msg_pop_up({msg, el_class: ERROR_CLASS, redirection: {url: url, msg: redirection_msg}});
+        let pop_up_el = document.getElementsByClassName(POP_UP_CLASS)[0];
+        expect(pop_up_el.getElementsByTagName("a")[0].innerText).toBe(redirection_msg);
+        expect(pop_up_el.getElementsByTagName("a")[0].href).toBe(document.URL + url);
+    })
 })

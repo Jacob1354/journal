@@ -80,23 +80,36 @@ export function get_parent_attribute(child, parent_selector, attribute) {
  * @export
  * @param {string} msg 
  * @param {string} el_class The class to give to the pop_up. Defaults at "pop_up"
+ * @param {object} redirection Should have the format {url, msg}. If assigned, add the msg as a link 
  */
-export async function msg_pop_up({msg, el_class = null}) {
+export async function msg_pop_up({msg, el_class = null, redirection = null}) {
     const old_pop_up = document.getElementsByClassName(POP_UP_CLASS)[0];
     const pop_up = document.createElement("div");
     pop_up.classList.add(POP_UP_CLASS);
     if(el_class) pop_up.classList.add(el_class);
-    const msg_el = document.createElement("p");
-    msg_el.innerText = msg;
     const close_btn = document.createElement("button");
     close_btn.innerText = "X";
     close_btn.addEventListener("click", () => document.body.removeChild(pop_up));
-    pop_up.appendChild(msg_el);
+    pop_up.appendChild(_create_pop_up_content(msg, redirection));
     pop_up.appendChild(close_btn);
     pop_up.style.opacity = 0;
     document.body.appendChild(pop_up);
     await fade_in(pop_up, 200);
     if(old_pop_up) document.body.removeChild(old_pop_up);
+}
+
+function _create_pop_up_content(msg, redirection = null) {
+    const container = document.createElement("div");
+    const msg_el = document.createElement("p");
+    msg_el.innerText = msg;
+    container.appendChild(msg_el);
+    if(redirection && redirection.url && redirection.msg) {
+        const redirection_el = document.createElement("a");
+        redirection_el.innerText = redirection.msg;
+        redirection_el.href = redirection.url;
+        container.appendChild(redirection_el)
+    }
+    return container;
 }
 
 

@@ -17,6 +17,11 @@ body {
     }
 }
 
+.pop_up {
+    width: 90%;
+    margin: 0 auto;
+}
+
 button {
     font-size: inherit;
     font-family: inherit;

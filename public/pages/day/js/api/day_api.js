@@ -2,7 +2,7 @@ import { validate_type } from "../../../../../shared/clean_code/clean_code_enfor
 import { ClientNotUpToDate } from "../../../../../shared/const.js";
 import { Day } from "../../../../../shared/data/day.js";
 
-export const FETCH_TIMEOUT = 5000;
+export const FETCH_TIMEOUT = 3000;
 export const SIGNOUT_TIMEOUT = 1500;
 
 

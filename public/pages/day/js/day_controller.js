@@ -1,7 +1,7 @@
 import { validate_type } from "../../../../shared/clean_code/clean_code_enforcement.js";
 import { Day } from "../../../../shared/data/day.js";
 import { Activity } from "../../../../shared/data/schedule.js";
-import { get_day, post_signout } from "./api/day_api.js";
+import { get_day, InvalidAuth, post_signout } from "./api/day_api.js";
 import { DayAutoSaver } from "./day_autosaver.js";
 import { ACTIVITY_CLASS, EVENT_ADD_ACTIVITY, EVENT_MOVE_TO_NEXT_DAY, EVENT_MOVE_TO_PREVIOUS_DAY, EVENT_REMOVE_ACTIVITY, EVENT_SIGNOUT, EVENT_UPDATE_ACTIVITY_CONTENT, EVENT_UPDATE_ACTIVITY_ENDTIME, EVENT_UPDATE_ACTIVITY_STARTTIME, EVENT_UPDATE_ACTIVITY_TITLE, EVENT_UPDATE_MOODFIELD, MOOD_FIELD_CLASS } from "./dom/constants.js";
 import { DomDay } from "./dom/dom_day.js";
@@ -18,7 +18,11 @@ export class DayController {
     }
 
     async _init() {
-        this.#day = await get_day();
+        try {
+            this.#day = await get_day();
+        } catch(err) {
+            msg_pop_up({msg: "Oops... Something went wrong, please try again", el_class: ERROR_CLASS});
+        }
         this.#dom_day = new DomDay(() => this.get_day());
         this.#dom_day.render();
         this.#auto_saver = new DayAutoSaver({
@@ -70,15 +74,23 @@ export class DayController {
 
     
     async move_to_next_day() {
-        await this.load_new_day(new Date(
-            this.#day.date.getTime() + 1000 * 60 * 60 * 24 //Adding 24h to move to the next day
-        ));
+        try {
+            await this.load_new_day(new Date(
+                this.#day.date.getTime() + 1000 * 60 * 60 * 24 //Adding 24h to move to the next day
+            ));
+        } catch(err) {
+            msg_pop_up({msg: "Oops... Something went wrong, please try again", el_class: ERROR_CLASS});
+        };
     }
     
     async move_to_previous_day() {
-        await this.load_new_day(new Date(
-            this.#day.date.getTime() - 1000 * 60 * 60 * 24 //Removing 24h to move to the next day
-        ));
+        try {
+            await this.load_new_day(new Date(
+                this.#day.date.getTime() - 1000 * 60 * 60 * 24 //Removing 24h to move to the next day
+            ));
+        } catch(err) {
+            msg_pop_up({msg: "Oops... Something went wrong, please try again", el_class: ERROR_CLASS});
+        };
     }
 
     
@@ -102,7 +114,17 @@ export class DayController {
      * @param {Date} date 
      */
     async update_day(date) {
-        this.#day = await get_day(date);
+        try {
+            this.#day = await get_day(date);
+        } catch(err) {
+            if(err instanceof InvalidAuth) {
+                msg_pop_up({
+                    msg: "Seems like your session timed out, please log in again", 
+                    el_class: ERROR_CLASS}
+                );
+            }
+            throw err;
+        }
         this.#dom_day.render();
     }
     

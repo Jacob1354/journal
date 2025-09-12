@@ -59,28 +59,35 @@ De plus, le visuel n'était pas le principal de l'application, expliquant son de
 
 ## Utilisation <a name="usage-fr" />
 Une fois le lancement effectué, dans le terminal, il sera écrit le lien du serveur. 
+![Alt text](./doc/gifs/LaunchingServer.gif)
+
 
 Il suffit de l'ouvrir dans un navigateur pour voir l'application. 
+![Alt text](./doc/gifs/FirstLoad.gif)
 
 Il vous faudra par la suite vous connecter ou créer un compte si vous n'en avez pas déjà un. Il n'y a pas 
 d'autres restrictions qu'un minimum d'au moins 1 caractère par champ et l'unicité des usernames.
+![Alt text](./doc/gifs/SignUpIn.gif)
 
 Une fois votre compte créé, un cookie de session l'est aussi avec une expiration une heure plus tard. Vous serez
 donc connecter automatiquement à votre compte par la suite. 
-
-Une fois connecté, vous vous retrouverez à la journée actuelle. Il y aura les mêmes valeurs par défaut que
-dans l'image suivante.
+![Alt text](./doc/gifs/CookieExistence.gif)
 
 Comme vous pouvez le voir, il n'y a pas d'activité par défaut. Il suffit de cliquer sur le bouton d'ajout pour
 le faire.
+![Alt text](./doc/gifs/AddingActivitygif.gif)
 
 Modifier un champ d'heure de début entraînera un tri des activités afin qu'elles soient toujours en ordre croissant.
+![Alt text](./doc/gifs/ModifyingStartTime.gif)
 
 Afin de supprimer une activité, vous n'avez qu'à cliquer sur le bouton de suppression à droite de celle-ci.
+![Alt text](./doc/gifs/DeletingActivity.gif)
 
 Pour changer journée, il est possible d'utiliser les boutons avec des flèches aux côtés de la date.
+![Alt text](./doc/gifs/ChangingDay.gif)
 
 Finalement, si vous désirez vous déconnecter, appuyer sur le bouton 'sign out'
+![Alt text](./doc/gifs/SignOut.gif)
 
 ## Point faibles <a name="weak-pts-fr" />
 Ce projet a de nombreux points faibles. Certains sont liés aux objectifs et à sa conception.
@@ -171,24 +178,31 @@ Also, the visual design was not the main focus, which explains its basic appeara
 
 ## Usage <a name="usage-en" />
 Once started, the terminal will display the server link.
+![Alt text](./doc/gifs/LaunchingServer.gif)
 
 Open it in a browser to use the app.
+![Alt text](./doc/gifs/FirstLoad.gif)
 
 You will need to sign in or create an account if you don't have one. The only requirements are at least 1 character per field and unique usernames.
+![Alt text](./doc/gifs/SignUpIn.gif)
 
 After creating your account, a session cookie is set with a one-hour expiration. You will be automatically logged in next time.
-
-Once logged in, you'll see the current day. The default values are the same as in the screenshot below.
+![Alt text](./doc/gifs/CookieExistence.gif)
 
 As you can see, there are no default activities. Just click the add button to create one.
+![Alt text](./doc/gifs/AddingActivitygif.gif)
 
 Changing a start time field will automatically sort activities in ascending order.
+![Alt text](./doc/gifs/ModifyingStartTime.gif)
 
 To delete an activity, click the delete button to its right.
+![Alt text](./doc/gifs/DeletingActivity.gif)
 
 To change the day, use the arrow buttons next to the date.
+![Alt text](./doc/gifs/ChangingDay.gif)
 
 Finally, to sign out, click the 'sign out' button.
+![Alt text](./doc/gifs/SignOut.gif)
 
 ## Weak Points <a name="weak-pts-en" />
 This project has many weak points. Some are related to its goals and design, others to my own weaknesses. Here are the main ones:

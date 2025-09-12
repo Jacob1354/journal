@@ -53,8 +53,8 @@ export class DOMSchedule {
     
     
     _create_activity_title(activity) {
-        const title = document.createElement("h3");
-        title.innerText = activity.title;
+        const title = document.createElement("input");
+        title.value = activity.title;
         title.classList.add(ACTIVITIY_TITLE_CLASS);
         title.addEventListener("input", () => 
             title.dispatchEvent(new CustomEvent(EVENT_UPDATE_ACTIVITY_TITLE, {bubbles: true}))

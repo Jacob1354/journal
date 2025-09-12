@@ -36,11 +36,11 @@ test("create_scheduled_activities", () => {
     const schedule_el = dom_schedule._create_scheduled_activities(activities);
 
     expect(schedule_el.id).toBe(ACTIVITIES_ID);
-    expect(schedule_el.children[0].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].innerText).toBe(a1.title);
+    expect(schedule_el.children[0].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].value).toBe(a1.title);
     expect(schedule_el.children[0].getAttribute("index")).toBe("0");
-    expect(schedule_el.children[1].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].innerText).toBe(a3.title);
+    expect(schedule_el.children[1].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].value).toBe(a3.title);
     expect(schedule_el.children[1].getAttribute("index")).toBe("1");
-    expect(schedule_el.children[2].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].innerText).toBe(a2.title);
+    expect(schedule_el.children[2].getElementsByClassName(ACTIVITIY_TITLE_CLASS)[0].value).toBe(a2.title);
     expect(schedule_el.children[2].getAttribute("index")).toBe("2");
 });
 
@@ -48,7 +48,7 @@ test("_create_activity", () => {
     const activity = dom_schedule._create_activity(a1, 0);
     expect(activity.classList.contains(ACTIVITY_CLASS)).toBe(true);
     expect(activity.getAttribute("index")).toBe("0");
-    expect(activity.children[0].innerText).toBe(a1.title);
+    expect(activity.children[0].value).toBe(a1.title);
     expect(activity.children[1].classList.contains(ACTIVITIY_TIMEINTERVAL_CLASS)).toBe(true);
     expect(activity.children[2].classList.contains(ACTIVITIY_REMOVE_BTN_CLASS)).toBe(true);
     expect(activity.children[3].classList.contains(ACTIVITIY_CONTENT_WRAPPER_CLASS)).toBe(true);
@@ -58,9 +58,9 @@ test("_create_activity", () => {
 test("create_activity_title", () => {
     const title = dom_schedule._create_activity_title(a1);
     
-    expect(title.nodeName).toBe("H3");
+    expect(title.nodeName).toBe("INPUT");
     expect(title.classList.contains(ACTIVITIY_TITLE_CLASS)).toBe(true);
-    expect(title.innerText).toBe(a1.title);
+    expect(title.value).toBe(a1.title);
     title.dispatchEvent(input_event);
     expect(dispatch_spy.mock.calls[1][0].type).toBe(EVENT_UPDATE_ACTIVITY_TITLE);
 });

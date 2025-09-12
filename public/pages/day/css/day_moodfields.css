@@ -15,17 +15,54 @@
     }
 }
 
+.mood_field_input {
+    border: 0px;
+    border-radius: 10px;
+    padding: 5px;
+    text-align: end;
+}
+
+.mood_field_nb .mood_field_input {
+    width: 115px;
+}
+
 .mood_field_fraction {
     display: flex;
 }
 
-.mood_field_fraction input {
-    margin: auto 5px;
+.mood_field_fraction .mood_field_input {
+    width: 80px;
+    padding: 5px 0 5px 5px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
     text-align: end;
-    
 }
 
 .mood_field_fraction p {
+    border-radius: 0 10px 10px 0;
     font-size: 20px;
     margin: 0px;
+    background-color: white;
+
+    padding: 5px 5px 5px 0;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.mood_field_text .mood_field_input {
+    width: 90%;
+    text-align: start;
+}
+
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

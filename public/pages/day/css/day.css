@@ -35,6 +35,20 @@ nav button:hover {
     cursor: pointer;
 }
 
+#day_navigation_bar .day_arrow_btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    border: 0px;
+    width: 50px;
+    height: 50px;
+}
+#day_navigation_bar .day_arrow_btn svg {
+    width: 100%;
+    height: 100%;
+}
+
 
 #day_container {
     display: flex;
@@ -76,4 +90,9 @@ nav button:hover {
     width: 50px;
     height: 50px;
     align-self: center;
+}
+
+input {
+    font-size: inherit;
+    font-family: inherit;
 }

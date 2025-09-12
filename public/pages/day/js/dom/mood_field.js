@@ -1,7 +1,7 @@
 import { validate_array_type, validate_integer, validate_type } from "../../../../../shared/clean_code/clean_code_enforcement.js";
 import { AbstractMoodField, FractionField, NumberField, SliderField, TextField } from "../../../../../shared/data/mood_field.js";
 import { EVENT_UPDATE_MOODFIELD, MOOD_FIELD_CLASS, MOOD_FIELD_FRACTION_CLASS, MOOD_FIELD_INPUT_CLASS, MOOD_FIELD_NB_CLASS, MOOD_FIELD_SLIDER_CLASS, MOOD_FIELD_TEXT_CLASS, MOOD_FIELD_TEXT_NAME, MOOD_FIELDS_WRAPPER_ID } from "./constants.js";
-import { replace_children_of } from "./dom_utils.js";
+import { replace_children_of } from "../../../../dom_utils.js";
 
 export class DOMMoodField {
 

@@ -1,4 +1,4 @@
-import { validate_array_type, validate_type } from "../../../../../shared/clean_code/clean_code_enforcement.js";
+import { validate_array_type, validate_type } from "../shared/clean_code/clean_code_enforcement.js";
 
 
 /**

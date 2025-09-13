@@ -120,10 +120,12 @@ export class DayController {
             if(err instanceof InvalidAuth) {
                 msg_pop_up({
                     msg: "Seems like your session timed out, please log in again", 
-                    el_class: ERROR_CLASS}
-                );
+                    el_class: ERROR_CLASS,
+                    redirection: {msg: "Click here to go to sign in page", url: "/signin"}
+                });
             }
-            throw err;
+            else
+                throw err;
         }
         this.#dom_day.render();
     }

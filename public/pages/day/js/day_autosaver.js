@@ -1,6 +1,8 @@
 import { validate_type } from "../../../../shared/clean_code/clean_code_enforcement.js";
 import { ClientNotUpToDate } from "../../../../shared/const.js";
 import { Day } from "../../../../shared/data/day.js";
+import { ERROR_CLASS } from "../../../const.js";
+import { msg_pop_up } from "../../../dom_utils.js";
 import { InvalidAuth, post_day } from "./api/day_api.js";
 
 
@@ -60,7 +62,11 @@ export class DayAutoSaver {
             })
             .catch((err) => {
                 if(err instanceof InvalidAuth) {
-                    //TODO figure out how to implement
+                    msg_pop_up({
+                        msg: "Seems like your session timed out, please log in again", 
+                        el_class: ERROR_CLASS,
+                        redirection: {msg: "Click here to go to sign in page", url: "/signin"}
+                    });
                 } else if(err instanceof ClientNotUpToDate) {
                     this.#update_day();
                 }

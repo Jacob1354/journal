@@ -11,20 +11,38 @@
 
 }
 
-.pop_up.error {
-    background-color: rgb(245, 92, 92);
+
+.pop_up div {
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.pop_up a {
+    text-align: center;
+    font-size: inherit;
+    font-family: inherit;
+    font-weight: bold;
+    width: 100%;
 }
 
 .pop_up p{
     margin: 0;
     padding: 0;
-    flex: auto;
     color: black;
     text-align: center;
     font-weight: bold;
 }
 
+.pop_up.error {
+    background-color: rgb(245, 92, 92);
+}
+
 .pop_up.error p {
+    color: aliceblue;
+}
+
+.pop_up.error a {
     color: aliceblue;
 }
 

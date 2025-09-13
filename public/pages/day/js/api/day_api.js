@@ -2,7 +2,7 @@ import { validate_type } from "../../../../../shared/clean_code/clean_code_enfor
 import { ClientNotUpToDate } from "../../../../../shared/const.js";
 import { Day } from "../../../../../shared/data/day.js";
 
-export const FETCH_TIMEOUT = 5000;
+export const FETCH_TIMEOUT = 3000;
 export const SIGNOUT_TIMEOUT = 1500;
 
 
@@ -12,9 +12,9 @@ export const SIGNOUT_TIMEOUT = 1500;
  *
  * @export
  * @async
+ * @param {Date} date Defaults to current day
  * @throws {InvalidAuth}
  * @throws {ServerErr}
- * @param {Date} 
  * @returns {Day} the day matching the user and the date
  */
 export async function get_day(date = new Date()) {

@@ -13,8 +13,8 @@ export const DB_NAME = "journaldb.db";
 //HTML
 export const HTML_PAGES_PATH = path.join(__dirname, "..", "public", "pages");
 export const HTML_DAY_PATH = path.join(HTML_PAGES_PATH, "day", "day.html");
-export const HTML_SIGNIN_PATH = path.join(HTML_PAGES_PATH, "sign_in_up", "signin.html");
-export const HTML_SIGNUP_PATH = path.join(HTML_PAGES_PATH, "sign_in_up", "signup.html");
+export const HTML_SIGNIN_PATH = path.join(HTML_PAGES_PATH, "connexion", "signin.html");
+export const HTML_SIGNUP_PATH = path.join(HTML_PAGES_PATH, "connexion", "signup.html");
 //SQL
 export const SQL_AUTH_SETUP_PATH = path.join(__dirname, "db_scripts", "auth_setup.sql");
 export const SQL_JOURNAL_SETUP_PATH = path.join(__dirname, "db_scripts", "journal_setup.sql");

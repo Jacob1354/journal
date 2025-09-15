@@ -3,7 +3,7 @@ import { Day } from "../../../../shared/data/day.js";
 import { Activity } from "../../../../shared/data/schedule.js";
 import { get_day, InvalidAuth, post_signout } from "./api/day_api.js";
 import { DayAutoSaver } from "./day_autosaver.js";
-import { ACTIVITY_CLASS, EVENT_ADD_ACTIVITY, EVENT_MOVE_TO_NEXT_DAY, EVENT_MOVE_TO_PREVIOUS_DAY, EVENT_REMOVE_ACTIVITY, EVENT_SIGNOUT, EVENT_UPDATE_ACTIVITY_CONTENT, EVENT_UPDATE_ACTIVITY_ENDTIME, EVENT_UPDATE_ACTIVITY_STARTTIME, EVENT_UPDATE_ACTIVITY_TITLE, EVENT_UPDATE_MOODFIELD, MOOD_FIELD_CLASS } from "./dom/constants.js";
+import { ACTIVITY_CLASS, ERR_MSG_INVALID_CHAR, EVENT_ADD_ACTIVITY, EVENT_MOVE_TO_NEXT_DAY, EVENT_MOVE_TO_PREVIOUS_DAY, EVENT_REMOVE_ACTIVITY, EVENT_SIGNOUT, EVENT_UPDATE_ACTIVITY_CONTENT, EVENT_UPDATE_ACTIVITY_ENDTIME, EVENT_UPDATE_ACTIVITY_STARTTIME, EVENT_UPDATE_ACTIVITY_TITLE, EVENT_UPDATE_MOODFIELD, MOOD_FIELD_CLASS, MOOD_FIELD_TEXT_CLASS } from "./dom/constants.js";
 import { DomDay } from "./dom/dom_day.js";
 import { msg_pop_up, get_parent_attribute } from "../../../dom_utils.js";
 import { ERROR_CLASS } from "../../../const.js";
@@ -189,6 +189,8 @@ export class DayController {
 
     _update_mood_field(event) {
         const mood_field_el = event.target.closest("." + MOOD_FIELD_CLASS);
+        if(mood_field_el.getElementsByClassName(MOOD_FIELD_TEXT_CLASS).length == 0 && event.target.value === "")
+            msg_pop_up({ msg: ERR_MSG_INVALID_CHAR, el_class: ERROR_CLASS });
         const index = mood_field_el.getAttribute("index");
         const new_val = event.target.value;
         const mood_field = this.#day.mood_fields[index];

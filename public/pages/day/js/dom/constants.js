@@ -36,6 +36,10 @@ export const MOOD_FIELD_TEXT_NAME = "mood_field_text";
 export const MOOD_FIELD_FRACTION_CLASS = "mood_field_fraction";
 export const MOOD_FIELD_SLIDER_CLASS = "mood_field_slider";
 
+export const ERR_MSG_INVALID_CHAR = "One of your field seems to contain invalid characters. " 
+                                    + "Number and fraction fields should only contain digits. "
+                                    + "This could cause issues when saving."
+
 //Event names
 export const EVENT_UPDATE_MOODFIELD = "update_moodfield";
 export const EVENT_UPDATE_ACTIVITY_TITLE = "update_activity_title";
